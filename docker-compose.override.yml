@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  testapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
