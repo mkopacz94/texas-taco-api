@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/orders", () =>
 {
-    return "Orders API v2 is being created...";
+    return "Orders API v3 is being created...";
 })
 .WithName("GetOrders");
 
