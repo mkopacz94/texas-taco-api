@@ -14,7 +14,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor
         | ForwardedHeaders.XForwardedProto;
     options.KnownProxies.Add(IPAddress.Parse("172.19.0.1"));
-    options.ForwardLimit = 1;
+    options.ForwardLimit = 0;
 });
 
 var app = builder.Build();
