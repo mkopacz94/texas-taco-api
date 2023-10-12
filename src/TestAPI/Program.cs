@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,8 @@ var app = builder.Build();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor 
+        | ForwardedHeaders.XForwardedProto
 });
 
 // Configure the HTTP request pipeline.
@@ -21,9 +24,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/orders", () =>
+app.MapGet("/orders", (HttpContext context) =>
 {
-    return "Orders API v3 is being created...";
+    var stringBuilder = new StringBuilder();
+    stringBuilder.AppendLine($"Remote IP address: {context.Connection.RemoteIpAddress}");
+    stringBuilder.AppendLine($"X-Forwared-For: {context.Request.Headers["X-Forwarded-For"]}");
+
+    return stringBuilder.ToString();
 })
 .WithName("GetOrders");
 
