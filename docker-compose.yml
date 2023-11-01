@@ -1,8 +1,17 @@
 version: '3.4'
 
 services:
-  testapi:
-    image: ${DOCKER_REGISTRY-}testapi
+  usersdb:
+    image: mysql
+    container_name: usersdb
+    volumes:
+      - usersdb_data:/var/lib/mysql
+
+  texastaco.users:
+    image: ${DOCKER_REGISTRY-}texastacousers
     build:
       context: .
-      dockerfile: src/TestAPI/Dockerfile
+      dockerfile: src/Services/TexasTaco.Users/Dockerfile
+
+volumes:
+  usersdb_data:
