@@ -16,3 +16,10 @@ services:
     ports:
       - "5000:80"
 
+
+  texastaco.authorization:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+

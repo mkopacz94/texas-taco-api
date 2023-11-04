@@ -11,6 +11,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Users", "src\Services\TexasTaco.Users\TexasTaco.Users.csproj", "{86C08B81-4C45-47D3-9F3D-DACC4264494D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Authorization", "src\Services\TexasTaco.Authorization\TexasTaco.Authorization.csproj", "{B867DA0E-BE60-47AE-8024-492F5022B011}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,12 +27,17 @@ Global
 		{86C08B81-4C45-47D3-9F3D-DACC4264494D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86C08B81-4C45-47D3-9F3D-DACC4264494D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86C08B81-4C45-47D3-9F3D-DACC4264494D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B867DA0E-BE60-47AE-8024-492F5022B011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B867DA0E-BE60-47AE-8024-492F5022B011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B867DA0E-BE60-47AE-8024-492F5022B011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B867DA0E-BE60-47AE-8024-492F5022B011}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{86C08B81-4C45-47D3-9F3D-DACC4264494D} = {C32749E4-F4AC-43DD-AA09-3A086E28CD10}
+		{B867DA0E-BE60-47AE-8024-492F5022B011} = {C32749E4-F4AC-43DD-AA09-3A086E28CD10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8962ABFE-4441-4C72-A04E-0038C172612D}
