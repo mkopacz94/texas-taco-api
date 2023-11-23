@@ -13,5 +13,12 @@ services:
       context: .
       dockerfile: src/Services/TexasTaco.Users/Dockerfile
 
+  texastaco.authorization:
+    image: ${DOCKER_REGISTRY-}texastacoauthorization
+    build:
+      context: .
+      dockerfile: src/Services/TexasTaco.Authorization/Dockerfile
+
 volumes:
   usersdb_data:
+
