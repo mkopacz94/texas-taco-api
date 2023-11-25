@@ -3,11 +3,11 @@ using TexasTaco.Authentication.Core.Models;
 
 namespace TexasTaco.Authentication.Core.Repositories
 {
-    internal class AuthRepository : IAuthRepository
+    internal class SessionRepository : ISessionRepository
     {
         private readonly IDistributedCache _authCache;
 
-        public AuthRepository(IDistributedCache authCache)
+        public SessionRepository(IDistributedCache authCache)
         {
             _authCache = authCache;
         }

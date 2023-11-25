@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.Services.ApplyDatabaseMigrations();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

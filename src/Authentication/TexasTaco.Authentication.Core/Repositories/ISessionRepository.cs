@@ -2,7 +2,7 @@
 
 namespace TexasTaco.Authentication.Core.Repositories
 {
-    public interface IAuthRepository
+    public interface ISessionRepository
     {
         Task<Guid> CreateSession();
         Task<Session> GetSession(Guid sessionId);

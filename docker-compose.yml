@@ -1,24 +1,16 @@
 version: '3.4'
 
 services:
-  usersdb:
+
+  authenticationdb:
     image: mysql
-    container_name: usersdb
-    volumes:
-      - usersdb_data:/var/lib/mysql
-
-  texastaco.users:
-    image: ${DOCKER_REGISTRY-}texastacousers
+  
+  texastaco.authentication.api:
+    image: ${DOCKER_REGISTRY-}texastacoauthenticationapi
     build:
       context: .
-      dockerfile: src/Services/TexasTaco.Users/Dockerfile
-
-  texastaco.authorization:
-    image: ${DOCKER_REGISTRY-}texastacoauthorization
-    build:
-      context: .
-      dockerfile: src/Services/TexasTaco.Authorization/Dockerfile
+      dockerfile: src/Authentication/TexasTaco.Authentication.Api/Dockerfile
 
 volumes:
-  usersdb_data:
+   authentication_db_volume:
 
