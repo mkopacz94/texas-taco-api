@@ -19,7 +19,7 @@ namespace TexasTaco.Authentication.Core.Data.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Email_Value = table.Column<string>(type: "longtext", nullable: true)
+                    Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PasswordHash = table.Column<byte[]>(type: "longblob", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "longblob", nullable: true),

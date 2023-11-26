@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TexasTaco.Authentication.Core.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Repositories
 {
     public interface IAuthenticationRepository
     {
-        void TestMethod();
+        Task CreateAccount(EmailAddress email,  string password);
+        Task<bool> EmailAlreadyExists(EmailAddress email);
     }
 }

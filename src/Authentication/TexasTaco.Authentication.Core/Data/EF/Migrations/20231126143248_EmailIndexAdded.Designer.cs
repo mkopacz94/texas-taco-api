@@ -11,21 +11,25 @@ using TexasTaco.Authentication.Core.Data.EF;
 namespace TexasTaco.Authentication.Core.Data.EF.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20231125151138_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231126143248_EmailIndexAdded")]
+    partial class EmailIndexAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.14")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("TexasTaco.Authentication.Core.Models.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("longblob");
@@ -38,29 +42,9 @@ namespace TexasTaco.Authentication.Core.Data.EF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email");
+
                     b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("TexasTaco.Authentication.Core.Models.Account", b =>
-                {
-                    b.OwnsOne("TexasTaco.Authentication.Core.ValueObjects.EmailAddress", "Email", b1 =>
-                        {
-                            b1.Property<Guid>("AccountId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("longtext");
-
-                            b1.HasKey("AccountId");
-
-                            b1.ToTable("Accounts");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AccountId");
-                        });
-
-                    b.Navigation("Email");
                 });
 #pragma warning restore 612, 618
         }

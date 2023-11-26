@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using TexasTaco.Authentication.Core.Data.EF;
+using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.Services;
+using TexasTaco.Authentication.Core.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Repositories
 {
-    internal class AuthenticationRepository : IAuthenticationRepository
+    internal class AuthenticationRepository(
+        IPasswordManager _passwordManager, AuthDbContext _dbContext) : IAuthenticationRepository
     {
-        private readonly AuthDbContext _dbContext;
-
-        public AuthenticationRepository(AuthDbContext dbContext)
+        public async Task CreateAccount(EmailAddress email, string password)
         {
-            _dbContext = dbContext;
+            _passwordManager.HashPassword(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            var account = new Account(email, passwordHash, passwordSalt);
+
+            await _dbContext.Accounts.AddAsync(account);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void TestMethod()
+        public Task<bool> EmailAlreadyExists(EmailAddress email)
         {
-            var data = _dbContext.Accounts.FirstOrDefault();
+            return _dbContext.Accounts.AnyAsync(a => a.Email == email);
         }
     }
 }

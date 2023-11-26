@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Authentication.Core.Data.EF;
 using TexasTaco.Authentication.Core.Repositories;
+using TexasTaco.Authentication.Core.Services;
 
 namespace TexasTaco.Authentication.Core
 {
@@ -17,11 +18,11 @@ namespace TexasTaco.Authentication.Core
                 string connectionString = configuration
                     .GetRequiredSection("AuthenticationDatabase:ConnectionString").Value!;
 
-                Console.WriteLine(connectionString);
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
             services.AddTransient<ISessionRepository, SessionRepository>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddTransient<IPasswordManager, PasswordManager>();
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration.GetSection("CacheSettings:ConnectionString").Value;
