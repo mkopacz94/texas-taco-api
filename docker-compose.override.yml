@@ -9,7 +9,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root1234
       - MYSQL_DATABASE=authentication
     ports:
-      - "3306:3306"
+      - 3306:3306
     volumes:
       - authentication_db_volume:/var/lib/mysql
 
@@ -17,8 +17,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
-      - AuthenticationDatabase__ConnectionString=server=authenticationdb;user=root;password=root1234;database=authentication;
+      - AuthenticationDatabase:ConnectionString=server=authenticationdb;user=root;password=root1234;database=authentication;
     ports:
-      - "5001:8080"
+      - 5001:8080
     restart: always
 
