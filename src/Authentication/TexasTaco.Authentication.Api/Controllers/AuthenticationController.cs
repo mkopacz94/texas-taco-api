@@ -10,12 +10,21 @@ namespace TexasTaco.Authentication.Api.Controllers
     public class AuthenticationController(IAuthenticationRepository _authRepo) : ControllerBase
     {
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp([FromBody] UserSignUpData signUpData)
+        public async Task<IActionResult> SignUp([FromBody] UserSignUpDto signUpData)
         {
-            var emailAddress = new EmailAddress(signUpData.Email.ToLower());
+            var emailAddress = new EmailAddress(signUpData.Email);
             await _authRepo.CreateAccount(emailAddress, Role.Customer, signUpData.Password);
 
-            return Created();
+            return NoContent();
+        }
+
+        [HttpPost("sign-in")]
+        public async Task<IActionResult> SignIn([FromBody] UserSignInDto signInData)
+        {
+            var emailAddress = new EmailAddress(signInData.Email);
+            var sessionId = await _authRepo.AuthenticateAccount(emailAddress, signInData.Password);
+
+            return Ok(sessionId);
         }
     }
 }

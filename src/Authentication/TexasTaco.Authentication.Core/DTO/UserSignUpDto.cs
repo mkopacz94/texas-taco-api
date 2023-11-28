@@ -1,4 +1,4 @@
 ﻿namespace TexasTaco.Authentication.Core.DTO
 {
-    public record UserSignUpData(string Email, string Password);
+    public record UserSignUpDto(string Email, string Password);
 }

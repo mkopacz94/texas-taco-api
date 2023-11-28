@@ -23,13 +23,16 @@ namespace TexasTaco.Authentication.Api.ErrorHandling
         {
             var (statusCode, message) = ex switch
             {
-                AuthenticationServiceException => (HttpStatusCode.BadRequest, 
-                    new ErrorMessage(ex.GetType().Name.Underscore().Replace("_exception", string.Empty), ex.Message)),
+                InvalidCredentialsException => (HttpStatusCode.Unauthorized, CreateErrorMessage(ex)),
+                AuthenticationServiceException => (HttpStatusCode.BadRequest, CreateErrorMessage(ex)),
                 _ => (HttpStatusCode.InternalServerError, new ErrorMessage("server_error", "There was an internal server error."))
             };
 
             context.Response.StatusCode = (int)statusCode;
             await context.Response.WriteAsJsonAsync(message);
         }
+
+        private static ErrorMessage CreateErrorMessage(Exception ex)
+            => new(ex.GetType().Name.Underscore().Replace("_exception", string.Empty), ex.Message);
     }
 }

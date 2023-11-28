@@ -20,7 +20,7 @@ namespace TexasTaco.Authentication.Core
 
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
-            services.AddTransient<ISessionRepository, SessionRepository>();
+            services.AddTransient<ISessionStorage, SessionStorage>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
             services.AddTransient<IPasswordManager, PasswordManager>();
             services.AddStackExchangeRedisCache(options =>

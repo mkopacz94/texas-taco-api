@@ -23,7 +23,7 @@ namespace TexasTaco.Authentication.Core.ValueObjects
                     $"value ({value}) is in wrong format.");
             }
 
-            Value = value;
+            Value = value.ToLower();
         }
     }
 }

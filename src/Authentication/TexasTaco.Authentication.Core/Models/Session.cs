@@ -1,7 +1,7 @@
 ﻿namespace TexasTaco.Authentication.Core.Models
 {
-    public class Session
+    public class Session(DateTime expirationDate)
     {
-        public DateTime ExpirationDate { get; set; }
+        public DateTime ExpirationDate { get; set; } = expirationDate;
     }
 }
