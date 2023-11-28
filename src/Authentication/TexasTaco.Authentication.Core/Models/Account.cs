@@ -6,6 +6,7 @@ namespace TexasTaco.Authentication.Core.Models
     {
         public AccountId Id { get; set; } = new AccountId(Guid.NewGuid());
         public EmailAddress Email { get; set; } = email;
+        public Role Role { get; set; }
         public byte[]? PasswordHash { get; set; } = passwordHash;
         public byte[]? PasswordSalt { get; set; } = passwordSalt;
         public DateTime RegisterDate { get; set; } = DateTime.UtcNow;

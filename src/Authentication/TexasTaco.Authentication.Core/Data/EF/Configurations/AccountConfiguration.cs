@@ -16,7 +16,8 @@ namespace TexasTaco.Authentication.Core.Data.EF.Configurations
                 .HasConversion(id => id.Value, value => new AccountId(value));
 
             builder.Property(a => a.Email)
-                .HasConversion(email => email.Value, value => new EmailAddress(value));
+                .HasConversion(email => email.Value, value => new EmailAddress(value))
+                .HasMaxLength(100);
         }
     }
 }
