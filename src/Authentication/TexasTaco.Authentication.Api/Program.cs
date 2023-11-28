@@ -1,3 +1,4 @@
+using TexasTaco.Authentication.Api.ErrorHandling;
 using TexasTaco.Authentication.Core;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +12,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<ExceptionMiddleware>();
 
 var app = builder.Build();
 
 app.Services.ApplyDatabaseMigrations();
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

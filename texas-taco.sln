@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Authentication.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Authentication.Api", "src\Authentication\TexasTaco.Authentication.Api\TexasTaco.Authentication.Api.csproj", "{5043BF95-A228-4B89-A3BE-691B66BEF1B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Authentication.Shared", "src\Authentication\TexasTaco.Authentication.Shared\TexasTaco.Authentication.Shared.csproj", "{B3AB79CD-738E-4D74-81A7-F147F13D8A72}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{5043BF95-A228-4B89-A3BE-691B66BEF1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5043BF95-A228-4B89-A3BE-691B66BEF1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5043BF95-A228-4B89-A3BE-691B66BEF1B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3AB79CD-738E-4D74-81A7-F147F13D8A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3AB79CD-738E-4D74-81A7-F147F13D8A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3AB79CD-738E-4D74-81A7-F147F13D8A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3AB79CD-738E-4D74-81A7-F147F13D8A72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,7 +41,6 @@ Global
 		{412F2401-A421-4EB0-BD7E-81FED781832A} = {C32749E4-F4AC-43DD-AA09-3A086E28CD10}
 		{9C2375A1-E780-420C-8402-39B46D48D06F} = {412F2401-A421-4EB0-BD7E-81FED781832A}
 		{5043BF95-A228-4B89-A3BE-691B66BEF1B5} = {412F2401-A421-4EB0-BD7E-81FED781832A}
-		{B3AB79CD-738E-4D74-81A7-F147F13D8A72} = {412F2401-A421-4EB0-BD7E-81FED781832A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8962ABFE-4441-4C72-A04E-0038C172612D}

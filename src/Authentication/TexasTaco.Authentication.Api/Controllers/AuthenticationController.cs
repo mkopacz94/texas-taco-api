@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TexasTaco.Authentication.Core.Dto;
-using TexasTaco.Authentication.Core.Exceptions;
+using TexasTaco.Authentication.Core.DTO;
+using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.ValueObjects;
 
@@ -12,23 +12,10 @@ namespace TexasTaco.Authentication.Api.Controllers
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] UserSignUpData signUpData)
         {
-            try
-            {
-                var emailAddress = new EmailAddress(signUpData.Email.ToLower());
+            var emailAddress = new EmailAddress(signUpData.Email.ToLower());
+            await _authRepo.CreateAccount(emailAddress, Role.Customer, signUpData.Password);
 
-                if (await _authRepo.EmailAlreadyExists(emailAddress))
-                {
-                    return BadRequest("Email has already been registered.");
-                }
-
-                await _authRepo.CreateAccount(emailAddress, signUpData.Password);
-
-                return Created();
-            }
-            catch(InvalidEmailAddressFormatException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Created();
         }
     }
 }

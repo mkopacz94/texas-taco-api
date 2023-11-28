@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TexasTaco.Authentication.Core\TexasTaco.Authentication.Core.csproj" />
-    <ProjectReference Include="..\TexasTaco.Authentication.Shared\TexasTaco.Authentication.Shared.csproj" />
   </ItemGroup>
 
 </Project>

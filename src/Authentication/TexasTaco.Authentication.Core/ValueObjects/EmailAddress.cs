@@ -6,27 +6,21 @@ namespace TexasTaco.Authentication.Core.ValueObjects
 {
     public record EmailAddress
     {
-        private const string EmailRegexPattern = "\"^\\\\S+@\\\\S+\\\\.\\\\S+$\"";
+        private readonly static Regex EmailRegex = new(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 
         public string Value { get; }
         public EmailAddress(string value)
         {
             if(string.IsNullOrWhiteSpace(value))
             {
-                throw new InvalidEmailAddressFormatException(
+                throw new InvalidEmailFormatException(
                     "Email address cannot contain whitespace characters and cannot be null.");
             }
 
-            if(!MailAddress.TryCreate(value, out _))
+            if(!EmailRegex.IsMatch(value))
             {
-                throw new InvalidEmailAddressFormatException($"Given email " +
+                throw new InvalidEmailFormatException($"Given email " +
                     $"value ({value}) is in wrong format.");
-            }
-
-            if (value.Length > 100)
-            {
-                throw new InvalidEmailAddressFormatException($"Email address value " +
-                    $"must be shorter than 100 characters.");
             }
 
             Value = value;
