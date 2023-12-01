@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using TexasTaco.Authentication.Api.Abstractions;
 using TexasTaco.Authentication.Api.ErrorHandling;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core;

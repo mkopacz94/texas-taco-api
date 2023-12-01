@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using TexasTaco.Authentication.Api.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using TexasTaco.Authentication.Api.Abstractions;
+using TexasTaco.Authentication.Core.Abstractions;
 using TexasTaco.Authentication.Core.DTO;
 using TexasTaco.Authentication.Core.Models;
-using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.ValueObjects;
 
 namespace TexasTaco.Authentication.Api.Controllers
@@ -40,7 +39,7 @@ namespace TexasTaco.Authentication.Api.Controllers
             _cookieService.SetCookie(SessionIdCookieName, sessionId.Value.ToString(),
                 new CookieOptions
                 {
-                    Expires = DateTimeOffset.UtcNow.AddMinutes(1),
+                    Expires = new DateTimeOffset(sessionExpirationDate),
                     HttpOnly = true,
                     Secure = true
                 });

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TexasTaco.Authentication.Core.Abstractions;
 using TexasTaco.Authentication.Core.Data.EF;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using TexasTaco.Authentication.Api.Abstractions;
 using TexasTaco.Authentication.Core.Models;
 
 namespace TexasTaco.Authentication.Api.Services

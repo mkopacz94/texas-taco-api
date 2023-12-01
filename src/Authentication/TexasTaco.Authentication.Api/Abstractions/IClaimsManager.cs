@@ -1,6 +1,6 @@
 ﻿using TexasTaco.Authentication.Core.Models;
 
-namespace TexasTaco.Authentication.Api.Services
+namespace TexasTaco.Authentication.Api.Abstractions
 {
     public interface IClaimsManager
     {

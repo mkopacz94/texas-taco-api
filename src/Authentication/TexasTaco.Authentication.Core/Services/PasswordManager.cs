@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using TexasTaco.Authentication.Core.Abstractions;
 
 namespace TexasTaco.Authentication.Core.Services
 {

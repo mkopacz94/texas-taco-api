@@ -1,7 +1,7 @@
 ﻿using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.ValueObjects;
 
-namespace TexasTaco.Authentication.Core.Repositories
+namespace TexasTaco.Authentication.Core.Abstractions
 {
     public interface IAuthenticationRepository
     {
