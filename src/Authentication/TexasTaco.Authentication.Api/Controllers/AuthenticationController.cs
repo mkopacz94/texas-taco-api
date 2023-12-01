@@ -17,7 +17,6 @@ namespace TexasTaco.Authentication.Api.Controllers
     {
         private const string SessionIdCookieName = "session-id";
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDto signUpData)
         {
