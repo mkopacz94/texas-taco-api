@@ -1,31 +1,35 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Repositories
 {
-    internal class SessionStorage(IDistributedCache authCache) : ISessionStorage
+    internal class SessionStorage(IDistributedCache _sessionsCache) : ISessionStorage
     {
-        private readonly IDistributedCache _authCache = authCache;
-        private readonly Dictionary<Guid, Session> _sessions = [];
-
-        public Task<SessionId> CreateSession()
+        public async Task<SessionId> CreateSession(DateTime expirationDate)
         {
-            var sessionId = Guid.NewGuid();
-            var session = new Session(DateTime.UtcNow.AddMinutes(2));
-            _sessions.Add(sessionId, session);
+            var sessionId = new SessionId(Guid.NewGuid());
+            var session = new Session(expirationDate);
 
-            return Task.FromResult(new SessionId(sessionId));
+            await _sessionsCache.SetStringAsync(
+                sessionId.ToString(),
+                JsonConvert.SerializeObject(session));
+
+            return sessionId;
         }
 
-        public Task<Session>? GetSession(SessionId sessionId)
+        public async Task<Session?> GetSession(SessionId sessionId)
         {
-            if(_sessions.TryGetValue(sessionId.Value, out Session? session))
+            string? sessionString = await _sessionsCache
+                .GetStringAsync(sessionId.Value.ToString());
+
+            if(string.IsNullOrWhiteSpace(sessionString))
             {
-                return Task.FromResult(session);
+                return null;
             }
 
-            return null;
+            return JsonConvert.DeserializeObject<Session?>(sessionString);
         }
     }
 }

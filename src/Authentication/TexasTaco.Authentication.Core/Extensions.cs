@@ -26,7 +26,7 @@ namespace TexasTaco.Authentication.Core
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration.GetSection("CacheSettings:ConnectionString").Value;
-                options.InstanceName = "AuthenticationCache";
+                options.InstanceName = "SessionCache";
             });
 
             return services;

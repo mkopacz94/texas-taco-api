@@ -6,6 +6,6 @@ namespace TexasTaco.Authentication.Core.Repositories
     public interface IAuthenticationRepository
     {
         Task CreateAccount(EmailAddress email, Role role, string password);
-        Task<SessionId> AuthenticateAccount(EmailAddress email, string password);
+        Task<Account> AuthenticateAccount(EmailAddress email, string password);
     }
 }

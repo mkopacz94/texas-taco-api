@@ -4,6 +4,9 @@ services:
 
   authenticationdb:
     image: mysql
+
+  sessioncache:
+    image: redis:alpine
   
   texastaco.authentication.api:
     image: ${DOCKER_REGISTRY-}texastacoauthenticationapi

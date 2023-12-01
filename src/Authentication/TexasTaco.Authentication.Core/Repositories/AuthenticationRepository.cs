@@ -9,8 +9,7 @@ using TexasTaco.Authentication.Core.ValueObjects;
 namespace TexasTaco.Authentication.Core.Repositories
 {
     internal class AuthenticationRepository(
-        IPasswordManager _passwordManager, 
-        ISessionStorage _sessionStorage, 
+        IPasswordManager _passwordManager,
         AuthDbContext _dbContext) : IAuthenticationRepository
     {
         public async Task CreateAccount(EmailAddress email, Role role, string password)
@@ -28,7 +27,7 @@ namespace TexasTaco.Authentication.Core.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<SessionId> AuthenticateAccount(EmailAddress email, string password)
+        public async Task<Account> AuthenticateAccount(EmailAddress email, string password)
         {
             var account = await _dbContext.Accounts
                 .FirstOrDefaultAsync(a => a.Email == email) 
@@ -40,7 +39,7 @@ namespace TexasTaco.Authentication.Core.Repositories
                 throw new InvalidCredentialsException();
             }
 
-            return await _sessionStorage.CreateSession();
+            return account;
         }
 
         private Task<bool> EmailAlreadyExists(EmailAddress email)

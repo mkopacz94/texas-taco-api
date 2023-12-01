@@ -12,13 +12,23 @@ services:
       - 3306:3306
     volumes:
       - authentication_db_volume:/var/lib/mysql
+  
+  sessioncache:
+    container_name: sessioncache
+    restart: always
+    ports: 
+      - 6379:6379
 
   texastaco.authentication.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - AuthenticationDatabase__ConnectionString=server=authenticationdb;user=root;password=root1234;database=authentication;
+      - CacheSettings__ConnectionString=sessioncache:6379
     ports:
       - 5001:8080
     restart: always
+    depends_on:
+      - authenticationdb
+      - sessioncache
 

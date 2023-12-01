@@ -5,7 +5,7 @@ namespace TexasTaco.Authentication.Core.Repositories
 {
     public interface ISessionStorage
     {
-        Task<SessionId> CreateSession();
-        Task<Session>? GetSession(SessionId sessionId);
+        Task<SessionId> CreateSession(DateTime expirationDate);
+        Task<Session?> GetSession(SessionId sessionId);
     }
 }
