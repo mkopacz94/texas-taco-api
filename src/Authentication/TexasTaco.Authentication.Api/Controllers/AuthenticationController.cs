@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TexasTaco.Authentication.Api.Abstractions;
-using TexasTaco.Authentication.Core.Abstractions;
+using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.DTO;
 using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.ValueObjects;
 
 namespace TexasTaco.Authentication.Api.Controllers
@@ -12,7 +12,7 @@ namespace TexasTaco.Authentication.Api.Controllers
         IAuthenticationRepository _authRepo,
         ISessionStorage _sessionStorage,
         ICookieService _cookieService,
-        IClaimsManager _claimsManager) : ControllerBase
+        IClaimsService _claimsManager) : ControllerBase
     {
         private const string SessionIdCookieName = "session-id";
 

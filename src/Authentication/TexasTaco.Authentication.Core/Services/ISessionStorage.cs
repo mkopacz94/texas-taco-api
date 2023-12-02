@@ -1,7 +1,7 @@
 ﻿using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.ValueObjects;
 
-namespace TexasTaco.Authentication.Core.Abstractions
+namespace TexasTaco.Authentication.Core.Services
 {
     public interface ISessionStorage
     {

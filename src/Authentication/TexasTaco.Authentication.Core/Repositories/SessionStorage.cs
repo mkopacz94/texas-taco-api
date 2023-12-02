@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
-using TexasTaco.Authentication.Core.Abstractions;
 using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Repositories

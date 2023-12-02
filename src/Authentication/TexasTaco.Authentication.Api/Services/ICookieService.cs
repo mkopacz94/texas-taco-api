@@ -1,4 +1,4 @@
-﻿namespace TexasTaco.Authentication.Api.Abstractions
+﻿namespace TexasTaco.Authentication.Api.Services
 {
     public interface ICookieService
     {

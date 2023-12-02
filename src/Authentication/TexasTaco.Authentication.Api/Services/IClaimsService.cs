@@ -1,8 +1,8 @@
 ﻿using TexasTaco.Authentication.Core.Models;
 
-namespace TexasTaco.Authentication.Api.Abstractions
+namespace TexasTaco.Authentication.Api.Services
 {
-    public interface IClaimsManager
+    public interface IClaimsService
     {
         Task SetAccountClaims(Account account);
     }

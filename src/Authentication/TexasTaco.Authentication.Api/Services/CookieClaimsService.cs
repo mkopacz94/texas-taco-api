@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using TexasTaco.Authentication.Api.Abstractions;
 using TexasTaco.Authentication.Core.Models;
 
 namespace TexasTaco.Authentication.Api.Services
 {
-    public class CookieClaimsManager(IHttpContextAccessor _httpContextAccessor) : IClaimsManager
+    public class CookieClaimsService(IHttpContextAccessor _httpContextAccessor) : IClaimsService
     {
         public async Task SetAccountClaims(Account account)
         {

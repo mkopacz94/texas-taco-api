@@ -1,7 +1,4 @@
-﻿
-using TexasTaco.Authentication.Api.Abstractions;
-
-namespace TexasTaco.Authentication.Api.Services
+﻿namespace TexasTaco.Authentication.Api.Services
 {
     public class CookieService(IHttpContextAccessor _contextAccessor) : ICookieService
     {
