@@ -13,7 +13,7 @@ namespace TexasTaco.Authentication.Core.Services
             var session = new Session(expirationDate);
 
             await _sessionsCache.SetStringAsync(
-                sessionId.ToString(),
+                sessionId.Value.ToString(),
                 JsonConvert.SerializeObject(session));
 
             return sessionId;
@@ -30,6 +30,13 @@ namespace TexasTaco.Authentication.Core.Services
             }
 
             return JsonConvert.DeserializeObject<Session?>(sessionString);
+        }
+
+        public async Task UpdateSession(SessionId sessionId, Session session)
+        {
+            await _sessionsCache.SetStringAsync(
+                sessionId.Value.ToString(),
+                JsonConvert.SerializeObject(session));
         }
     }
 }

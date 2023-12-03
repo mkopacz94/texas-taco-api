@@ -18,6 +18,12 @@
   "NonAuthenticationRoutes": [
     {
       "Path": "/auth/sign-up"
+    },
+    {
+      "Path": "/auth/sign-in"
+    },
+    {
+      "Path": "/auth/session-valid"
     }
   ]
 }

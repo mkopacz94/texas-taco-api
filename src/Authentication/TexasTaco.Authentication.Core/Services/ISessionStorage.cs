@@ -7,5 +7,6 @@ namespace TexasTaco.Authentication.Core.Services
     {
         Task<SessionId> CreateSession(DateTime expirationDate);
         Task<Session?> GetSession(SessionId sessionId);
+        Task UpdateSession(SessionId sessionId, Session session);
     }
 }

@@ -36,16 +36,40 @@ namespace TexasTaco.Authentication.Api.Controllers
             var sessionId = await _sessionStorage.CreateSession(sessionExpirationDate);
 
             await _claimsManager.SetAccountClaims(account);
+            SetSessionCookie(sessionId, sessionExpirationDate);
 
+            return Ok(sessionId);
+        }
+
+        [HttpGet("session-valid")]
+        public async Task<IActionResult> IsSessionValid(
+            [FromBody] SessionValidationDto sessionValidationData)
+        {
+            var sessionId = new SessionId(Guid.Parse(sessionValidationData.SessionId));
+            var session = await _sessionStorage.GetSession(sessionId);
+
+            if(session is null || session.ExpirationDate <  DateTime.UtcNow)
+            {
+                return Unauthorized();
+            }
+
+            session.ExtendSession(TimeSpan.FromMinutes(1));
+            await _sessionStorage.UpdateSession(sessionId, session);
+
+            SetSessionCookie(sessionId, session.ExpirationDate);
+
+            return Ok();
+        }
+
+        private void SetSessionCookie(SessionId sessionId, DateTime expirationDate)
+        {
             _cookieService.SetCookie(SessionIdCookieName, sessionId.Value.ToString(),
                 new CookieOptions
                 {
-                    Expires = new DateTimeOffset(sessionExpirationDate),
+                    Expires = new DateTimeOffset(expirationDate),
                     HttpOnly = true,
                     Secure = true
                 });
-
-            return Ok(sessionId);
         }
     }
 }
