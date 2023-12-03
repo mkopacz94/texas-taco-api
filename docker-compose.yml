@@ -8,6 +8,12 @@ services:
   sessioncache:
     image: redis:alpine
   
+  texastaco.api.gateway:
+    image: ${DOCKER_REGISTRY-}texastacoapigateway
+    build:
+      context: .
+      dockerfile: src/Gateway/TexasTaco.Api.Gateway/Dockerfile
+
   texastaco.authentication.api:
     image: ${DOCKER_REGISTRY-}texastacoauthenticationapi
     build:
@@ -16,4 +22,5 @@ services:
 
 volumes:
    authentication_db_volume:
+
 

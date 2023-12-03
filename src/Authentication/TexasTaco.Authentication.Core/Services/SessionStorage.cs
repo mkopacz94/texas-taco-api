@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using TexasTaco.Authentication.Core.Models;
-using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.ValueObjects;
 
-namespace TexasTaco.Authentication.Core.Repositories
+namespace TexasTaco.Authentication.Core.Services
 {
     internal class SessionStorage(IDistributedCache _sessionsCache) : ISessionStorage
     {
@@ -25,7 +24,7 @@ namespace TexasTaco.Authentication.Core.Repositories
             string? sessionString = await _sessionsCache
                 .GetStringAsync(sessionId.Value.ToString());
 
-            if(string.IsNullOrWhiteSpace(sessionString))
+            if (string.IsNullOrWhiteSpace(sessionString))
             {
                 return null;
             }

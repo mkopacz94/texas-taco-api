@@ -1,4 +1,4 @@
-﻿namespace TexasTaco.Authentication.Core.Abstractions
+﻿namespace TexasTaco.Authentication.Core.Services
 {
     public interface IPasswordManager
     {

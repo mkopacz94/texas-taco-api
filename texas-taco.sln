@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Authentication.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Authentication.Api", "src\Authentication\TexasTaco.Authentication.Api\TexasTaco.Authentication.Api.csproj", "{5043BF95-A228-4B89-A3BE-691B66BEF1B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{4D52A878-42EC-4649-B103-E9668CD8DAFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Api.Gateway", "src\Gateway\TexasTaco.Api.Gateway\TexasTaco.Api.Gateway.csproj", "{8129EEE5-3F87-4C16-B368-259B3510B9DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,10 @@ Global
 		{5043BF95-A228-4B89-A3BE-691B66BEF1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5043BF95-A228-4B89-A3BE-691B66BEF1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5043BF95-A228-4B89-A3BE-691B66BEF1B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8129EEE5-3F87-4C16-B368-259B3510B9DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8129EEE5-3F87-4C16-B368-259B3510B9DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8129EEE5-3F87-4C16-B368-259B3510B9DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8129EEE5-3F87-4C16-B368-259B3510B9DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +49,8 @@ Global
 		{412F2401-A421-4EB0-BD7E-81FED781832A} = {C32749E4-F4AC-43DD-AA09-3A086E28CD10}
 		{9C2375A1-E780-420C-8402-39B46D48D06F} = {412F2401-A421-4EB0-BD7E-81FED781832A}
 		{5043BF95-A228-4B89-A3BE-691B66BEF1B5} = {412F2401-A421-4EB0-BD7E-81FED781832A}
+		{4D52A878-42EC-4649-B103-E9668CD8DAFD} = {C32749E4-F4AC-43DD-AA09-3A086E28CD10}
+		{8129EEE5-3F87-4C16-B368-259B3510B9DA} = {4D52A878-42EC-4649-B103-E9668CD8DAFD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8962ABFE-4441-4C72-A04E-0038C172612D}

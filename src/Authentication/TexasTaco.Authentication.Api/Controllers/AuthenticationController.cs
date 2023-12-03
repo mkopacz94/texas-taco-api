@@ -2,6 +2,7 @@
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.DTO;
 using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.ValueObjects;
 
