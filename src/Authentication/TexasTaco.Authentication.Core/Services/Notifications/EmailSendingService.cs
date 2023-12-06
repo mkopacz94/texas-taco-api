@@ -24,16 +24,13 @@ namespace TexasTaco.Authentication.Core.Services.Notifications
                 Text = "Texas Taco test email confirmation message."
             };
 
-            using (var smtp = new SmtpClient())
-            {
-                smtp.Connect("smtp.gmail.com", 587, false);
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.gmail.com", 587, false);
 
-                // Note: only needed if the SMTP server requires authentication
-                smtp.Authenticate("Texas-Taco API", "tyol gpbo jttp fxhv");
+            smtp.Authenticate("Texas-Taco API", "tyol gpbo jttp fxhv");
 
-                smtp.Send(email);
-                smtp.Disconnect(true);
-            }
+            smtp.Send(email);
+            smtp.Disconnect(true);
         }
     }
 }

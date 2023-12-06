@@ -1,5 +1,4 @@
-﻿
-namespace TexasTaco.Authentication.Api.Services.EmailNotifications
+﻿namespace TexasTaco.Authentication.Api.BackgroundServices
 {
     public class EmailNotificationsBackgroundService : BackgroundService
     {

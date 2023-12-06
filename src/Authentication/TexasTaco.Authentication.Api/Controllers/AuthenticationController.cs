@@ -15,8 +15,7 @@ namespace TexasTaco.Authentication.Api.Controllers
         IAuthenticationRepository _authRepo,
         ISessionStorage _sessionStorage,
         ICookieService _cookieService,
-        IClaimsService _claimsManager,
-        IEmailSendingService _emailService) : ControllerBase
+        IClaimsService _claimsManager) : ControllerBase
     {
         private const string SessionIdCookieName = "session-id";
 
@@ -32,8 +31,6 @@ namespace TexasTaco.Authentication.Api.Controllers
         [HttpPost("sign-in")]
         public async Task<IActionResult> SignIn([FromBody] UserSignInDto signInData)
         {
-            _emailService.Send(new Core.Models.EmailNotification("Test", "Test", new EmailAddress("m.kopacz94@gmail.com"), new EmailAddress("m.kopacz94@gmail.com")));
-
             var emailAddress = new EmailAddress(signInData.Email);
             var account = await _authRepo.AuthenticateAccount(emailAddress, signInData.Password);
 
