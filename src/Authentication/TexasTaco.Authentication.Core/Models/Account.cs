@@ -1,4 +1,5 @@
 ﻿using TexasTaco.Authentication.Core.ValueObjects;
+using TexasTaco.Shared.Authentication;
 
 namespace TexasTaco.Authentication.Core.Models
 {

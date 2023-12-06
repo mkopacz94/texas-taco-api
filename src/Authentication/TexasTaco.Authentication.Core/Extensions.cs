@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Authentication.Core.Data.EF;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
+using TexasTaco.Authentication.Core.Services.Notifications;
 
 namespace TexasTaco.Authentication.Core
 {
@@ -23,6 +24,7 @@ namespace TexasTaco.Authentication.Core
             services.AddTransient<ISessionStorage, SessionStorage>();
             services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
             services.AddTransient<IPasswordManager, PasswordManager>();
+            services.AddTransient<IEmailSendingService, EmailSendingService>();
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration.GetSection("CacheSettings:ConnectionString").Value;

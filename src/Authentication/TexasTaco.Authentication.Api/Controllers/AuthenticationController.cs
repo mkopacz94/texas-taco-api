@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.DTO;
-using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
+using TexasTaco.Authentication.Core.Services.Notifications;
 using TexasTaco.Authentication.Core.ValueObjects;
+using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.Authentication.Attributes;
 
 namespace TexasTaco.Authentication.Api.Controllers
 {
@@ -13,7 +15,8 @@ namespace TexasTaco.Authentication.Api.Controllers
         IAuthenticationRepository _authRepo,
         ISessionStorage _sessionStorage,
         ICookieService _cookieService,
-        IClaimsService _claimsManager) : ControllerBase
+        IClaimsService _claimsManager,
+        IEmailSendingService _emailService) : ControllerBase
     {
         private const string SessionIdCookieName = "session-id";
 
@@ -29,12 +32,15 @@ namespace TexasTaco.Authentication.Api.Controllers
         [HttpPost("sign-in")]
         public async Task<IActionResult> SignIn([FromBody] UserSignInDto signInData)
         {
+            _emailService.Send(new Core.Models.EmailNotification("Test", "Test", new EmailAddress("m.kopacz94@gmail.com"), new EmailAddress("m.kopacz94@gmail.com")));
+
             var emailAddress = new EmailAddress(signInData.Email);
             var account = await _authRepo.AuthenticateAccount(emailAddress, signInData.Password);
 
             var sessionExpirationDate = DateTime.UtcNow.AddMinutes(1);
             var sessionId = await _sessionStorage.CreateSession(sessionExpirationDate);
 
+            Console.WriteLine(account.Role.ToString());
             await _claimsManager.SetAccountClaims(account);
             SetSessionCookie(sessionId, sessionExpirationDate);
 
@@ -42,11 +48,10 @@ namespace TexasTaco.Authentication.Api.Controllers
         }
 
         [HttpGet("session-valid")]
-        public async Task<IActionResult> IsSessionValid(
-            [FromBody] SessionValidationDto sessionValidationData)
+        public async Task<IActionResult> IsSessionValid([FromQuery] string sessionId)
         {
-            var sessionId = new SessionId(Guid.Parse(sessionValidationData.SessionId));
-            var session = await _sessionStorage.GetSession(sessionId);
+            var sessionIdObject = new SessionId(Guid.Parse(sessionId));
+            var session = await _sessionStorage.GetSession(sessionIdObject);
 
             if(session is null || session.ExpirationDate <  DateTime.UtcNow)
             {
@@ -54,11 +59,18 @@ namespace TexasTaco.Authentication.Api.Controllers
             }
 
             session.ExtendSession(TimeSpan.FromMinutes(1));
-            await _sessionStorage.UpdateSession(sessionId, session);
+            await _sessionStorage.UpdateSession(sessionIdObject, session);
 
-            SetSessionCookie(sessionId, session.ExpirationDate);
+            SetSessionCookie(sessionIdObject, session.ExpirationDate);
 
             return Ok();
+        }
+
+        [AuthorizeRole(Role.Admin)]
+        [HttpPost("revoke-session")]
+        public IActionResult RevokeSession([FromQuery] string sessionId)
+        {
+            return Ok(sessionId);
         }
 
         private void SetSessionCookie(SessionId sessionId, DateTime expirationDate)

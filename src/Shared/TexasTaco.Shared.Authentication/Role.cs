@@ -1,4 +1,4 @@
-﻿namespace TexasTaco.Authentication.Core.Models
+﻿namespace TexasTaco.Shared.Authentication
 {
     public enum Role
     {
