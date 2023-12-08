@@ -11,8 +11,8 @@ using TexasTaco.Authentication.Core.Data.EF;
 namespace TexasTaco.Authentication.Core.Data.EF.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20231206184037_EmailNotificationsEntityCreated")]
-    partial class EmailNotificationsEntityCreated
+    [Migration("20231208184833_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace TexasTaco.Authentication.Core.Data.EF.Migrations
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Verified")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -82,6 +85,24 @@ namespace TexasTaco.Authentication.Core.Data.EF.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailNotifications");
+                });
+
+            modelBuilder.Entity("TexasTaco.Authentication.Core.Models.VerificationToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("Token")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("VerificationTokens");
                 });
 #pragma warning restore 612, 618
         }

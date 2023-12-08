@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using TexasTaco.Authentication.Api.BackgroundServices;
 using TexasTaco.Authentication.Api.ErrorHandling;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core;
@@ -7,6 +8,7 @@ using TexasTaco.Authentication.Core;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHostedService<EmailNotificationsBackgroundService>();
 builder.Services
     .AddTexasTacoAuthentication(builder.Configuration);
 builder.Services

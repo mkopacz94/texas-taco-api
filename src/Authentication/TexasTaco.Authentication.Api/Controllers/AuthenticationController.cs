@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.DTO;
+using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.Notifications;
+using TexasTaco.Authentication.Core.Services.Verification;
 using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.Authentication.Attributes;
@@ -13,6 +15,7 @@ namespace TexasTaco.Authentication.Api.Controllers
     [Route("api/auth")]
     public class AuthenticationController(
         IAuthenticationRepository _authRepo,
+        IEmailVerificationService _emailVerificationService,
         ISessionStorage _sessionStorage,
         ICookieService _cookieService,
         IClaimsService _claimsManager) : ControllerBase
@@ -23,7 +26,8 @@ namespace TexasTaco.Authentication.Api.Controllers
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDto signUpData)
         {
             var emailAddress = new EmailAddress(signUpData.Email);
-            await _authRepo.CreateAccount(emailAddress, Role.Customer, signUpData.Password);
+            var account = await _authRepo.CreateAccount(emailAddress, Role.Customer, signUpData.Password);
+            await _emailVerificationService.CreateVerificationTokenAndSendEmail(account);
 
             return NoContent();
         }

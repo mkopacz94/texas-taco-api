@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Authentication.Core.Data.EF;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
-using TexasTaco.Authentication.Core.Services.Notifications;
+using TexasTaco.Authentication.Core.Services.Verification;
 
 namespace TexasTaco.Authentication.Core
 {
@@ -22,9 +22,11 @@ namespace TexasTaco.Authentication.Core
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
             services.AddTransient<ISessionStorage, SessionStorage>();
-            services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
             services.AddTransient<IPasswordManager, PasswordManager>();
-            services.AddTransient<IEmailSendingService, EmailSendingService>();
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IEmailNotificationsRepository, EmailNotificationsRepository>();
+            services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();  
+            services.AddScoped<IEmailVerificationService, EmailVerificationService>();
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration.GetSection("CacheSettings:ConnectionString").Value;
