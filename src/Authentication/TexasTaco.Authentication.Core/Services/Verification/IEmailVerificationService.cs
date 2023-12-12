@@ -4,6 +4,6 @@ namespace TexasTaco.Authentication.Core.Services.Verification
 {
     public interface IEmailVerificationService
     {
-        Task CreateVerificationTokenAndSendEmail(Account account);
+        Task EnqueueVerificationEmail(Account account);
     }
 }

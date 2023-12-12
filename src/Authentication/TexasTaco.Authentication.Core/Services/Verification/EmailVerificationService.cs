@@ -8,7 +8,7 @@ namespace TexasTaco.Authentication.Core.Services.Verification
         IVerificationTokensRepository _tokensRepository,
         IEmailNotificationsRepository _emailNotificationsRepository) : IEmailVerificationService
     {
-        public async Task CreateVerificationTokenAndSendEmail(Account account)
+        public async Task EnqueueVerificationEmail(Account account)
         {
             var verificationToken = new VerificationToken(account.Id);
             await _tokensRepository.AddAsync(verificationToken);
@@ -22,7 +22,7 @@ namespace TexasTaco.Authentication.Core.Services.Verification
             await _emailNotificationsRepository.AddAsync(emailNotification);
         }
 
-        private string CreateVerificationEmailBody()
+        private static string CreateVerificationEmailBody()
         {
             return @"
                 <div style='font-family: 'Helvetica';'>

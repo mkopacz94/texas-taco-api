@@ -1,9 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System.Xml.Linq;
 using TexasTaco.Authentication.Core.Data.EF;
+using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
+using TexasTaco.Authentication.Core.Services.EmailNotifications;
 using TexasTaco.Authentication.Core.Services.Verification;
 
 namespace TexasTaco.Authentication.Core
@@ -27,6 +32,17 @@ namespace TexasTaco.Authentication.Core
             services.AddScoped<IEmailNotificationsRepository, EmailNotificationsRepository>();
             services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();  
             services.AddScoped<IEmailVerificationService, EmailVerificationService>();
+            services.AddSmtpClient(options =>
+            {
+                var notificationsSettings = new EmailNotificationsSettings();
+                configuration.Bind(notificationsSettings);
+
+                options.SourceAddress = notificationsSettings.SmtpOptions!.SourceAddress!;
+                options.Host = notificationsSettings.SmtpOptions!.Host!;
+                options.Password = notificationsSettings.SmtpOptions!.Password!;
+                options.Port = notificationsSettings.SmtpOptions!.Port!;
+                options.UseSsl = notificationsSettings.SmtpOptions!.UseSsl!;
+            });
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration.GetSection("CacheSettings:ConnectionString").Value;
@@ -42,6 +58,18 @@ namespace TexasTaco.Authentication.Core
 
             var dbContext = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
             dbContext.Database.Migrate();
+        }
+
+        public static IServiceCollection AddSmtpClient(
+            this IServiceCollection services,
+            Action<SmtpOptions> configureOptions)
+        {
+            services.AddOptions();
+            services.AddSingleton<IConfigureOptions<SmtpOptions>>(
+                new ConfigureNamedOptions<SmtpOptions>(Options.DefaultName, configureOptions));
+            services.AddSingleton<IEmailSmtpClient, EmailSmtpClient>();
+
+            return services;
         }
     }
 }

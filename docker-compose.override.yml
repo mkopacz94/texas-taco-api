@@ -26,6 +26,11 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - AuthenticationDatabase__ConnectionString=server=authenticationdb;user=root;password=root1234;database=authentication;
       - CacheSettings__ConnectionString=sessioncache:6379
+      - SmtpOptions__SourceAddress=texastaco.notifications@gmail.com
+      - SmtpOptions__Host=smtp.gmail.com
+      - SmtpOptions__Password=tyol gpbo jttp fxhv
+      - SmtpOptions__Port=587
+      - SmtpOptions__UseSsl=false
     ports:
       - 5001:8080
     restart: always

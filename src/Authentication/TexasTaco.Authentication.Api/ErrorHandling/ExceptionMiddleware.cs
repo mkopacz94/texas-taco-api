@@ -14,7 +14,7 @@ namespace TexasTaco.Authentication.Api.ErrorHandling
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
+                _logger.LogError(ex, "{message}", ex.Message);
                 await HandleExceptionAsync(ex, context);
             }
         }
