@@ -10,7 +10,9 @@ namespace TexasTaco.Authentication.Core.Services.Verification
     {
         public async Task EnqueueVerificationEmail(Account account)
         {
-            var verificationToken = new VerificationToken(account.Id);
+            var verificationToken = new VerificationToken(
+                account.Id, DateTime.UtcNow.AddHours(1));
+
             await _tokensRepository.AddAsync(verificationToken);
 
             var emailNotification = new EmailNotification(
