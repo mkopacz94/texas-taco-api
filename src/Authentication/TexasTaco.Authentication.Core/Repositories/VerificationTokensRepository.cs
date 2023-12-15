@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TexasTaco.Authentication.Core.Data.EF;
 using TexasTaco.Authentication.Core.Models;
-using TexasTaco.Authentication.Core.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Repositories
 {
@@ -13,10 +12,10 @@ namespace TexasTaco.Authentication.Core.Repositories
             await _authDbContext.SaveChangesAsync();
         }
 
-        public async Task<VerificationToken?> GetByAccoundId(AccountId accountId)
+        public async Task<VerificationToken?> GetByTokenValueAsync(Guid tokenValue)
         {
             return await _authDbContext.VerificationTokens
-                .FirstOrDefaultAsync(t => t.AccountId == accountId);
+                .FirstOrDefaultAsync(t => t.Token == tokenValue);
         }
     }
 }

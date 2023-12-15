@@ -24,7 +24,7 @@ namespace TexasTaco.Authentication.Api.Controllers
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDto signUpData)
         {
             var emailAddress = new EmailAddress(signUpData.Email);
-            var account = await _authRepo.CreateAccount(emailAddress, Role.Customer, signUpData.Password);
+            var account = await _authRepo.CreateAccountAsync(emailAddress, Role.Customer, signUpData.Password);
             await _emailVerificationService.EnqueueVerificationEmail(account);
 
             return NoContent();
@@ -34,7 +34,7 @@ namespace TexasTaco.Authentication.Api.Controllers
         public async Task<IActionResult> SignIn([FromBody] UserSignInDto signInData)
         {
             var emailAddress = new EmailAddress(signInData.Email);
-            var account = await _authRepo.AuthenticateAccount(emailAddress, signInData.Password);
+            var account = await _authRepo.AuthenticateAccountAsync(emailAddress, signInData.Password);
 
             var sessionExpirationDate = DateTime.UtcNow.AddMinutes(1);
             var sessionId = await _sessionStorage.CreateSession(sessionExpirationDate);

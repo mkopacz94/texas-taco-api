@@ -12,7 +12,7 @@ namespace TexasTaco.Authentication.Core.Repositories
         IPasswordManager _passwordManager,
         AuthDbContext _dbContext) : IAuthenticationRepository
     {
-        public async Task<Account> CreateAccount(EmailAddress email, Role role, string password)
+        public async Task<Account> CreateAccountAsync(EmailAddress email, Role role, string password)
         {
             if (await EmailAlreadyExists(email))
             {
@@ -29,7 +29,7 @@ namespace TexasTaco.Authentication.Core.Repositories
             return account;
         }
 
-        public async Task<Account> AuthenticateAccount(EmailAddress email, string password)
+        public async Task<Account> AuthenticateAccountAsync(EmailAddress email, string password)
         {
             var account = await _dbContext.Accounts
                 .FirstOrDefaultAsync(a => a.Email == email) 
@@ -42,6 +42,18 @@ namespace TexasTaco.Authentication.Core.Repositories
             }
 
             return account;
+        }
+
+        public async Task<Account?> GetByIdAsync(AccountId id)
+        {
+            return await _dbContext.Accounts
+                .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task UpdateAccountAsync(Account account)
+        {
+            _dbContext.Accounts.Update(account);
+            await _dbContext.SaveChangesAsync();
         }
 
         private Task<bool> EmailAlreadyExists(EmailAddress email)

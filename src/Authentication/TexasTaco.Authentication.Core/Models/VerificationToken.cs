@@ -8,5 +8,7 @@ namespace TexasTaco.Authentication.Core.Models
         public AccountId AccountId { get; private set; } = accountId;
         public Guid Token { get; private set; } = Guid.NewGuid();
         public DateTime ExpirationDate { get; private set; } = expirationDate;
+
+        public bool IsExpired => ExpirationDate < DateTime.UtcNow;
     }
 }
