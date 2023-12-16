@@ -23,6 +23,18 @@
       ],
       "UpstreamPathTemplate": "/api/verify",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/verify/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "texastaco.authentication.api",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/verify/{everything}",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ],
   "GlobalConfiguration": {
@@ -36,9 +48,6 @@
     },
     {
       "Path": "/auth/session-valid"
-    },
-    {
-      "Path": "/auth/revoke-session"
     },
     {
       "Path": "/verify"
