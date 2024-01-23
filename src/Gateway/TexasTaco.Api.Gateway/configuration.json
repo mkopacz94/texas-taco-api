@@ -26,9 +26,6 @@
       "Path": "/auth/session-valid"
     },
     {
-      "Path": "/auth/revoke-session"
-    },
-    {
       "Path": "/verify"
     }
   ]

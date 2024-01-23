@@ -40,7 +40,9 @@ namespace TexasTaco.Authentication.Api.Controllers
             await _claimsManager.SetAccountClaims(account);
             SetSessionCookie(sessionId, sessionExpirationDate);
 
-            return Ok(sessionId);
+            var signInResult = new SignInResultDto(sessionId, account.Id);
+
+            return Ok(signInResult);
         }
 
         [HttpGet("session-valid")]
