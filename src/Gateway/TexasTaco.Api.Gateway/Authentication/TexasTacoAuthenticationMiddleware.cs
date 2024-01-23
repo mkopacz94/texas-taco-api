@@ -6,14 +6,14 @@ namespace TexasTaco.Api.Gateway.Authentication
 {
     internal sealed class TexasTacoAuthenticationMiddleware
     {
-        private readonly AuthenticationClient _authService;
+        private readonly AuthenticationClient _authClient;
         private readonly RoutesConfiguration _routesConfiguration = new();
 
         public TexasTacoAuthenticationMiddleware(
             IConfiguration configuration,
             AuthenticationClient authService)
         {
-            _authService = authService;
+            _authClient = authService;
             configuration.Bind(_routesConfiguration);
         }
 
@@ -23,7 +23,7 @@ namespace TexasTaco.Api.Gateway.Authentication
 
             if (_routesConfiguration.NonAuthenticationRoutes
                 .Any(r => requestPath.Contains(r.Path!))
-                || await _authService.UserSessionValid())
+                || await _authClient.UserSessionValid())
             {
                 await next();
                 return;

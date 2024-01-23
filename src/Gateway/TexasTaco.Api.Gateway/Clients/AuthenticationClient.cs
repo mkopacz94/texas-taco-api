@@ -1,5 +1,6 @@
 ﻿using TexasTaco.Api.Gateway.Services;
 using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
 
 namespace TexasTaco.Api.Gateway.Clients
@@ -26,15 +27,24 @@ namespace TexasTaco.Api.Gateway.Clients
                 return false;
             }
 
-            _cookieService.SetCookie(CookiesNames.SessionId, sessionId,
+            SetSessionCookie(
+                new SessionId(Guid.Parse(sessionId)),
+                session.ExpirationDate);
+
+            return true;
+        }
+
+        private void SetSessionCookie(SessionId sessionId, DateTime expirationDate)
+        {
+            _cookieService.SetCookie(
+                CookiesNames.SessionId, 
+                sessionId.Value.ToString(),
                 new CookieOptions
                 {
-                    Expires = new DateTimeOffset(session.ExpirationDate),
+                    Expires = new DateTimeOffset(expirationDate),
                     HttpOnly = true,
                     Secure = true
                 });
-
-            return true;
         }
     }
 }
