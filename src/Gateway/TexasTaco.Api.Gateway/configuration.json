@@ -10,19 +10,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/auth/{everything}",
-      "UpstreamHttpMethod": [ "POST", "GET", "PUT" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/verify",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "texastaco.authentication.api",
-          "Port": 8080
-        }
-      ],
-      "UpstreamPathTemplate": "/api/verify",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {

@@ -14,12 +14,10 @@ namespace TexasTaco.Authentication.Api.Controllers
     public class AuthenticationController(
         IAuthenticationRepository _authRepo,
         IEmailVerificationService _emailVerificationService,
-        ISessionStorage _sessionStorage,
         ICookieService _cookieService,
+        ISessionStorage _sessionStorage,
         IClaimsService _claimsManager) : ControllerBase
     {
-        private const string SessionIdCookieName = "session-id";
-
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDto signUpData)
         {
@@ -59,9 +57,7 @@ namespace TexasTaco.Authentication.Api.Controllers
             session.ExtendSession(TimeSpan.FromMinutes(1));
             await _sessionStorage.UpdateSession(sessionIdentifier, session);
 
-            SetSessionCookie(sessionIdentifier, session.ExpirationDate);
-
-            return Ok();
+            return Ok(session);
         }
 
         [AuthorizeRole(Role.Admin)]
@@ -84,7 +80,7 @@ namespace TexasTaco.Authentication.Api.Controllers
 
         private void SetSessionCookie(SessionId sessionId, DateTime expirationDate)
         {
-            _cookieService.SetCookie(SessionIdCookieName, sessionId.Value.ToString(),
+            _cookieService.SetCookie(CookiesNames.SessionId, sessionId.Value.ToString(),
                 new CookieOptions
                 {
                     Expires = new DateTimeOffset(expirationDate),

@@ -4,7 +4,7 @@ using TexasTaco.Authentication.Core.Repositories;
 
 namespace TexasTaco.Authentication.Api.Controllers
 {
-    [Route("api/verify")]
+    [Route("api/auth/verify")]
     public class VerificationController(
         IVerificationTokensRepository _verificationTokensRepository,
         IAuthenticationRepository _authRepository) : ControllerBase

@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Api.Gateway", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{FD4629DE-8822-423C-ADA1-39B469107613}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Shared.Authentication", "src\Shared\TexasTaco.Shared.Authentication\TexasTaco.Shared.Authentication.csproj", "{7BA59E13-68E3-4B1A-86CC-3EC80BEDF87C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Shared.Authentication", "src\Shared\TexasTaco.Shared.Authentication\TexasTaco.Shared.Authentication.csproj", "{7BA59E13-68E3-4B1A-86CC-3EC80BEDF87C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

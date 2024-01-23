@@ -1,4 +1,4 @@
-﻿namespace TexasTaco.Authentication.Api.Services
+﻿namespace TexasTaco.Api.Gateway.Services
 { 
     public class CookieService(IHttpContextAccessor _contextAccessor) : ICookieService
     {
