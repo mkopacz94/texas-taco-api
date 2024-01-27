@@ -27,14 +27,14 @@ namespace TexasTaco.Api.Gateway.Clients
                 return false;
             }
 
-            SetSessionCookie(
+            ExtendSessionCookie(
                 new SessionId(Guid.Parse(sessionId)),
                 session.ExpirationDate);
 
             return true;
         }
 
-        private void SetSessionCookie(SessionId sessionId, DateTime expirationDate)
+        private void ExtendSessionCookie(SessionId sessionId, DateTime expirationDate)
         {
             _cookieService.SetCookie(
                 CookiesNames.SessionId, 
