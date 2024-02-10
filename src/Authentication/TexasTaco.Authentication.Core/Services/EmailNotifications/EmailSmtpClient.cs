@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.Entities;
 
 namespace TexasTaco.Authentication.Core.Services.EmailNotifications
 {

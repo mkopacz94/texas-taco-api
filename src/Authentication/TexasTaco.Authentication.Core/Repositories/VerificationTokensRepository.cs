@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TexasTaco.Authentication.Core.Data.EF;
-using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.Entities;
 
 namespace TexasTaco.Authentication.Core.Repositories
 {

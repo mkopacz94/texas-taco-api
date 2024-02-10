@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using System.Net;
 using TexasTaco.Authentication.Core.Exceptions;
+using TexasTaco.Shared.Exceptions;
 
 namespace TexasTaco.Authentication.Api.ErrorHandling
 {
@@ -25,6 +26,7 @@ namespace TexasTaco.Authentication.Api.ErrorHandling
             {
                 InvalidCredentialsException => (HttpStatusCode.Unauthorized, CreateErrorMessage(ex)),
                 AuthenticationServiceException => (HttpStatusCode.BadRequest, CreateErrorMessage(ex)),
+                TexasTacoException => (HttpStatusCode.BadRequest, CreateErrorMessage(ex)),
                 _ => (HttpStatusCode.InternalServerError, new ErrorMessage("server_error", "There was an internal server error."))
             };
 

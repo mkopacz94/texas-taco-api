@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\TexasTaco.Shared.Authentication\TexasTaco.Shared.Authentication.csproj" />
+    <ProjectReference Include="..\..\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj" />
     <ProjectReference Include="..\TexasTaco.Authentication.Core\TexasTaco.Authentication.Core.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using TexasTaco.Authentication.Core.Models;
+﻿using TexasTaco.Authentication.Core.Entities;
 
 namespace TexasTaco.Authentication.Core.Services.Verification
 {

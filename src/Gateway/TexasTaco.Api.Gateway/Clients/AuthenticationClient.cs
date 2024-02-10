@@ -1,5 +1,5 @@
 ﻿using TexasTaco.Api.Gateway.Services;
-using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
 
@@ -12,7 +12,10 @@ namespace TexasTaco.Api.Gateway.Clients
     {
         public async Task<bool> UserSessionValid()
         {
-            string? sessionId = _contextAccessor.HttpContext?.Request.Cookies[CookiesNames.SessionId];
+            string? sessionId = _contextAccessor
+                .HttpContext?
+                .Request
+                .Cookies[CookiesNames.SessionId];
 
             if(string.IsNullOrWhiteSpace(sessionId))
             {

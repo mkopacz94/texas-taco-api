@@ -1,6 +1,6 @@
-﻿using TexasTaco.Authentication.Core.Models;
+﻿using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Repositories;
-using TexasTaco.Authentication.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Services.Verification
 {

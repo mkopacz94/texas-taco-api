@@ -1,8 +1,7 @@
-﻿using System.Net.Mail;
-using System.Text.RegularExpressions;
-using TexasTaco.Authentication.Core.Exceptions;
+﻿using System.Text.RegularExpressions;
+using TexasTaco.Shared.Exceptions;
 
-namespace TexasTaco.Authentication.Core.ValueObjects
+namespace TexasTaco.Shared.ValueObjects
 {
     public record EmailAddress
     {

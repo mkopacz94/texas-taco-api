@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Authentication.Core.Exceptions;
-using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services.Verification;
 using TexasTaco.Authentication.Core.ValueObjects;

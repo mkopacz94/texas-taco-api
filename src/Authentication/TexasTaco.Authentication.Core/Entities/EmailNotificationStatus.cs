@@ -1,4 +1,4 @@
-﻿namespace TexasTaco.Authentication.Core.Models
+﻿namespace TexasTaco.Authentication.Core.Entities
 {
     public enum EmailNotificationStatus
     {

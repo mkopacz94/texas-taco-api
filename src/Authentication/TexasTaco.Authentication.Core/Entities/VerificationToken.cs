@@ -1,6 +1,6 @@
 ﻿using TexasTaco.Authentication.Core.ValueObjects;
 
-namespace TexasTaco.Authentication.Core.Models
+namespace TexasTaco.Authentication.Core.Entities
 {
     public class VerificationToken(AccountId accountId, DateTime expirationDate)
     {

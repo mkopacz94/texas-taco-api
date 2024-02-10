@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Xml.Linq;
 using TexasTaco.Authentication.Core.Data.EF;
-using TexasTaco.Authentication.Core.Models;
+using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.EmailNotifications;

@@ -7,6 +7,7 @@ using TexasTaco.Authentication.Core.Services.Verification;
 using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.Authentication.Attributes;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Api.Controllers
 {

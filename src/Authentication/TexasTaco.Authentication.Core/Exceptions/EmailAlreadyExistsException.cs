@@ -1,4 +1,4 @@
-﻿using TexasTaco.Authentication.Core.ValueObjects;
+﻿using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Exceptions
 {

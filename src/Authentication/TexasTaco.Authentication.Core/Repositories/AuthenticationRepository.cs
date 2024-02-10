@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TexasTaco.Authentication.Core.Data.EF;
+using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Exceptions;
-using TexasTaco.Authentication.Core.Models;
 using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Repositories
 {

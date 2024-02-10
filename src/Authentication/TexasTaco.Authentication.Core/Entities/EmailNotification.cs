@@ -1,6 +1,7 @@
 ﻿using TexasTaco.Authentication.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
-namespace TexasTaco.Authentication.Core.Models
+namespace TexasTaco.Authentication.Core.Entities
 {
     public class EmailNotification(string subject, string body, EmailAddress from, EmailAddress to)
     {
