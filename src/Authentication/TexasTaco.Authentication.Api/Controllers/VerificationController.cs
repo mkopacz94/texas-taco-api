@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Exceptions;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services.Verification;
@@ -10,7 +11,8 @@ namespace TexasTaco.Authentication.Api.Controllers
     public class VerificationController(
         IVerificationTokensRepository _verificationTokensRepository,
         IAuthenticationRepository _authRepository,
-        IEmailVerificationService _emailVerificationService) : ControllerBase
+        IEmailVerificationService _emailVerificationService,
+        IUsersCreatedOutboxRepository _usersCreatedOutboxRepository) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> VerifyAccount([FromQuery] string token)
@@ -34,6 +36,9 @@ namespace TexasTaco.Authentication.Api.Controllers
 
             accountToBeVerified.MarkAsVerified();
             await _authRepository.UpdateAccountAsync(accountToBeVerified);
+
+            var userCreatedOutbox = new UserCreatedOutbox(accountToBeVerified.Email);
+            await _usersCreatedOutboxRepository.AddAsync(userCreatedOutbox);
 
             return Ok();
         }

@@ -20,6 +20,10 @@ services:
       context: .
       dockerfile: src/Authentication/TexasTaco.Authentication.Api/Dockerfile
 
+  texastaco-mq:
+    image: rabbitmq:latest
+    container_name: texastaco-mq
+
 volumes:
    authentication_db_volume:
 

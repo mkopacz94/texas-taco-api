@@ -28,6 +28,7 @@ namespace TexasTaco.Authentication.Core
             services.AddTransient<IPasswordManager, PasswordManager>();
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             services.AddScoped<IEmailNotificationsRepository, EmailNotificationsRepository>();
+            services.AddScoped<IUsersCreatedOutboxRepository, UsersCreatedOutboxRepository>();
             services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();  
             services.AddScoped<IEmailVerificationService, EmailVerificationService>();
             services.AddSmtpClient(options =>

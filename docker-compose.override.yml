@@ -38,11 +38,16 @@ services:
       - authenticationdb
       - sessioncache
 
-
   texastaco.api.gateway:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
     ports:
       - "5000:8080"
+
+  texastaco-mq:
+    hostname: texastaco-queue
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
 
