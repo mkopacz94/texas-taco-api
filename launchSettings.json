@@ -6,7 +6,9 @@
       "serviceActions": {
         "testapi": "StartDebugging",
         "texastaco.users": "StartDebugging",
-        "texastaco.authorization": "StartDebugging"
+        "texastaco.authorization": "StartDebugging",
+        "texastaco.authentication.api": "StartDebugging",
+        "texastaco.api.gateway": "StartDebugging"
       }
     }
   }
