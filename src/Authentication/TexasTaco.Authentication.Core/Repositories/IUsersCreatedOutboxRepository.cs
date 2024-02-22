@@ -6,6 +6,7 @@ namespace TexasTaco.Authentication.Core.Repositories
     {
         Task AddAsync(UserCreatedOutbox userCreatedOutbox);
         Task<IEnumerable<UserCreatedOutbox>> GetOutboxMessagesToBePublishedAsync();
-        Task UpdateAsync(UserCreatedOutbox userCreatedOutbox);
+        Task UpdateInTransactionAsync(
+            UserCreatedOutbox userCreatedOutbox, Func<Task> taskToBeDoneInTransaction);
     }
 }

@@ -27,6 +27,8 @@ namespace TexasTaco.Authentication.Api.BackgroundServices
 
                         email.MarkAsSent();
                         await emailNotificationsRepository.UpdateAsync(email);
+
+                        _logger.LogInformation("Email notification to {email} has been sent.", email.To.Value);
                     }
                     catch (Exception ex)
                     {

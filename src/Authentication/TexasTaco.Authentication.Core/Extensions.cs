@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -46,6 +47,26 @@ namespace TexasTaco.Authentication.Core
             {
                 options.Configuration = configuration.GetSection("CacheSettings:ConnectionString").Value;
                 options.InstanceName = "SessionCache";
+            });
+
+            services.Configure<MessageBrokerSettings>(
+                configuration.GetSection("MessageBroker"));
+
+            services.AddSingleton(sp => 
+                sp.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);
+
+            services.AddMassTransit(busConfig =>
+            {
+                busConfig.UsingRabbitMq((context, config) =>
+                {
+                    var settings = context.GetRequiredService<MessageBrokerSettings>();
+
+                    config.Host(new Uri(settings.Host), hostConfig =>
+                    {
+                        hostConfig.Username(settings.Username);
+                        hostConfig.Password(settings.Password);
+                    });
+                });
             });
 
             return services;

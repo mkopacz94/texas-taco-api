@@ -19,9 +19,13 @@ services:
     build:
       context: .
       dockerfile: src/Authentication/TexasTaco.Authentication.Api/Dockerfile
+    depends_on:
+      - authenticationdb
+      - sessioncache
+      - texastaco-mq
 
   texastaco-mq:
-    image: rabbitmq:latest
+    image: rabbitmq:3-management
     container_name: texastaco-mq
 
 volumes:

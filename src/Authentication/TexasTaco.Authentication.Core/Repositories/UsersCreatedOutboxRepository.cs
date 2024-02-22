@@ -19,10 +19,17 @@ namespace TexasTaco.Authentication.Core.Repositories
                 .ToListAsync();
         }
 
-        public async Task UpdateAsync(UserCreatedOutbox userCreatedOutbox)
+        public async Task UpdateInTransactionAsync(
+            UserCreatedOutbox userCreatedOutbox, Func<Task> taskToBeDoneInTransaction)
         {
+            using var transaction = _dbContext.Database.BeginTransaction();
+
             _dbContext.Update(userCreatedOutbox);
             await _dbContext.SaveChangesAsync();
+
+            await taskToBeDoneInTransaction();
+
+            transaction.Commit();
         }
     }
 }

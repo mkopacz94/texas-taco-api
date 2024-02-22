@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<EmailNotificationsBackgroundService>();
+builder.Services.AddHostedService<UsersCreatedOutboxBackgroundService>();
 builder.Services
     .AddTexasTacoAuthentication(builder.Configuration);
 builder.Services

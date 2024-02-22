@@ -31,12 +31,12 @@ services:
       - SmtpOptions__Password=tyol gpbo jttp fxhv
       - SmtpOptions__Port=587
       - SmtpOptions__UseSsl=false
+      - MessageBroker__Host=amqp://texastaco-queue:5672
+      - MessageBroker__Username=admin
+      - MessageBroker__Password=1234
     ports:
       - 5001:8080
     restart: always
-    depends_on:
-      - authenticationdb
-      - sessioncache
 
   texastaco.api.gateway:
     environment:
@@ -49,5 +49,8 @@ services:
     hostname: texastaco-queue
     environment:
       - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_DEFAULT_PASS=1234
+    ports:
+      - "5672:5672"
+      - "15672:15672" 
 
