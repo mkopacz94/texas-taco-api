@@ -6,14 +6,14 @@ using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Data.EF.Configurations
 {
-    internal class UserCreatedOutboxConfiguration : IEntityTypeConfiguration<UserCreatedOutbox>
+    internal class AccountCreatedOutboxConfiguration : IEntityTypeConfiguration<AccountCreatedOutbox>
     {
-        public void Configure(EntityTypeBuilder<UserCreatedOutbox> builder)
+        public void Configure(EntityTypeBuilder<AccountCreatedOutbox> builder)
         {
             builder.HasKey(u => u.Id);
 
             builder.Property(u => u.Id)
-                .HasConversion(id => id.Value, value => new UserCreatedOutboxId(value));
+                .HasConversion(id => id.Value, value => new AccountCreatedOutboxId(value));
 
             builder.Property(u => u.UserEmail)
                 .HasConversion(email => email.Value, value => new EmailAddress(value))

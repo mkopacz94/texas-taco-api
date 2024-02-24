@@ -51,15 +51,28 @@ namespace TexasTaco.Authentication.Core.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateAccountAsync(Account account)
+        public async Task UpdateAccountAndAddAccountCreatedOutboxMessage(
+            Account account, AccountCreatedOutbox accountCreatedOutbox)
         {
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
             _dbContext.Accounts.Update(account);
+            await _dbContext.AddAsync(accountCreatedOutbox);
+
             await _dbContext.SaveChangesAsync();
+            await transaction.CommitAsync();
         }
 
         private Task<bool> EmailAlreadyExists(EmailAddress email)
         {
             return _dbContext.Accounts.AnyAsync(a => a.Email == email);
+        }
+
+        public async Task<IEnumerable<AccountCreatedOutbox>> GetNonPublishedUserCreatedOutboxMessages()
+        {
+            return await _dbContext.AccountsCreatedOutbox
+                .Where(uo => uo.MessageStatus == OutboxMessageStatus.ToBePublished)
+                .ToListAsync();
         }
     }
 }

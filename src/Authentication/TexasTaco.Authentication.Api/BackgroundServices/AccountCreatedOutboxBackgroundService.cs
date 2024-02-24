@@ -1,11 +1,12 @@
 ﻿using MassTransit;
 using TexasTaco.Authentication.Core.Repositories;
+using TexasTaco.Authentication.Core.Services.Outbox;
 using TexasTaco.Shared.EventBus.Account;
 
 namespace TexasTaco.Authentication.Api.BackgroundServices
 {
-    public class UsersCreatedOutboxBackgroundService(
-        ILogger<UsersCreatedOutboxBackgroundService> _logger,
+    public class AccountCreatedOutboxBackgroundService(
+        ILogger<AccountCreatedOutboxBackgroundService> _logger,
         IServiceProvider _serviceProvider)
         : BackgroundService
     {
@@ -15,16 +16,16 @@ namespace TexasTaco.Authentication.Api.BackgroundServices
             {
                 using var scope = _serviceProvider.CreateScope();
 
-                var usersCreatedOutboxRepository = scope
+                var authenticationRepository = scope
                     .ServiceProvider
-                    .GetRequiredService<IUsersCreatedOutboxRepository>();
+                    .GetRequiredService<IAuthenticationRepository>();
 
-                var messagesToBePublished = await usersCreatedOutboxRepository
-                    .GetOutboxMessagesToBePublishedAsync();
-
-                var messageBus = scope
+                var outboxService = scope
                     .ServiceProvider
-                    .GetRequiredService<IBus>();
+                    .GetRequiredService<IAccountCreatedOutboxService>();
+
+                var messagesToBePublished = await authenticationRepository
+                    .GetNonPublishedUserCreatedOutboxMessages();
 
                 foreach (var message in messagesToBePublished)
                 {
@@ -32,16 +33,7 @@ namespace TexasTaco.Authentication.Api.BackgroundServices
                     {
                         _logger.LogInformation("Processing outbox message with Id={messageId}...", message.Id);
 
-                        message.MarkAsPublished();
-
-                        await usersCreatedOutboxRepository
-                            .UpdateInTransactionAsync(message, async () =>
-                        {
-                            await messageBus.Publish(new AccountCreatedEventMessage(
-                                Guid.NewGuid(),
-                                message.UserEmail,
-                                DateTime.UtcNow));
-                        });
+                        await outboxService.PublishAccountCreatedOutboxMessage(message);
                     }
                     catch (Exception ex)
                     {

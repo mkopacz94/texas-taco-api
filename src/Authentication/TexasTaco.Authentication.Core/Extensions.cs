@@ -8,6 +8,7 @@ using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.EmailNotifications;
+using TexasTaco.Authentication.Core.Services.Outbox;
 using TexasTaco.Authentication.Core.Services.Verification;
 
 namespace TexasTaco.Authentication.Core
@@ -29,9 +30,9 @@ namespace TexasTaco.Authentication.Core
             services.AddTransient<IPasswordManager, PasswordManager>();
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             services.AddScoped<IEmailNotificationsRepository, EmailNotificationsRepository>();
-            services.AddScoped<IUsersCreatedOutboxRepository, UsersCreatedOutboxRepository>();
             services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();  
             services.AddScoped<IEmailVerificationService, EmailVerificationService>();
+            services.AddScoped<IAccountCreatedOutboxService, AccountCreatedOutboxService>();
             services.AddSmtpClient(options =>
             {
                 var notificationsSettings = new EmailNotificationsSettings();

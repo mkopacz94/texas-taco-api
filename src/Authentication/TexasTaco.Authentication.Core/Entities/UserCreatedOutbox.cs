@@ -3,9 +3,9 @@ using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Entities
 {
-    public class UserCreatedOutbox(EmailAddress userEmail)
+    public class AccountCreatedOutbox(EmailAddress userEmail)
     {
-        public UserCreatedOutboxId Id { get; } = new UserCreatedOutboxId(Guid.NewGuid());
+        public AccountCreatedOutboxId Id { get; } = new AccountCreatedOutboxId(Guid.NewGuid());
         public EmailAddress UserEmail { get; private set; } = userEmail;
         public OutboxMessageStatus MessageStatus { get; private set; } = OutboxMessageStatus.ToBePublished;
 

@@ -11,8 +11,7 @@ namespace TexasTaco.Authentication.Api.Controllers
     public class VerificationController(
         IVerificationTokensRepository _verificationTokensRepository,
         IAuthenticationRepository _authRepository,
-        IEmailVerificationService _emailVerificationService,
-        IUsersCreatedOutboxRepository _usersCreatedOutboxRepository) : ControllerBase
+        IEmailVerificationService _emailVerificationService) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> VerifyAccount([FromQuery] string token)
@@ -35,10 +34,10 @@ namespace TexasTaco.Authentication.Api.Controllers
                 ?? throw new AccountAssociatedWithTokenNotFoundException(verificationToken);
 
             accountToBeVerified.MarkAsVerified();
-            await _authRepository.UpdateAccountAsync(accountToBeVerified);
 
-            var userCreatedOutbox = new UserCreatedOutbox(accountToBeVerified.Email);
-            await _usersCreatedOutboxRepository.AddAsync(userCreatedOutbox);
+            await _authRepository.UpdateAccountAndAddAccountCreatedOutboxMessage(
+                accountToBeVerified,
+                new AccountCreatedOutbox(accountToBeVerified.Email));
 
             return Ok();
         }
