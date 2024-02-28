@@ -1,6 +1,6 @@
-﻿namespace TexasTaco.Authentication.Core.Entities
+﻿namespace TexasTaco.Shared.Settings
 {
-    internal sealed class MessageBrokerSettings
+    public class MessageBrokerSettings
     {
         public string Host { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;

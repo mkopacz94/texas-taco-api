@@ -19,7 +19,6 @@ builder.Services.AddHttpClient<AuthenticationClient>((serviceProvider, client) =
     var authClientOptions = serviceProvider
         .GetRequiredService<IOptions<AuthenticationHttpClientOptions>>().Value;
 
-    Console.WriteLine(authClientOptions.BaseAddress);
     client.BaseAddress = new Uri(authClientOptions.BaseAddress!);
 });
 

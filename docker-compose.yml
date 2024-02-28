@@ -28,7 +28,16 @@ services:
     image: rabbitmq:3-management
     container_name: texastaco-mq
 
+  texastaco.users.api:
+    image: ${DOCKER_REGISTRY-}texastacousersapi
+    build:
+      context: .
+      dockerfile: src/Users/TexasTaco.Users.Api/Dockerfile
+    depends_on:
+      - texastaco-mq
+
 volumes:
    authentication_db_volume:
+
 
 

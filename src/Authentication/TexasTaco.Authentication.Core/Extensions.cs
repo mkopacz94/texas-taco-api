@@ -10,6 +10,7 @@ using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.EmailNotifications;
 using TexasTaco.Authentication.Core.Services.Outbox;
 using TexasTaco.Authentication.Core.Services.Verification;
+using TexasTaco.Shared.Settings;
 
 namespace TexasTaco.Authentication.Core
 {

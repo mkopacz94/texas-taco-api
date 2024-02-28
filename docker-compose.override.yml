@@ -54,3 +54,14 @@ services:
       - "5672:5672"
       - "15672:15672" 
 
+
+  texastaco.users.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - MessageBroker__Host=amqp://texastaco-queue:5672
+      - MessageBroker__Username=admin
+      - MessageBroker__Password=1234
+    ports:
+      - "5002:8080"
+
