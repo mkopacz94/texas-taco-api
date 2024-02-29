@@ -2,6 +2,7 @@
 {
     public static class CookiesNames
     {
-        public static string SessionId => "session-id";
+        public static string SessionId => "session_id";
+        public static string ApiClaims => "api_claims";
     }
 }

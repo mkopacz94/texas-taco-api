@@ -2,30 +2,13 @@ version: '3.4'
 
 services:
 
-  authenticationdb:
-    container_name: authenticationdb
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=root1234
-      - MYSQL_DATABASE=authentication
-    ports:
-      - 3306:3306
-    volumes:
-      - authentication_db_volume:/var/lib/mysql
-  
-  sessioncache:
-    container_name: sessioncache
-    restart: always
-    ports: 
-      - 6379:6379
-
   texastaco.authentication.api:
     container_name: texastaco.authentication.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
-      - AuthenticationDatabase__ConnectionString=server=authenticationdb;user=root;password=root1234;database=authentication;
-      - CacheSettings__ConnectionString=sessioncache:6379
+      - AuthenticationDatabase__ConnectionString=server=authentication-db;user=root;password=root1234;database=authentication;
+      - CacheSettings__ConnectionString=authentication-cache:6379
       - SmtpOptions__SourceAddress=texastaco.notifications@gmail.com
       - SmtpOptions__Host=smtp.gmail.com
       - SmtpOptions__Password=tyol gpbo jttp fxhv
@@ -34,6 +17,8 @@ services:
       - MessageBroker__Host=amqp://texastaco-queue:5672
       - MessageBroker__Username=admin
       - MessageBroker__Password=1234
+      - Cookies__Domain=localhost
+      - DataProtectionSettings__CacheUri=authentication-cache
     ports:
       - 5001:8080
     restart: always
@@ -45,6 +30,31 @@ services:
     ports:
       - "5000:8080"
 
+  texastaco.users.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - MessageBroker__Host=amqp://texastaco-queue:5672
+      - MessageBroker__Username=admin
+      - MessageBroker__Password=1234
+      - Cookies__Domain=localhost
+      - DataProtectionSettings__CacheUri=authentication-cache
+    ports:
+      - "5002:8080"
+
+  authentication-db:
+    environment:
+      - MYSQL_ROOT_PASSWORD=root1234
+      - MYSQL_DATABASE=authentication
+    ports:
+      - 3306:3306
+    volumes:
+      - authentication_db_volume:/var/lib/mysql
+  
+  authentication-cache:
+    ports: 
+      - 6379:6379
+
   texastaco-mq:
     hostname: texastaco-queue
     environment:
@@ -53,15 +63,4 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672" 
-
-
-  texastaco.users.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - MessageBroker__Host=amqp://texastaco-queue:5672
-      - MessageBroker__Username=admin
-      - MessageBroker__Password=1234
-    ports:
-      - "5002:8080"
 

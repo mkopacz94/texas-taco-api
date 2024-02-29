@@ -2,12 +2,6 @@ version: '3.4'
 
 services:
 
-  authenticationdb:
-    image: mysql
-
-  sessioncache:
-    image: redis:alpine
-  
   texastaco.api.gateway:
     image: ${DOCKER_REGISTRY-}texastacoapigateway
     build:
@@ -20,13 +14,9 @@ services:
       context: .
       dockerfile: src/Authentication/TexasTaco.Authentication.Api/Dockerfile
     depends_on:
-      - authenticationdb
-      - sessioncache
+      - authentication-db
+      - authentication-cache
       - texastaco-mq
-
-  texastaco-mq:
-    image: rabbitmq:3-management
-    container_name: texastaco-mq
 
   texastaco.users.api:
     image: ${DOCKER_REGISTRY-}texastacousersapi
@@ -35,6 +25,20 @@ services:
       dockerfile: src/Users/TexasTaco.Users.Api/Dockerfile
     depends_on:
       - texastaco-mq
+
+  authentication-db:
+    image: mysql
+    container_name: authentication-db
+    restart: always
+
+  authentication-cache:
+    image: redis:alpine
+    container_name: authentication-cache
+    restart: always
+
+  texastaco-mq:
+    image: rabbitmq:3-management
+    container_name: texastaco-mq
 
 volumes:
    authentication_db_volume:
