@@ -83,13 +83,17 @@ namespace TexasTaco.Authentication.Api.Controllers
 
         private void SetSessionCookie(SessionId sessionId, DateTime expirationDate)
         {
-            _cookieService.SetCookie(CookiesNames.SessionId, sessionId.Value.ToString(),
-                new CookieOptions
-                {
-                    Expires = new DateTimeOffset(expirationDate),
-                    HttpOnly = true,
-                    Secure = true
-                });
+            var sessionCookieOptions = new CookieOptions
+            {
+                Expires = new DateTimeOffset(expirationDate),
+                HttpOnly = true,
+                Secure = true
+            };
+
+            _cookieService.SetCookie(
+                CookiesNames.SessionId, 
+                sessionId.Value.ToString(),
+                sessionCookieOptions);
         }
     }
 }

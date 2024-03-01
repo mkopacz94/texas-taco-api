@@ -37,7 +37,11 @@ var ocelotConfig = new OcelotPipelineConfiguration
         var authHttpClient = context.RequestServices
             .GetRequiredService<AuthenticationClient>();
 
-        await new TexasTacoAuthenticationMiddleware(configuration, authHttpClient)
+        var cookieService = context.RequestServices
+            .GetRequiredService<ICookieService>();
+
+        await new TexasTacoAuthenticationMiddleware(
+                configuration, cookieService, authHttpClient)
             .InvokeAsync(context, next);
     }
 };
