@@ -20,7 +20,7 @@ builder.Services
     .AddCookie(x =>
     {
         var configuration = builder.Configuration;
-        string cookieDomain = configuration.GetRequiredSection("Cookies:Domain").Value!;
+        string cookieDomain = configuration.GetRequiredSection("AuthCookies:Domain").Value!;
 
         x.Cookie.Name = CookiesNames.ApiClaims;
         x.Cookie.HttpOnly = true;
