@@ -21,11 +21,17 @@ builder.Services
     {
         var configuration = builder.Configuration;
         string cookieDomain = configuration.GetRequiredSection("AuthCookies:Domain").Value!;
+        int expirationMinutes = int.Parse(
+            configuration.GetRequiredSection("AuthCookies:ExpirationMinutes").Value!);
 
         x.Cookie.Name = CookiesNames.ApiClaims;
         x.Cookie.HttpOnly = true;
         x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         x.Cookie.Domain = cookieDomain;
+
+        x.ExpireTimeSpan = TimeSpan.FromMinutes(expirationMinutes);
+        x.SlidingExpiration = true;
+
         x.Events.OnRedirectToLogin = context =>
         {
             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;

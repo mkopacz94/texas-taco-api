@@ -19,11 +19,16 @@ namespace TexasTaco.Authentication.Api.Services
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true
+            };
+
             var context = _httpContextAccessor.HttpContext!;
             await context.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 claimsPrincipal,
-                new AuthenticationProperties());
+                IsPersistent);
         }
     }
 }
