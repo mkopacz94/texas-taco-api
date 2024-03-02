@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using System.Net;
 using TexasTaco.Authentication.Api.BackgroundServices;
+using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.ErrorHandling;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core;
@@ -13,16 +15,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<EmailNotificationsBackgroundService>();
 builder.Services.AddHostedService<AccountCreatedOutboxBackgroundService>();
+
 builder.Services
     .AddTexasTacoAuthentication(builder.Configuration);
+
 builder.Services
     .AddTransient<ICookieService, CookieService>();
+
 builder.Services
     .AddTransient<IClaimsService, CookieClaimsService>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ExceptionMiddleware>();
+
+builder.Services.Configure<SessionConfiguration>(
+    builder.Configuration.GetRequiredSection("Session"));
+
+builder.Services.AddSingleton(sp => 
+    sp.GetRequiredService<IOptions<SessionConfiguration>>().Value);
 
 string dataProtectionCacheUri = builder.Configuration
     .GetRequiredSection("DataProtectionSettings:CacheUri").Value!;

@@ -2,7 +2,7 @@
 
 namespace TexasTaco.Api.Gateway.Clients
 {
-    public class AuthenticationClient(HttpClient _client)
+    public class AuthenticationClient(HttpClient _client) : IAuthenticationClient
     {
         public async Task<Session?> GetSession(string? sessionId)
         {

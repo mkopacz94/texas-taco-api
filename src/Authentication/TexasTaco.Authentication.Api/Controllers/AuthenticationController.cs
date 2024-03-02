@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.DTO;
 using TexasTaco.Authentication.Core.Repositories;
@@ -17,7 +18,8 @@ namespace TexasTaco.Authentication.Api.Controllers
         IEmailVerificationService _emailVerificationService,
         ICookieService _cookieService,
         ISessionStorage _sessionStorage,
-        IClaimsService _claimsManager) : ControllerBase
+        IClaimsService _claimsManager,
+        SessionConfiguration _sessionConfiguration) : ControllerBase
     {
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDto signUpData)
@@ -35,7 +37,9 @@ namespace TexasTaco.Authentication.Api.Controllers
             var emailAddress = new EmailAddress(signInData.Email);
             var account = await _authRepo.AuthenticateAccountAsync(emailAddress, signInData.Password);
 
-            var sessionExpirationDate = DateTime.UtcNow.AddMinutes(1);
+            var sessionExpirationDate = DateTime.UtcNow
+                .AddMinutes(_sessionConfiguration.ExpirationMinutes);
+
             var sessionId = await _sessionStorage.CreateSession(sessionExpirationDate);
 
             await _claimsManager.SetAccountClaims(account);
@@ -57,7 +61,11 @@ namespace TexasTaco.Authentication.Api.Controllers
                 return Unauthorized();
             }
 
-            session.ExtendSession(TimeSpan.FromMinutes(1));
+            var expirationTimespan = TimeSpan
+                .FromMinutes(_sessionConfiguration.ExpirationMinutes);
+
+            session.ExtendSession(expirationTimespan);
+
             await _sessionStorage.UpdateSession(sessionIdentifier, session);
 
             return Ok(session);

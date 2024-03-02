@@ -25,11 +25,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Shared.Authentica
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{08FE0BAB-A815-4158-B3FC-B8E8A437FC66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Users.Api", "src\Users\TexasTaco.Users.Api\TexasTaco.Users.Api.csproj", "{8EB26EA3-E01C-4C3F-AC1C-88712DC52530}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Users.Api", "src\Users\TexasTaco.Users.Api\TexasTaco.Users.Api.csproj", "{8EB26EA3-E01C-4C3F-AC1C-88712DC52530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Users.Core", "src\Users\TexasTaco.Users.Core\TexasTaco.Users.Core.csproj", "{7861CB4B-04A5-48BD-8A52-980BDA6417A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Users.Core", "src\Users\TexasTaco.Users.Core\TexasTaco.Users.Core.csproj", "{7861CB4B-04A5-48BD-8A52-980BDA6417A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Shared", "src\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj", "{EAF9F22C-B4C0-46E5-B2F7-7125BFEAAF9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Shared", "src\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj", "{EAF9F22C-B4C0-46E5-B2F7-7125BFEAAF9B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{761281D2-D60F-4E20-A34A-12E75858A912}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Api.Gateway.Tests", "tests\Gateway\TexasTaco.Api.Gateway.Tests\TexasTaco.Api.Gateway.Tests.csproj", "{12A703FC-960C-41AD-B039-6733C56944A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,10 @@ Global
 		{EAF9F22C-B4C0-46E5-B2F7-7125BFEAAF9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAF9F22C-B4C0-46E5-B2F7-7125BFEAAF9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAF9F22C-B4C0-46E5-B2F7-7125BFEAAF9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A703FC-960C-41AD-B039-6733C56944A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A703FC-960C-41AD-B039-6733C56944A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A703FC-960C-41AD-B039-6733C56944A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A703FC-960C-41AD-B039-6733C56944A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +93,8 @@ Global
 		{8EB26EA3-E01C-4C3F-AC1C-88712DC52530} = {08FE0BAB-A815-4158-B3FC-B8E8A437FC66}
 		{7861CB4B-04A5-48BD-8A52-980BDA6417A3} = {08FE0BAB-A815-4158-B3FC-B8E8A437FC66}
 		{EAF9F22C-B4C0-46E5-B2F7-7125BFEAAF9B} = {FD4629DE-8822-423C-ADA1-39B469107613}
+		{761281D2-D60F-4E20-A34A-12E75858A912} = {5CFBC3AD-2188-4C58-B5F5-D5F3BFA8544C}
+		{12A703FC-960C-41AD-B039-6733C56944A9} = {761281D2-D60F-4E20-A34A-12E75858A912}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8962ABFE-4441-4C72-A04E-0038C172612D}

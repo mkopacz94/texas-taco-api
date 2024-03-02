@@ -27,18 +27,20 @@
   ],
   "GlobalConfiguration": {
   },
-  "NonAuthenticationRoutes": [
-    {
-      "Path": "/auth/sign-up"
-    },
-    {
-      "Path": "/auth/sign-in"
-    },
-    {
-      "Path": "/auth/session-valid"
-    },
-    {
-      "Path": "/verify"
-    }
-  ]
+  "NonAuthRoutesConfiguration": {
+    "NonAuthenticationRoutes": [
+      {
+        "Path": "/auth/sign-up"
+      },
+      {
+        "Path": "/auth/sign-in"
+      },
+      {
+        "Path": "/auth/session-valid"
+      },
+      {
+        "Path": "/verify"
+      }
+    ]
+  }
 }

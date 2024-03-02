@@ -10,18 +10,17 @@ namespace TexasTaco.Api.Gateway.Authentication
     internal sealed class TexasTacoAuthenticationMiddleware
     {
         private readonly ICookieService _cookieService;
-        private readonly AuthenticationClient _authClient;
-        private readonly RoutesConfiguration _routesConfiguration = new();
+        private readonly IAuthenticationClient _authClient;
+        private readonly RoutesConfiguration _routesConfiguration;
 
         public TexasTacoAuthenticationMiddleware(
-            IConfiguration configuration,
             ICookieService cookieService,
-            AuthenticationClient authService)
+            IAuthenticationClient authService,
+            RoutesConfiguration routesConfiguration)
         {
             _cookieService = cookieService;
             _authClient = authService;
-
-            configuration.Bind(_routesConfiguration);
+            _routesConfiguration = routesConfiguration;
         }
 
         public async Task InvokeAsync(HttpContext context, Func<Task> next)
@@ -42,7 +41,7 @@ namespace TexasTaco.Api.Gateway.Authentication
 
             if(session != null)
             {
-                ExtendSessionCookie(
+                UpdateSessionCookie(
                    new SessionId(Guid.Parse(sessionId!)),
                    session.ExpirationDate);
 
@@ -59,7 +58,7 @@ namespace TexasTaco.Api.Gateway.Authentication
                 .Any(r => route.Contains(r.Path!));
         }
 
-        private void ExtendSessionCookie(SessionId sessionId, DateTime expirationDate)
+        private void UpdateSessionCookie(SessionId sessionId, DateTime expirationDate)
         {
             _cookieService.SetCookie(
                 CookiesNames.SessionId,

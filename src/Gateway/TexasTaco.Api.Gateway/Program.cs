@@ -7,6 +7,7 @@ using TexasTaco.Api.Gateway.Model;
 using TexasTaco.Api.Gateway.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("configuration.json");
 
 builder.Services
     .AddTransient<ICookieService, CookieService>();
@@ -14,15 +15,21 @@ builder.Services
 builder.Services.AddOptions<AuthenticationHttpClientOptions>()
     .Bind(builder.Configuration.GetSection("AuthenticationHttpClient"));
 
-builder.Services.AddHttpClient<AuthenticationClient>((serviceProvider, client) =>
-{
-    var authClientOptions = serviceProvider
-        .GetRequiredService<IOptions<AuthenticationHttpClientOptions>>().Value;
+builder.Services.Configure<RoutesConfiguration>(
+    builder.Configuration.GetRequiredSection("NonAuthRoutesConfiguration"));
 
-    client.BaseAddress = new Uri(authClientOptions.BaseAddress!);
-});
+builder.Services.AddSingleton(sp => 
+    sp.GetRequiredService<IOptions<RoutesConfiguration>>().Value);
 
-builder.Configuration.AddJsonFile("configuration.json");
+builder.Services.AddHttpClient<IAuthenticationClient, AuthenticationClient>(
+    (serviceProvider, client) =>
+    {
+        var authClientOptions = serviceProvider
+            .GetRequiredService<IOptions<AuthenticationHttpClientOptions>>().Value;
+
+        client.BaseAddress = new Uri(authClientOptions.BaseAddress!);
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOcelot();
@@ -31,17 +38,17 @@ var ocelotConfig = new OcelotPipelineConfiguration
 {
     AuthenticationMiddleware = async (context, next) =>
     {
-        var configuration = context.RequestServices
-            .GetRequiredService<IConfiguration>();
+        var routesConfiguration = context.RequestServices
+            .GetRequiredService<RoutesConfiguration>();
 
         var authHttpClient = context.RequestServices
-            .GetRequiredService<AuthenticationClient>();
+            .GetRequiredService<IAuthenticationClient>();
 
         var cookieService = context.RequestServices
             .GetRequiredService<ICookieService>();
 
         await new TexasTacoAuthenticationMiddleware(
-                configuration, cookieService, authHttpClient)
+                cookieService, authHttpClient, routesConfiguration)
             .InvokeAsync(context, next);
     }
 };
