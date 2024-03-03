@@ -28,7 +28,7 @@ namespace TexasTaco.Authentication.Api.Services
             await context.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 claimsPrincipal,
-                IsPersistent);
+                authProperties);
         }
     }
 }
