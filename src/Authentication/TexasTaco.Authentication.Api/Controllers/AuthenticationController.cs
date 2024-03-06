@@ -68,6 +68,8 @@ namespace TexasTaco.Authentication.Api.Controllers
 
             await _sessionStorage.UpdateSession(sessionIdentifier, session);
 
+            Console.WriteLine(Request.Cookies[CookiesNames.SessionId]);
+
             return Ok(session);
         }
 

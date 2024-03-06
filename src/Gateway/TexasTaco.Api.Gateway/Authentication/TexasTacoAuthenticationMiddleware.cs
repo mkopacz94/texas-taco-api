@@ -41,9 +41,9 @@ namespace TexasTaco.Api.Gateway.Authentication
 
             if(session != null)
             {
-                UpdateSessionCookie(
-                   new SessionId(Guid.Parse(sessionId!)),
-                   session.ExpirationDate);
+                //UpdateSessionCookie(
+                //   new SessionId(Guid.Parse(sessionId!)),
+                //   session.ExpirationDate);
 
                 await next();
                 return;

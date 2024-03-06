@@ -5,6 +5,7 @@ using Ocelot.Middleware;
 using System.Net;
 using TexasTaco.Api.Gateway.Authentication;
 using TexasTaco.Api.Gateway.Clients;
+using TexasTaco.Api.Gateway.Clients.Handlers;
 using TexasTaco.Api.Gateway.Model;
 using TexasTaco.Api.Gateway.Services;
 using TexasTaco.Shared.Authentication;
@@ -54,14 +55,18 @@ builder.Services.Configure<RoutesConfiguration>(
 builder.Services.AddSingleton(sp => 
     sp.GetRequiredService<IOptions<RoutesConfiguration>>().Value);
 
-builder.Services.AddHttpClient<IAuthenticationClient, AuthenticationClient>(
-    (serviceProvider, client) =>
-    {
-        var authClientOptions = serviceProvider
-            .GetRequiredService<IOptions<AuthenticationHttpClientOptions>>().Value;
+builder.Services.AddTransient<CopyCookiesHandler>();
 
-        client.BaseAddress = new Uri(authClientOptions.BaseAddress!);
-    });
+builder.Services
+    .AddHttpClient<IAuthenticationClient, AuthenticationClient>(
+        (serviceProvider, client) =>
+        {
+            var authClientOptions = serviceProvider
+                .GetRequiredService<IOptions<AuthenticationHttpClientOptions>>().Value;
+
+            client.BaseAddress = new Uri(authClientOptions.BaseAddress!);
+        })
+    .AddHttpMessageHandler<CopyCookiesHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
