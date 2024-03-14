@@ -10,7 +10,7 @@ namespace TexasTaco.Authentication.Core.Services
         public async Task<SessionId> CreateSession(DateTime expirationDate)
         {
             var sessionId = new SessionId(Guid.NewGuid());
-            var session = new Session(expirationDate);
+            var session = new Session(DateTime.UtcNow, expirationDate);
 
             await _sessionsCache.SetStringAsync(
                 sessionId.Value.ToString(),

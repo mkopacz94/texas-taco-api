@@ -5,21 +5,21 @@ using TexasTaco.Api.Gateway.Services;
 using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
 
-namespace TexasTaco.Api.Gateway.Authentication
+namespace TexasTaco.Api.Gateway.Middlewares
 {
     internal sealed class TexasTacoAuthenticationMiddleware
     {
-        private readonly ICookieService _cookieService;
         private readonly IAuthenticationClient _authClient;
+        private readonly ICurrentSessionStorage _currentSessionStorage;
         private readonly RoutesConfiguration _routesConfiguration;
 
         public TexasTacoAuthenticationMiddleware(
-            ICookieService cookieService,
             IAuthenticationClient authService,
+            ICurrentSessionStorage currentSessionStorage,
             RoutesConfiguration routesConfiguration)
         {
-            _cookieService = cookieService;
             _authClient = authService;
+            _currentSessionStorage = currentSessionStorage;
             _routesConfiguration = routesConfiguration;
         }
 
@@ -41,9 +41,7 @@ namespace TexasTaco.Api.Gateway.Authentication
 
             if(session != null)
             {
-                //UpdateSessionCookie(
-                //   new SessionId(Guid.Parse(sessionId!)),
-                //   session.ExpirationDate);
+                _currentSessionStorage.SaveSessionInStorage(session);
 
                 await next();
                 return;
@@ -56,19 +54,6 @@ namespace TexasTaco.Api.Gateway.Authentication
         {
             return _routesConfiguration.NonAuthenticationRoutes
                 .Any(r => route.Contains(r.Path!));
-        }
-
-        private void UpdateSessionCookie(SessionId sessionId, DateTime expirationDate)
-        {
-            _cookieService.SetCookie(
-                CookiesNames.SessionId,
-                sessionId.Value.ToString(),
-                new CookieOptions
-                {
-                    Expires = new DateTimeOffset(expirationDate),
-                    HttpOnly = true,
-                    Secure = true
-                });
         }
     }
 }

@@ -61,14 +61,17 @@ namespace TexasTaco.Authentication.Api.Controllers
                 return Unauthorized();
             }
 
+            if(session.IsBeforeHalfOfExpirationTime())
+            {
+                return Ok(session);
+            }
+
             var expirationTimespan = TimeSpan
                 .FromMinutes(_sessionConfiguration.ExpirationMinutes);
 
             session.ExtendSession(expirationTimespan);
 
             await _sessionStorage.UpdateSession(sessionIdentifier, session);
-
-            Console.WriteLine(Request.Cookies[CookiesNames.SessionId]);
 
             return Ok(session);
         }

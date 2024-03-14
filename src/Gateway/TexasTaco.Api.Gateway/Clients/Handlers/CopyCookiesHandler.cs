@@ -1,5 +1,4 @@
 ﻿using Microsoft.Net.Http.Headers;
-using TexasTaco.Shared.Authentication;
 
 namespace TexasTaco.Api.Gateway.Clients.Handlers
 {
@@ -13,8 +12,6 @@ namespace TexasTaco.Api.Gateway.Clients.Handlers
                 .Select(c => $"{c.Key}={c.Value}");
 
             request.Headers.Add(HeaderNames.Cookie, string.Join("; ", cookiesHeaders));
-
-            Console.WriteLine($"In copy cookie handler. {string.Join("; ", cookiesHeaders)}");
 
             return await base.SendAsync(request, cancellationToken);
         }
