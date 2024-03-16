@@ -7,7 +7,10 @@ namespace TexasTaco.Users.Core.EventBus.Consumers
     {
         public Task Consume(ConsumeContext<AccountCreatedEventMessage> context)
         {
-            Console.WriteLine($"Event consumed {context.Message.Email}.");
+            Console.WriteLine($"Retry count {context.GetRetryCount()}.");
+            Console.WriteLine($"Redelivery count {context.GetRedeliveryCount()}.");
+
+            throw new Exception("Consumer failed to process message.");
             return Task.CompletedTask;
         }
     }
