@@ -10,12 +10,15 @@ namespace TexasTaco.Authentication.Core.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<AccountCreatedOutbox> builder)
         {
-            builder.HasKey(u => u.Id);
+            builder.HasKey(a => a.Id);
 
-            builder.Property(u => u.Id)
+            builder.Property(a => a.Id)
                 .HasConversion(id => id.Value, value => new AccountCreatedOutboxId(value));
 
-            builder.Property(u => u.UserEmail)
+            builder.Property(a => a.AccountId)
+                .HasConversion(id => id.Value, value => new AccountId(value));
+
+            builder.Property(a => a.UserEmail)
                 .HasConversion(email => email.Value, value => new EmailAddress(value))
                 .HasMaxLength(100);
         }

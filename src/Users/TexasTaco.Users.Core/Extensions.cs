@@ -1,8 +1,10 @@
 ﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using TexasTaco.Shared.Settings;
+using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.EventBus.Consumers;
 
 namespace TexasTaco.Users.Core
@@ -13,6 +15,14 @@ namespace TexasTaco.Users.Core
             this IServiceCollection services,
             IConfiguration configuration)
         {
+            services.AddDbContext<UsersDbContext>(options =>
+            {
+                string connectionString = configuration
+                    .GetRequiredSection("UsersDatabase:ConnectionString").Value!;
+
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
+
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));
 
@@ -39,6 +49,14 @@ namespace TexasTaco.Users.Core
             });
 
             return services;
+        }
+
+        public static void ApplyDatabaseMigrations(this IServiceProvider serviceProvider)
+        {
+            using var scope = serviceProvider.CreateScope();
+
+            var dbContext = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
+            dbContext.Database.Migrate();
         }
     }
 }

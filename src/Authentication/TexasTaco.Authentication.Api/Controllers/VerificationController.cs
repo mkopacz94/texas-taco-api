@@ -13,7 +13,7 @@ namespace TexasTaco.Authentication.Api.Controllers
         IAuthenticationRepository _authRepository,
         IEmailVerificationService _emailVerificationService) : ControllerBase
     {
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> VerifyAccount([FromQuery] string token)
         {
             var verificationToken = await _verificationTokensRepository
@@ -37,7 +37,7 @@ namespace TexasTaco.Authentication.Api.Controllers
 
             await _authRepository.UpdateAccountAndAddAccountCreatedOutboxMessage(
                 accountToBeVerified,
-                new AccountCreatedOutbox(accountToBeVerified.Email));
+                new AccountCreatedOutbox(accountToBeVerified.Id, accountToBeVerified.Email));
 
             return Ok();
         }

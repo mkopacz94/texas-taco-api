@@ -34,6 +34,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
+      - UsersDatabase__ConnectionString=server=users-db;user=root;password=root1234;database=users;
       - MessageBroker__Host=amqp://texastaco-queue:5672
       - MessageBroker__Username=admin
       - MessageBroker__Password=1234
@@ -51,6 +52,15 @@ services:
     volumes:
       - authentication_db_volume:/var/lib/mysql
   
+  users-db:
+    environment:
+      - MYSQL_ROOT_PASSWORD=root1234
+      - MYSQL_DATABASE=users
+    ports:
+      - 3307:3306
+    volumes:
+      - users_db_volume:/var/lib/mysql
+
   authentication-cache:
     ports: 
       - 6379:6379

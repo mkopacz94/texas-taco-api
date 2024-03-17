@@ -51,6 +51,8 @@ builder.Services.AddTexasTacoUsers(builder.Configuration);
 
 var app = builder.Build();
 
+app.Services.ApplyDatabaseMigrations();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
