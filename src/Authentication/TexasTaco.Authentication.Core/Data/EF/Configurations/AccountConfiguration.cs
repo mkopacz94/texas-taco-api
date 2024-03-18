@@ -11,7 +11,10 @@ namespace TexasTaco.Authentication.Core.Data.EF.Configurations
         public void Configure(EntityTypeBuilder<Account> builder)
         {
             builder.HasKey(a => a.Id);
-            builder.HasIndex(a => a.Email);
+
+            builder
+                .HasIndex(a => a.Email)
+                .IsUnique();
 
             builder.Property(a => a.Id)
                 .HasConversion(id => id.Value, value => new AccountId(value));

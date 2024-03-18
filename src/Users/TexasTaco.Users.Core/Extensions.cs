@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using TexasTaco.Shared.Settings;
 using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.EventBus.Consumers;
+using TexasTaco.Users.Core.Repositories;
 
 namespace TexasTaco.Users.Core
 {
@@ -22,6 +23,8 @@ namespace TexasTaco.Users.Core
 
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
+
+            services.AddScoped<IUsersRepository, UsersRepository>();
 
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));

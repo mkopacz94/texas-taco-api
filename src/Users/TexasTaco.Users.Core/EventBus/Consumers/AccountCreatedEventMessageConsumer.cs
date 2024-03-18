@@ -1,17 +1,32 @@
 ﻿using MassTransit;
+using Microsoft.Extensions.Logging;
 using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Users.Core.Entities;
+using TexasTaco.Users.Core.Repositories;
 
 namespace TexasTaco.Users.Core.EventBus.Consumers
 {
-    internal class AccountCreatedEventMessageConsumer : IConsumer<AccountCreatedEventMessage>
+    internal class AccountCreatedEventMessageConsumer(
+        IUsersRepository _usersRepository, ILogger<AccountCreatedEventMessageConsumer> _logger) 
+        : IConsumer<AccountCreatedEventMessage>
     {
-        public Task Consume(ConsumeContext<AccountCreatedEventMessage> context)
+        public async Task Consume(ConsumeContext<AccountCreatedEventMessage> context)
         {
-            Console.WriteLine($"Retry count {context.GetRetryCount()}.");
-            Console.WriteLine($"Redelivery count {context.GetRedeliveryCount()}.");
+            var message = context.Message;
+            var user = new User(message.AccountId, message.Email);
 
-            throw new Exception("Consumer failed to process message.");
-            return Task.CompletedTask;
+            try
+            {
+                await _usersRepository.AddUserAsync(user);
+
+                _logger.LogInformation("Added user with accountId {accountId} and email address " +
+                    "{emailAddress} to users database.", user.AccountId, user.Email.Value);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add user with accountId {accountId} " +
+                    "and email address {emailAddress} to users database", user.AccountId, user.Email.Value);
+            }
         }
     }
 }

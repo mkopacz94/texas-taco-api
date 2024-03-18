@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TexasTaco.Authentication.Core.Data.EF;
 
@@ -10,9 +11,11 @@ using TexasTaco.Authentication.Core.Data.EF;
 namespace TexasTaco.Authentication.Core.Data.EF.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240318184812_AddedUniqueConstraintToAccountEmail")]
+    partial class AddedUniqueConstraintToAccountEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
