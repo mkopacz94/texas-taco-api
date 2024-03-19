@@ -11,8 +11,14 @@ namespace TexasTaco.Api.Gateway.Clients
                 return null;
             }
 
-            var session = await _client
-                .GetFromJsonAsync<Session>($"session-valid?sessionId={sessionId}");
+            var response = await _client.GetAsync($"session-valid?sessionId={sessionId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var session = await response.Content.ReadFromJsonAsync<Session>();
 
             return session;
         }

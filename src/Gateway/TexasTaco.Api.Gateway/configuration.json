@@ -22,7 +22,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/users/{everything}",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "PUT" ]
     }
   ],
   "GlobalConfiguration": {

@@ -3,34 +3,60 @@ using TexasTaco.Shared.Authentication;
 using TexasTaco.Users.Core.Dtos;
 using TexasTaco.Users.Core.Entities;
 using TexasTaco.Users.Core.Repositories;
+using TexasTaco.Users.Core.ValueObjects;
 
 namespace TexasTaco.Users.Api.Controllers
 {
     [Route("api/users")]
     public class UsersController(IUsersRepository _usersRepository) : ControllerBase
     {
-        [HttpPut("{accountId}")]
-        public async Task<IActionResult> UpdateUser(string accountId, [FromBody] UserToUpdateDto userToUpdateDto)
+        [HttpGet("{accountId}")]
+        public async Task<IActionResult> GetUser(string accountId)
         {
-            string currentUserAccountId = User.FindFirst(TexasTacoClaimNames.AccountId)!.Value;
-
-            if(accountId != currentUserAccountId)
-            {
-                return Unauthorized();
-            }
-
             var user = await _usersRepository
                 .GetByAccountIdAsync(Guid.Parse(accountId));
 
-            if(user is null)
+            if (user is null)
             {
-                return NotFound($"User with associated " +
-                    $"{accountId} accountId has not been found.");
+                return NotFound($"User with associated {accountId} account id not found.");
+            }
+
+            var userDto = new UserDto(
+                user.Id.Value.ToString(),
+                user.Email.Value.ToString(),
+                user.FirstName,
+                user.LastName,
+                new AddressDto(
+                    user.Address.AddressLine,
+                    user.Address.PostalCode,
+                    user.Address.City,
+                    user.Address.Country));
+
+            return Ok(userDto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserToUpdateDto userToUpdateDto)
+        {
+            var user = await _usersRepository
+                .GetByIdAsync(new UserId(Guid.Parse(id)));
+
+            if (user is null)
+            {
+                return NotFound($"User with {id} id not found.");
+            }
+
+            string currentUserAccountId = User.FindFirst(TexasTacoClaimNames.AccountId)!.Value;
+
+            if(user.AccountId.ToString() != currentUserAccountId)
+            {
+                return Unauthorized();
             }
 
             var address = new Address(
                 userToUpdateDto.Address.AddressLine,
                 userToUpdateDto.Address.PostalCode,
+                userToUpdateDto.Address.City,
                 userToUpdateDto.Address.Country);
 
             user.UpdateUser(

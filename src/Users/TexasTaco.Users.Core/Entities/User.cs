@@ -10,21 +10,13 @@ namespace TexasTaco.Users.Core.Entities
         public EmailAddress Email { get; private set; } = email;
         public string? FirstName { get; private set; }
         public string? LastName { get; private set; }
-        public Address? Address { get; private set; }
+        public Address Address { get; private set; } = new Address();
 
         public void UpdateUser(string firstName, string lastName, Address address) 
         { 
             FirstName = firstName;
             LastName = lastName;
-
-            if (Address is null)
-            {
-                Address = new Address(address.AddressLine, address.PostalCode, address.Country);
-            }
-            else
-            {
-                Address?.UpdateAddress(address);
-            }
+            Address.UpdateAddress(address);
         }
     }
 }

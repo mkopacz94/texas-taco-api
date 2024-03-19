@@ -7,6 +7,7 @@ services:
     build:
       context: .
       dockerfile: src/Gateway/TexasTaco.Api.Gateway/Dockerfile
+    restart: always
 
   texastaco.authentication.api:
     image: ${DOCKER_REGISTRY-}texastacoauthenticationapi
@@ -17,6 +18,7 @@ services:
       - authentication-db
       - authentication-cache
       - texastaco-mq
+    restart: always
 
   texastaco.users.api:
     image: ${DOCKER_REGISTRY-}texastacousersapi
@@ -27,6 +29,7 @@ services:
       - users-db
       - authentication-cache
       - texastaco-mq
+    restart: always
 
   authentication-db:
     image: mysql

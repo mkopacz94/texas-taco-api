@@ -16,8 +16,13 @@ namespace TexasTaco.Users.Core.Repositories
         public async Task<User?> GetByAccountIdAsync(Guid accountId)
         {
             return await _context.Users
-                .Include(u => u.Address)
                 .FirstOrDefaultAsync(u => u.AccountId == accountId);
+        }
+
+        public async Task<User?> GetByIdAsync(UserId id)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task UpdateUserAsync(User user)

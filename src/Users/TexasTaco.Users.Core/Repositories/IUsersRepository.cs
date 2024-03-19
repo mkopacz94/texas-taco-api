@@ -6,6 +6,7 @@ namespace TexasTaco.Users.Core.Repositories
     public interface IUsersRepository
     {
         Task<User?> GetByAccountIdAsync(Guid accountId);
+        Task<User?> GetByIdAsync(UserId id);
         Task AddUserAsync(User user);
         Task UpdateUserAsync(User user);
     }

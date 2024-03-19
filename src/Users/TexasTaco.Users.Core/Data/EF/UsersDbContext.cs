@@ -10,6 +10,11 @@ namespace TexasTaco.Users.Core.Data.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+
+            modelBuilder
+                .Entity<User>()
+                .Navigation(u => u.Address)
+                .AutoInclude();
         }
     }
 }
