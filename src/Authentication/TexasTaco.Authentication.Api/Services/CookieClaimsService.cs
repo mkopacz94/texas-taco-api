@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using TexasTaco.Authentication.Core.Entities;
+using TexasTaco.Shared.Authentication;
 
 namespace TexasTaco.Authentication.Api.Services
 {
@@ -12,7 +13,7 @@ namespace TexasTaco.Authentication.Api.Services
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Email, account.Email.Value),
-                new("AccountId", account.Id.Value.ToString()),
+                new(TexasTacoClaimNames.AccountId, account.Id.Value.ToString()),
                 new(ClaimTypes.Role, account.Role.ToString())
             };
 

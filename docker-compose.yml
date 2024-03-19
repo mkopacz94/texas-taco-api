@@ -24,6 +24,8 @@ services:
       context: .
       dockerfile: src/Users/TexasTaco.Users.Api/Dockerfile
     depends_on:
+      - users-db
+      - authentication-cache
       - texastaco-mq
 
   authentication-db:
