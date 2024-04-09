@@ -2,26 +2,18 @@
 using TexasTaco.Api.Gateway.Clients;
 using TexasTaco.Api.Gateway.Model;
 using TexasTaco.Api.Gateway.Services;
-using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
 
 namespace TexasTaco.Api.Gateway.Middlewares
 {
-    internal sealed class TexasTacoAuthenticationMiddleware
+    internal sealed class TexasTacoAuthenticationMiddleware(
+        IAuthenticationClient authService,
+        ICurrentSessionStorage currentSessionStorage,
+        RoutesConfiguration routesConfiguration)
     {
-        private readonly IAuthenticationClient _authClient;
-        private readonly ICurrentSessionStorage _currentSessionStorage;
-        private readonly RoutesConfiguration _routesConfiguration;
-
-        public TexasTacoAuthenticationMiddleware(
-            IAuthenticationClient authService,
-            ICurrentSessionStorage currentSessionStorage,
-            RoutesConfiguration routesConfiguration)
-        {
-            _authClient = authService;
-            _currentSessionStorage = currentSessionStorage;
-            _routesConfiguration = routesConfiguration;
-        }
+        private readonly IAuthenticationClient _authClient = authService;
+        private readonly ICurrentSessionStorage _currentSessionStorage = currentSessionStorage;
+        private readonly RoutesConfiguration _routesConfiguration = routesConfiguration;
 
         public async Task InvokeAsync(HttpContext context, Func<Task> next)
         {
@@ -33,11 +25,15 @@ namespace TexasTaco.Api.Gateway.Middlewares
                 return;
             }
 
+            string? accountId = context
+                .Request
+                .Cookies[CookiesNames.AccountId];
+
             string? sessionId = context
                 .Request
                 .Cookies[CookiesNames.SessionId];
 
-            var session = await _authClient.GetSession(sessionId);
+            var session = await _authClient.GetSession(accountId, sessionId);
 
             if(session != null)
             {

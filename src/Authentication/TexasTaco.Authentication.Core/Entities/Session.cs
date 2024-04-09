@@ -1,10 +1,17 @@
-﻿namespace TexasTaco.Authentication.Core.Entities
+﻿using TexasTaco.Authentication.Core.ValueObjects;
+
+namespace TexasTaco.Authentication.Core.Entities
 {
-    public class Session(DateTime lastExtensionDate, DateTime expirationDate)
+    public class Session(
+        SessionId id, 
+        DateTime lastExtensionDate,
+        DateTime expirationDate,
+        bool revoked)
     {
+        public SessionId Id { get; private set; } = id;
         public DateTime LastExtensionDate { get; private set; } = lastExtensionDate;
         public DateTime ExpirationDate { get; private set; } = expirationDate;
-        public bool Revoked { get; set; }
+        public bool Revoked { get; private set; } = revoked;
 
         public bool IsBeforeHalfOfExpirationTime()
         {
@@ -25,6 +32,13 @@
         public bool IsValid()
         {
             return !Revoked && DateTime.UtcNow < ExpirationDate;
+        }
+
+        public void Update(Session session)
+        {
+            LastExtensionDate = session.LastExtensionDate;
+            ExpirationDate = session.ExpirationDate;
+            Revoked = session.Revoked;
         }
     }
 }

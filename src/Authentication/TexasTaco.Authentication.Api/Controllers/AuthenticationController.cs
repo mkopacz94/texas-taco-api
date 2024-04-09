@@ -40,10 +40,10 @@ namespace TexasTaco.Authentication.Api.Controllers
             var sessionExpirationDate = DateTime.UtcNow
                 .AddMinutes(_sessionConfiguration.ExpirationMinutes);
 
-            var sessionId = await _sessionStorage.CreateSession(sessionExpirationDate);
+            var sessionId = await _sessionStorage.CreateSession(account.Id, sessionExpirationDate);
 
             await _claimsManager.SetAccountClaims(account);
-            SetSessionCookie(sessionId, sessionExpirationDate);
+            SetSessionCookies(account.Id, sessionId, sessionExpirationDate);
 
             var signInResult = new SignInResultDto(sessionId, account.Id);
 
@@ -51,10 +51,11 @@ namespace TexasTaco.Authentication.Api.Controllers
         }
 
         [HttpGet("session-valid")]
-        public async Task<IActionResult> IsSessionValid([FromQuery] string sessionId)
+        public async Task<IActionResult> IsSessionValid([FromQuery] string accountId, [FromQuery] string sessionId)
         {
+            var accountIdentifier = new AccountId(Guid.Parse(accountId));
             var sessionIdentifier = new SessionId(Guid.Parse(sessionId));
-            var session = await _sessionStorage.GetSession(sessionIdentifier);
+            var session = await _sessionStorage.GetSession(accountIdentifier, sessionIdentifier);
 
             if(session is null || !session.IsValid())
             {
@@ -71,17 +72,18 @@ namespace TexasTaco.Authentication.Api.Controllers
 
             session.ExtendSession(expirationTimespan);
 
-            await _sessionStorage.UpdateSession(sessionIdentifier, session);
+            await _sessionStorage.UpdateSession(accountIdentifier, session);
 
             return Ok(session);
         }
 
         [AuthorizeRole(Role.Admin)]
         [HttpPut("revoke-session")]
-        public async Task<IActionResult> RevokeSession([FromQuery] string sessionId)
+        public async Task<IActionResult> RevokeSession([FromQuery] string accountId, [FromQuery] string sessionId)
         {
+            var accountIdentifier = new AccountId(Guid.Parse(accountId));
             var sessionIdentifier = new SessionId(Guid.Parse(sessionId));
-            var session = await _sessionStorage.GetSession(sessionIdentifier);
+            var session = await _sessionStorage.GetSession(accountIdentifier, sessionIdentifier);
 
             if (session is null || !session.IsValid())
             {
@@ -89,12 +91,12 @@ namespace TexasTaco.Authentication.Api.Controllers
             }
 
             session.Revoke();
-            await _sessionStorage.UpdateSession(sessionIdentifier, session);
+            await _sessionStorage.UpdateSession(accountIdentifier, session);
 
             return NoContent();
         }
 
-        private void SetSessionCookie(SessionId sessionId, DateTime expirationDate)
+        private void SetSessionCookies(AccountId accountId, SessionId sessionId, DateTime expirationDate)
         {
             var sessionCookieOptions = new CookieOptions
             {
@@ -102,6 +104,11 @@ namespace TexasTaco.Authentication.Api.Controllers
                 HttpOnly = true,
                 Secure = true
             };
+
+            _cookieService.SetCookie(
+                CookiesNames.AccountId,
+                accountId.Value.ToString(),
+                sessionCookieOptions);
 
             _cookieService.SetCookie(
                 CookiesNames.SessionId, 

@@ -7,36 +7,82 @@ namespace TexasTaco.Authentication.Core.Services
 {
     internal class SessionStorage(IDistributedCache _sessionsCache) : ISessionStorage
     {
-        public async Task<SessionId> CreateSession(DateTime expirationDate)
+        public async Task<SessionId> CreateSession(AccountId accountId, DateTime expirationDate)
         {
-            var sessionId = new SessionId(Guid.NewGuid());
-            var session = new Session(DateTime.UtcNow, expirationDate);
+            var newSession = new Session(
+                new SessionId(Guid.NewGuid()), 
+                DateTime.UtcNow, 
+                expirationDate, 
+                false);
+
+            var cachedAccountSessions = await GetAccountSessions(accountId); 
+
+            if (cachedAccountSessions is null)
+            {
+                var accountSessions = new List<Session>
+                {
+                    newSession
+                };
+
+                await _sessionsCache.SetStringAsync(
+                    accountId.Value.ToString(),
+                    JsonConvert.SerializeObject(accountSessions));
+
+                return newSession.Id;
+            }
+
+            cachedAccountSessions.Add(newSession);
 
             await _sessionsCache.SetStringAsync(
-                sessionId.Value.ToString(),
-                JsonConvert.SerializeObject(session));
+                accountId.Value.ToString(),
+                JsonConvert.SerializeObject(cachedAccountSessions));
 
-            return sessionId;
+            return newSession.Id;
         }
 
-        public async Task<Session?> GetSession(SessionId sessionId)
+        public async Task<Session?> GetSession(AccountId accountId, SessionId sessionId)
         {
-            string? sessionString = await _sessionsCache
-                .GetStringAsync(sessionId.Value.ToString());
+            var accountSessions = await GetAccountSessions(accountId);
 
-            if (string.IsNullOrWhiteSpace(sessionString))
+            if (accountSessions is null)
             {
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<Session?>(sessionString);
+            return accountSessions
+                .FirstOrDefault(s => s.Id == sessionId);
         }
 
-        public async Task UpdateSession(SessionId sessionId, Session session)
+        public async Task UpdateSession(AccountId accountId, Session session)
         {
+            var accountSessions = await GetAccountSessions(accountId);
+
+            if (accountSessions is null)
+            {
+                return;
+            }
+
+            var sessionToUpdate = accountSessions
+                .First(s => s.Id == session.Id);
+
+            sessionToUpdate.Update(session);
+
             await _sessionsCache.SetStringAsync(
-                sessionId.Value.ToString(),
-                JsonConvert.SerializeObject(session));
+                accountId.Value.ToString(),
+                JsonConvert.SerializeObject(accountSessions));
+        }
+
+        public async Task<List<Session>?> GetAccountSessions(AccountId accountId)
+        {
+            string? accountSessionsString = await _sessionsCache
+                .GetStringAsync(accountId.Value.ToString());
+
+            if (string.IsNullOrWhiteSpace(accountSessionsString))
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject<List<Session>?>(accountSessionsString);
         }
     }
 }

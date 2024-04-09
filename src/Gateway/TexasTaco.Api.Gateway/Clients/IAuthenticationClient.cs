@@ -4,6 +4,6 @@ namespace TexasTaco.Api.Gateway.Clients
 {
     public interface IAuthenticationClient
     {
-        Task<Session?> GetSession(string? sessionId);
+        Task<Session?> GetSession(string? accountId, string? sessionId);
     }
 }

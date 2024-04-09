@@ -15,10 +15,11 @@ namespace TexasTaco.Api.Gateway.Services
                 .Headers
                 .FirstOrDefault(h => h.Key == HeaderNames.SetCookie);
 
+            string? accountId = context.Request.Cookies[CookiesNames.AccountId];
             string? sessionId = context.Request.Cookies[CookiesNames.SessionId];
             var savedSession = _currentSessionStorage.GetSavedSessionFromStorage();
 
-            if (sessionId is null || savedSession is null)
+            if (accountId is null || sessionId is null || savedSession is null)
             {
                 return;
             }
@@ -31,7 +32,7 @@ namespace TexasTaco.Api.Gateway.Services
                     .Remove(setCookieHeader);
 
                 var updatedSetCookieHeader = CreateUpdatedSetCookieHeader(
-                    setCookieHeader, sessionId, savedSession);
+                    setCookieHeader, accountId, sessionId, savedSession);
 
                 context.Items
                     .DownstreamResponse()
@@ -43,15 +44,21 @@ namespace TexasTaco.Api.Gateway.Services
                 context.Items
                     .DownstreamResponse()
                     .Headers
-                    .Add(CreateNewSetCookieHeader(sessionId, savedSession));  
+                    .Add(CreateNewSetCookieHeader(accountId, sessionId, savedSession));  
             }
         }
 
-        private static Header CreateNewSetCookieHeader(string sessionId, Session session)
+        private static Header CreateNewSetCookieHeader(string accountId, string sessionId, Session session)
         {
             var headerValues = new List<string>
             {
                 $"session_id={sessionId};" +
+                $"expires={session.ExpirationDate:ddd, dd MMM yyyy HH':'mm':'ss 'GMT'};" +
+                $"path=/;" +
+                $"secure;" +
+                $"httponly",
+
+                $"account_id={accountId};" +
                 $"expires={session.ExpirationDate:ddd, dd MMM yyyy HH':'mm':'ss 'GMT'};" +
                 $"path=/;" +
                 $"secure;" +
@@ -62,19 +69,25 @@ namespace TexasTaco.Api.Gateway.Services
         }
 
         private static Header CreateUpdatedSetCookieHeader(
-            Header currentSetCookieHeader, string sessionId, Session session)
+            Header currentSetCookieHeader, string accountId, string sessionId, Session session)
         {
             var updatedCookies = new List<string>();
-            var cookiesWithoutSessionIdCookie = currentSetCookieHeader
+            var cookiesWithoutSessionCookies = currentSetCookieHeader
                 .Values
-                .Where(v => !v.Contains(CookiesNames.SessionId));
+                .Where(v => !v.Contains(CookiesNames.SessionId) 
+                    && !v.Contains(CookiesNames.AccountId));
 
-            updatedCookies.AddRange(cookiesWithoutSessionIdCookie);
+            updatedCookies.AddRange(cookiesWithoutSessionCookies);
             updatedCookies.Add($"session_id={sessionId};" +
                 $"expires={session.ExpirationDate:ddd, dd MMM yyyy HH':'mm':'ss 'GMT'};" +
                 $"path=/;" +
                 $"secure;" +
                 $"httponly");
+            updatedCookies.Add($"account_id={accountId};" +
+               $"expires={session.ExpirationDate:ddd, dd MMM yyyy HH':'mm':'ss 'GMT'};" +
+               $"path=/;" +
+               $"secure;" +
+               $"httponly");
 
             return new Header(HeaderNames.SetCookie, updatedCookies);
         }
