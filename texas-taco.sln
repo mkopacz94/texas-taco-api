@@ -33,7 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Shared", "src\Sha
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{761281D2-D60F-4E20-A34A-12E75858A912}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Api.Gateway.Tests", "tests\Gateway\TexasTaco.Api.Gateway.Tests\TexasTaco.Api.Gateway.Tests.csproj", "{12A703FC-960C-41AD-B039-6733C56944A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Api.Gateway.Tests", "tests\Gateway\TexasTaco.Api.Gateway.Tests\TexasTaco.Api.Gateway.Tests.csproj", "{12A703FC-960C-41AD-B039-6733C56944A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{4B37149D-E88F-4ABC-AE64-E4B323B4C80E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Authentication.Api.Tests", "tests\Authentication\TexasTaco.Authentication.Api.Tests\TexasTaco.Authentication.Api.Tests.csproj", "{5C4FF4F0-FF6C-4AAC-AE38-7B6F84BBD090}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +81,10 @@ Global
 		{12A703FC-960C-41AD-B039-6733C56944A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12A703FC-960C-41AD-B039-6733C56944A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12A703FC-960C-41AD-B039-6733C56944A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C4FF4F0-FF6C-4AAC-AE38-7B6F84BBD090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C4FF4F0-FF6C-4AAC-AE38-7B6F84BBD090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C4FF4F0-FF6C-4AAC-AE38-7B6F84BBD090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C4FF4F0-FF6C-4AAC-AE38-7B6F84BBD090}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +103,8 @@ Global
 		{EAF9F22C-B4C0-46E5-B2F7-7125BFEAAF9B} = {FD4629DE-8822-423C-ADA1-39B469107613}
 		{761281D2-D60F-4E20-A34A-12E75858A912} = {5CFBC3AD-2188-4C58-B5F5-D5F3BFA8544C}
 		{12A703FC-960C-41AD-B039-6733C56944A9} = {761281D2-D60F-4E20-A34A-12E75858A912}
+		{4B37149D-E88F-4ABC-AE64-E4B323B4C80E} = {5CFBC3AD-2188-4C58-B5F5-D5F3BFA8544C}
+		{5C4FF4F0-FF6C-4AAC-AE38-7B6F84BBD090} = {4B37149D-E88F-4ABC-AE64-E4B323B4C80E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8962ABFE-4441-4C72-A04E-0038C172612D}

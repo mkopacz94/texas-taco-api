@@ -28,4 +28,9 @@
     <ProjectReference Include="..\TexasTaco.Authentication.Core\TexasTaco.Authentication.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>TexasTaco.Authentication.Api.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
