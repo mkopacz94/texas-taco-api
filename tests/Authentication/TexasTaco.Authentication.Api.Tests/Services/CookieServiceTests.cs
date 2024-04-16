@@ -90,8 +90,7 @@ namespace TexasTaco.Authentication.Api.Tests.Services
 
         internal class FakeCookieCollection : Dictionary<string, string>, IRequestCookieCollection
         {
-            ICollection<string> IRequestCookieCollection.Keys =>
-                ((Dictionary<string, string>)this).Keys;
+            ICollection<string> IRequestCookieCollection.Keys => Keys;
         }
     }
 }

@@ -6,7 +6,7 @@ using TexasTaco.Shared.Authentication;
 
 namespace TexasTaco.Authentication.Api.Services
 {
-    public class CookieClaimsService(IHttpContextAccessor _httpContextAccessor) : IClaimsService
+    internal class CookieClaimsService(IHttpContextAccessor _httpContextAccessor) : IClaimsService
     {
         public async Task SetAccountClaims(Account account)
         {
@@ -26,6 +26,7 @@ namespace TexasTaco.Authentication.Api.Services
             };
 
             var context = _httpContextAccessor.HttpContext!;
+
             await context.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 claimsPrincipal,
