@@ -1,4 +1,6 @@
-﻿namespace TexasTaco.Api.Gateway.Services
+﻿using Microsoft.AspNetCore.Http;
+
+namespace TexasTaco.Shared.Services
 {
     public interface ICookieService
     {

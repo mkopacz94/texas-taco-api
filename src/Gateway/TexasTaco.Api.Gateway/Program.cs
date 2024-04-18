@@ -7,6 +7,8 @@ using TexasTaco.Api.Gateway.Clients.Handlers;
 using TexasTaco.Api.Gateway.Middlewares;
 using TexasTaco.Api.Gateway.Model;
 using TexasTaco.Api.Gateway.Services;
+using TexasTaco.Shared;
+using TexasTaco.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("configuration.json");
@@ -20,7 +22,7 @@ builder.Services.Configure<RoutesConfiguration>(
 builder.Services.AddSingleton(sp => 
     sp.GetRequiredService<IOptions<RoutesConfiguration>>().Value);
 
-builder.Services.AddTransient<ICookieService, CookieService>();
+builder.Services.AddSharedFramework();
 builder.Services.AddScoped<ICurrentSessionStorage, InMemoryCurrentSessionStorage>();
 builder.Services.AddTransient<ISessionCookieUpdater, SessionCookieUpdater>();
 builder.Services.AddTransient<CopyCookiesHandler>();

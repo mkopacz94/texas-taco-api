@@ -8,7 +8,9 @@ using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.ErrorHandling;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core;
+using TexasTaco.Shared;
 using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +18,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<EmailNotificationsBackgroundService>();
 builder.Services.AddHostedService<AccountCreatedOutboxBackgroundService>();
 
-builder.Services
-    .AddTexasTacoAuthentication(builder.Configuration);
-
-builder.Services
-    .AddTransient<ICookieService, CookieService>();
+builder.Services.AddTexasTacoAuthentication(builder.Configuration); 
+builder.Services.AddSharedFramework();
 
 builder.Services
     .AddTransient<IClaimsService, CookieClaimsService>();

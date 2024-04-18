@@ -1,9 +1,10 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
-using TexasTaco.Authentication.Api.Services;
+using System.Collections;
+using TexasTaco.Shared.Services;
 
-namespace TexasTaco.Authentication.Api.Tests.Services
+namespace TexasTaco.Shared.Tests.Services
 {
     public class CookieServiceTests
     {
@@ -83,14 +84,19 @@ namespace TexasTaco.Authentication.Api.Tests.Services
             cookieService.SetCookie(cookieName, cookieValue, cookieOptions);
 
             //Assert
-            httpContext.Response.Headers.SetCookie[0]
+            httpContext.Response.Headers
                 .Should()
-                .Be("cookie=cookieValue; expires=Wed, 10 Apr 2024 22:00:00 GMT; domain=test; path=/");
+                .Contain(h => h.Value.Contains("cookie=cookieValue; expires=Wed, 10 Apr 2024 22:00:00 GMT; domain=test; path=/; samesite=lax"));
         }
 
         internal class FakeCookieCollection : Dictionary<string, string>, IRequestCookieCollection
         {
             ICollection<string> IRequestCookieCollection.Keys => Keys;
+
+            IEnumerator<KeyValuePair<string, string>> IEnumerable<KeyValuePair<string, string>>.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
         }
     }
 }

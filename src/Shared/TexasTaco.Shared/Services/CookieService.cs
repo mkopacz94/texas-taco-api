@@ -1,5 +1,7 @@
-﻿namespace TexasTaco.Authentication.Api.Services
-{ 
+﻿using Microsoft.AspNetCore.Http;
+
+namespace TexasTaco.Shared.Services
+{
     public class CookieService(IHttpContextAccessor _contextAccessor) : ICookieService
     {
         public string? GetCookie(string cookieName)

@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Shared.Authentication;
