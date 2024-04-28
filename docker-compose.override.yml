@@ -17,7 +17,6 @@ services:
       - MessageBroker__Host=amqp://texastaco-queue:5672
       - MessageBroker__Username=admin
       - MessageBroker__Password=1234
-      - Cookies__Domain=localhost
       - DataProtectionSettings__CacheUri=authentication-cache
     ports:
       - 5001:8080
