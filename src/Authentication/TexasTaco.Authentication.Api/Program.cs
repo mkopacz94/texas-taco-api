@@ -3,14 +3,15 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using System.Net;
+using TexasTaco.Authentication.Api;
 using TexasTaco.Authentication.Api.BackgroundServices;
 using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.ErrorHandling;
+using TexasTaco.Authentication.Api.OpenApi;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core;
 using TexasTaco.Shared;
 using TexasTaco.Shared.Authentication;
-using TexasTaco.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<EmailNotificationsBackgroundService>();
 builder.Services.AddHostedService<AccountCreatedOutboxBackgroundService>();
 
+builder.Services.AddTexasTacoAuthenticationApiVersioning();
 builder.Services.AddTexasTacoAuthentication(builder.Configuration); 
 builder.Services.AddSharedFramework();
 
@@ -28,6 +30,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ExceptionMiddleware>();
+
+builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 
 builder.Services.Configure<SessionConfiguration>(
     builder.Configuration.GetRequiredSection("Session"));
@@ -80,8 +84,20 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        var apiDescriptions = app.DescribeApiVersions();
+
+        foreach (var description in apiDescriptions)
+        {
+            string url = $"{description.GroupName}/swagger.json";
+            string name = description.GroupName.ToUpperInvariant();
+
+            options.SwaggerEndpoint(url, name);
+        }
+    });
 }
 
 app.UseAuthentication();

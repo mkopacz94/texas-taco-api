@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Exceptions;
 using TexasTaco.Authentication.Core.Repositories;
@@ -7,12 +8,15 @@ using TexasTaco.Authentication.Core.ValueObjects;
 
 namespace TexasTaco.Authentication.Api.Controllers
 {
-    [Route("api/auth/verify")]
+    [ApiVersion(1)]
+    [Route("api/auth/v{v:apiVersion}/verify")]
+    [ApiController]
     public class VerificationController(
         IVerificationTokensRepository _verificationTokensRepository,
         IAuthenticationRepository _authRepository,
         IEmailVerificationService _emailVerificationService) : ControllerBase
     {
+        [MapToApiVersion(1)]
         [HttpPost]
         public async Task<IActionResult> VerifyAccount([FromQuery] string token)
         {
@@ -42,6 +46,7 @@ namespace TexasTaco.Authentication.Api.Controllers
             return Ok();
         }
 
+        [MapToApiVersion(1)]
         [HttpPost("resend")]
         public async Task<IActionResult> ResendVerificationEmail(
             [FromBody] AccountId accountId)

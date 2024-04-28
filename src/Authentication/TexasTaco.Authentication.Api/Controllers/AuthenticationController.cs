@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.DTO;
@@ -13,7 +14,9 @@ using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Api.Controllers
 {
-    [Route("api/auth")]
+    [ApiVersion(1)]
+    [Route("api/auth/v{v:apiVersion}")]
+    [ApiController]
     public class AuthenticationController(
         IAuthenticationRepository _authRepo,
         IEmailVerificationService _emailVerificationService,
@@ -22,6 +25,7 @@ namespace TexasTaco.Authentication.Api.Controllers
         IClaimsService _claimsManager,
         SessionConfiguration _sessionConfiguration) : ControllerBase
     {
+        [MapToApiVersion(1)]
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDto signUpData)
         {
@@ -32,6 +36,7 @@ namespace TexasTaco.Authentication.Api.Controllers
             return NoContent();
         }
 
+        [MapToApiVersion(1)]
         [HttpPost("sign-in")]
         public async Task<IActionResult> SignIn([FromBody] UserSignInDto signInData)
         {
@@ -51,6 +56,7 @@ namespace TexasTaco.Authentication.Api.Controllers
             return Ok(signInResult);
         }
 
+        [MapToApiVersion(1)]
         [HttpGet("session-valid")]
         public async Task<IActionResult> IsSessionValid([FromQuery] string accountId, [FromQuery] string sessionId)
         {
@@ -78,6 +84,7 @@ namespace TexasTaco.Authentication.Api.Controllers
             return Ok(session);
         }
 
+        [MapToApiVersion(1)]
         [AuthorizeRole(Role.Admin)]
         [HttpPut("revoke-session")]
         public async Task<IActionResult> RevokeSession([FromQuery] string accountId, [FromQuery] string sessionId)

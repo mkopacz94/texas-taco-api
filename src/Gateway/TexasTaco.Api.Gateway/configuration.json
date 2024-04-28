@@ -30,13 +30,13 @@
   "NonAuthRoutesConfiguration": {
     "NonAuthenticationRoutes": [
       {
-        "Path": "/auth/sign-up"
+        "Path": "/auth/v1/sign-up"
       },
       {
-        "Path": "/auth/sign-in"
+        "Path": "/auth/v1/sign-in"
       },
       {
-        "Path": "/auth/session-valid"
+        "Path": "/auth/v1/session-valid"
       },
       {
         "Path": "/verify"
