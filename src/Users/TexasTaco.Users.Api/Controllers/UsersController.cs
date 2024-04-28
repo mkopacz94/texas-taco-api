@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Users.Core.Dtos;
 using TexasTaco.Users.Core.Entities;
@@ -7,9 +8,12 @@ using TexasTaco.Users.Core.ValueObjects;
 
 namespace TexasTaco.Users.Api.Controllers
 {
-    [Route("api/users")]
+    [ApiVersion(1)]
+    [Route("api/users/v{v:apiVersion}")]
+    [ApiController]
     public class UsersController(IUsersRepository _usersRepository) : ControllerBase
     {
+        [MapToApiVersion(1)]
         [HttpGet("{accountId}")]
         public async Task<IActionResult> GetUser(string accountId)
         {
@@ -35,6 +39,7 @@ namespace TexasTaco.Users.Api.Controllers
             return Ok(userDto);
         }
 
+        [MapToApiVersion(1)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UserToUpdateDto userToUpdateDto)
         {

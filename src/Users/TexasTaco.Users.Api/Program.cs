@@ -3,9 +3,14 @@ using Microsoft.AspNetCore.DataProtection;
 using StackExchange.Redis;
 using System.Net;
 using TexasTaco.Shared.Authentication;
+using TexasTaco.Users.Api;
+using TexasTaco.Users.Api.OpenApi;
 using TexasTaco.Users.Core;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
+builder.Services.AddTexasTacoUsersApiVersioning();
 
 string dataProtectionCacheUri = builder.Configuration
     .GetRequiredSection("DataProtectionSettings:CacheUri").Value!;
@@ -56,7 +61,18 @@ app.Services.ApplyDatabaseMigrations();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        var apiDescriptions = app.DescribeApiVersions();
+
+        foreach (var description in apiDescriptions)
+        {
+            string url = $"{description.GroupName}/swagger.json";
+            string name = description.GroupName.ToUpperInvariant();
+
+            options.SwaggerEndpoint(url, name);
+        }
+    });
 }
 
 app.UseAuthentication();
