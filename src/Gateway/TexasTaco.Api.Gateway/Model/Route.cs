@@ -2,6 +2,6 @@
 {
     public class Route
     {
-        public string? Path { get; set; }
+        public string? Path { get; init; }
     }
 }

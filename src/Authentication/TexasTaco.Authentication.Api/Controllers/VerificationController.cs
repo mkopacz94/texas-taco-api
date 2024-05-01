@@ -9,7 +9,7 @@ using TexasTaco.Authentication.Core.ValueObjects;
 namespace TexasTaco.Authentication.Api.Controllers
 {
     [ApiVersion(1)]
-    [Route("api/auth/v{v:apiVersion}/verify")]
+    [Route("api/v{v:apiVersion}/auth/verify")]
     [ApiController]
     public class VerificationController(
         IVerificationTokensRepository _verificationTokensRepository,

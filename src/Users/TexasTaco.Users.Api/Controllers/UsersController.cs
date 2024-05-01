@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Users.Core.Dtos;
@@ -8,8 +9,9 @@ using TexasTaco.Users.Core.ValueObjects;
 
 namespace TexasTaco.Users.Api.Controllers
 {
+    [Authorize]
     [ApiVersion(1)]
-    [Route("api/users/v{v:apiVersion}")]
+    [Route("api/v{v:apiVersion}/users")]
     [ApiController]
     public class UsersController(IUsersRepository _usersRepository) : ControllerBase
     {

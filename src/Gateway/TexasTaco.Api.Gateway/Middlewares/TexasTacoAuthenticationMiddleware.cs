@@ -1,6 +1,7 @@
 ﻿using Ocelot.Middleware;
 using TexasTaco.Api.Gateway.Clients;
 using TexasTaco.Api.Gateway.Model;
+using TexasTaco.Api.Gateway.Routes;
 using TexasTaco.Api.Gateway.Services;
 using TexasTaco.Shared.Authentication;
 
@@ -49,7 +50,8 @@ namespace TexasTaco.Api.Gateway.Middlewares
         private bool IsNonAuthenticatedRoute(string route)
         {
             return _routesConfiguration.NonAuthenticationRoutes
-                .Any(r => route.Contains(r.Path!));
+                .Any(routeTemplate => RouteTemplateMatcher
+                    .RouteEndMatchesTemplate(route, routeTemplate.Path));
         }
     }
 }

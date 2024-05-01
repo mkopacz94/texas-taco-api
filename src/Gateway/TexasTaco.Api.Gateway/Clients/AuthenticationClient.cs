@@ -2,7 +2,9 @@
 
 namespace TexasTaco.Api.Gateway.Clients
 {
-    public class AuthenticationClient(HttpClient _client) : IAuthenticationClient
+    public class AuthenticationClient(
+        HttpClient _client,
+        ILogger<AuthenticationClient> _logger) : IAuthenticationClient
     {
         public async Task<Session?> GetSession(string? accountId, string? sessionId)
         {
@@ -15,6 +17,8 @@ namespace TexasTaco.Api.Gateway.Clients
 
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogError("Session validation endpoint returned " +
+                    "no success status code ({statusCode}). Details: {error}", response.StatusCode, response.Content);
                 return null;
             }
 

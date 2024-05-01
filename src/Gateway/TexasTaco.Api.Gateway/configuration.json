@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamPathTemplate": "/api/{version}/auth/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,11 +9,12 @@
           "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamPathTemplate": "/api/{version}/auth/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT" ]
     },
+
     {
-      "DownstreamPathTemplate": "/api/users/{everything}",
+      "DownstreamPathTemplate": "/api/{version}/users/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,8 +22,21 @@
           "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/api/users/{everything}",
+      "UpstreamPathTemplate": "/api/{version}/users/{everything}",
       "UpstreamHttpMethod": [ "GET", "PUT" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/{version}/products/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "texastaco.products.api",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/{version}/products/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     }
   ],
   "GlobalConfiguration": {
@@ -30,16 +44,16 @@
   "NonAuthRoutesConfiguration": {
     "NonAuthenticationRoutes": [
       {
-        "Path": "/auth/v1/sign-up"
+        "Path": "/api/{version}/auth/sign-up"
       },
       {
-        "Path": "/auth/v1/sign-in"
+        "Path": "/api/{version}/auth/sign-in"
       },
       {
-        "Path": "/auth/v1/session-valid"
+        "Path": "/api/{version}/auth/session-valid"
       },
       {
-        "Path": "/verify"
+        "Path": "/api/{version}/auth/verify"
       }
     ]
   }

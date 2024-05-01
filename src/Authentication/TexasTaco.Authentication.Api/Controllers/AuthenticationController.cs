@@ -15,7 +15,7 @@ using TexasTaco.Shared.ValueObjects;
 namespace TexasTaco.Authentication.Api.Controllers
 {
     [ApiVersion(1)]
-    [Route("api/auth/v{v:apiVersion}")]
+    [Route("api/v{v:apiVersion}/auth")]
     [ApiController]
     public class AuthenticationController(
         IAuthenticationRepository _authRepo,

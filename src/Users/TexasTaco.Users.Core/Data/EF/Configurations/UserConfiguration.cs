@@ -27,6 +27,10 @@ namespace TexasTaco.Users.Core.Data.EF.Configurations
                 .WithOne(a => a.User)
                 .HasForeignKey<Address>(a => a.UserId)
                 .IsRequired();
+
+            builder
+                .Navigation(u => u.Address)
+                .AutoInclude();
         }
     }
 }

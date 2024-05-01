@@ -2,6 +2,6 @@
 {
     public class RoutesConfiguration
     {
-        public List<Route> NonAuthenticationRoutes { get; set; } = [];
+        public List<Route> NonAuthenticationRoutes { get; init; } = [];
     }
 }

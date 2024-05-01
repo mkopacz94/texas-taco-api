@@ -41,7 +41,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Authentication.Ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DE9ED7D7-E1BA-4662-A7C6-C577240F8021}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Shared.Tests", "tests\Shared\TexasTaco.Shared.Tests\TexasTaco.Shared.Tests.csproj", "{199EE1C5-E37F-415F-A491-E178D7A8D4BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Shared.Tests", "tests\Shared\TexasTaco.Shared.Tests\TexasTaco.Shared.Tests.csproj", "{199EE1C5-E37F-415F-A491-E178D7A8D4BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{FA103391-D36F-4F75-B61B-A2805FDA9C9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Products.Api", "src\Products\TexasTaco.Products.Api\TexasTaco.Products.Api.csproj", "{828D6FF6-433C-4866-B956-76AEBDE1AC5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Products.Core", "src\Products\TexasTaco.Products.Core\TexasTaco.Products.Core.csproj", "{E2FEDC11-74E8-4E01-917D-E4CD43C5A8E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +99,14 @@ Global
 		{199EE1C5-E37F-415F-A491-E178D7A8D4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{199EE1C5-E37F-415F-A491-E178D7A8D4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{199EE1C5-E37F-415F-A491-E178D7A8D4BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{828D6FF6-433C-4866-B956-76AEBDE1AC5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{828D6FF6-433C-4866-B956-76AEBDE1AC5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{828D6FF6-433C-4866-B956-76AEBDE1AC5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{828D6FF6-433C-4866-B956-76AEBDE1AC5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2FEDC11-74E8-4E01-917D-E4CD43C5A8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2FEDC11-74E8-4E01-917D-E4CD43C5A8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2FEDC11-74E8-4E01-917D-E4CD43C5A8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2FEDC11-74E8-4E01-917D-E4CD43C5A8E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +129,9 @@ Global
 		{5C4FF4F0-FF6C-4AAC-AE38-7B6F84BBD090} = {4B37149D-E88F-4ABC-AE64-E4B323B4C80E}
 		{DE9ED7D7-E1BA-4662-A7C6-C577240F8021} = {5CFBC3AD-2188-4C58-B5F5-D5F3BFA8544C}
 		{199EE1C5-E37F-415F-A491-E178D7A8D4BB} = {DE9ED7D7-E1BA-4662-A7C6-C577240F8021}
+		{FA103391-D36F-4F75-B61B-A2805FDA9C9E} = {C32749E4-F4AC-43DD-AA09-3A086E28CD10}
+		{828D6FF6-433C-4866-B956-76AEBDE1AC5C} = {FA103391-D36F-4F75-B61B-A2805FDA9C9E}
+		{E2FEDC11-74E8-4E01-917D-E4CD43C5A8E3} = {FA103391-D36F-4F75-B61B-A2805FDA9C9E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8962ABFE-4441-4C72-A04E-0038C172612D}

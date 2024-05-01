@@ -1,4 +1,4 @@
-﻿namespace TexasTaco.Authentication.Api.ErrorHandling
+﻿namespace TexasTaco.Shared.Errors
 {
     public record ErrorMessage(string ErrorCode, string Message);
 }

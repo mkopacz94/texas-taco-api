@@ -20,7 +20,7 @@ namespace TexasTaco.Users.Api.OpenApi
             {
                 var openApiInfo = new OpenApiInfo
                 {
-                    Title = $"TexasTaco.Authentication.Api v{description.ApiVersion}",
+                    Title = $"TexasTaco.Users.Api v{description.ApiVersion}",
                     Version = description.ApiVersion.ToString()
                 };
 

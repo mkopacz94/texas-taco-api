@@ -6,7 +6,7 @@ namespace TexasTaco.Shared.Authentication.Attributes
     {
         public AuthorizeRoleAttribute(Role roleEnum)
         {
-            Roles = roleEnum.ToString().Replace(" ", string.Empty);
+            Roles = roleEnum.ToString();
         }
     }
 }

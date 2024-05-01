@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using System.Net;
 using TexasTaco.Authentication.Core.Exceptions;
+using TexasTaco.Shared.Errors;
 using TexasTaco.Shared.Exceptions;
 
 namespace TexasTaco.Authentication.Api.ErrorHandling
