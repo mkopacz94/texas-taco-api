@@ -11,6 +11,7 @@ namespace TexasTaco.Users.Core.Entities
         public string? FirstName { get; private set; }
         public string? LastName { get; private set; }
         public Address Address { get; private set; } = new Address();
+        public int PointsCollected { get; private set; }
 
         public void UpdateUser(string firstName, string lastName, Address address) 
         { 
@@ -18,5 +19,7 @@ namespace TexasTaco.Users.Core.Entities
             LastName = lastName;
             Address.UpdateAddress(address);
         }
+
+        public void AddPoints(int points) => PointsCollected += points;
     }
 }
