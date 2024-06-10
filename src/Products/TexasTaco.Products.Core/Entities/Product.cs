@@ -4,6 +4,8 @@ namespace TexasTaco.Products.Core.Entities
 {
     public class Product(string name, string shortDescription, bool recommended, decimal price)
     {
+        private readonly List<Prize> _prizes = [];
+
         public ProductId Id { get; } = new ProductId(Guid.NewGuid());
         public string Name { get; private set; } = name;
         public string ShortDescription { get; private set; } = shortDescription;
@@ -11,6 +13,7 @@ namespace TexasTaco.Products.Core.Entities
         public decimal Price { get; private set; } = price;
         public PictureId PictureId { get; private set; } = null!;
         public Picture Picture { get; private set; } = null!;
+        public IReadOnlyCollection<Prize> Prizes => _prizes;
 
         public Product(
             string name, 

@@ -8,6 +8,7 @@ namespace TexasTaco.Products.Core.Data.EF
     {
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Prize> Prizes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

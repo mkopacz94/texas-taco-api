@@ -19,6 +19,16 @@ namespace TexasTaco.Products.Core.Data.EF.Configurations
             builder
                 .Navigation(p => p.Picture)
                 .AutoInclude();
+
+            builder
+                .HasMany(p => p.Prizes)
+                .WithOne(p => p.Product)
+                .HasForeignKey(p => p.ProductId);
+
+            builder
+                .Metadata
+                .FindNavigation("Prizes")!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
