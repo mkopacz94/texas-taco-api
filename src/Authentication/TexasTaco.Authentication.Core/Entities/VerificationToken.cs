@@ -10,5 +10,8 @@ namespace TexasTaco.Authentication.Core.Entities
         public DateTime ExpirationDate { get; private set; } = expirationDate;
 
         public bool IsExpired => ExpirationDate < DateTime.UtcNow;
+
+        public bool ExpiredEarlierThan(TimeSpan expirationTimeSpan)
+            => ExpirationDate < DateTime.UtcNow - expirationTimeSpan;
     }
 }

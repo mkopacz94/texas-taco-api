@@ -6,5 +6,6 @@ namespace TexasTaco.Authentication.Core.Repositories
     {
         Task AddAsync(VerificationToken token);
         Task<VerificationToken?> GetByTokenValueAsync(Guid tokenValue);
+        Task DeleteTokensExpiredEarlierThan(TimeSpan expiredTimeSpan);
     }
 }

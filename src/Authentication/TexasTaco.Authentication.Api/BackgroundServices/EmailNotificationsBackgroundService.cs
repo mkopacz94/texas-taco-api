@@ -3,7 +3,7 @@ using TexasTaco.Authentication.Core.Services.EmailNotifications;
 
 namespace TexasTaco.Authentication.Api.BackgroundServices
 {
-    public class EmailNotificationsBackgroundService(
+    internal class EmailNotificationsBackgroundService(
         ILogger<EmailNotificationsBackgroundService> _logger,
         IServiceProvider _serviceProvider,
         IEmailSmtpClient _emailClient) : BackgroundService

@@ -1,11 +1,9 @@
-﻿using MassTransit;
-using TexasTaco.Authentication.Core.Repositories;
+﻿using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services.Outbox;
-using TexasTaco.Shared.EventBus.Account;
 
 namespace TexasTaco.Authentication.Api.BackgroundServices
 {
-    public class AccountCreatedOutboxBackgroundService(
+    internal class AccountCreatedOutboxBackgroundService(
         ILogger<AccountCreatedOutboxBackgroundService> _logger,
         IServiceProvider _serviceProvider)
         : BackgroundService

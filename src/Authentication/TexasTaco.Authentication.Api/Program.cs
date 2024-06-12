@@ -9,8 +9,7 @@ using TexasTaco.Shared;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddHostedService<EmailNotificationsBackgroundService>();
-builder.Services.AddHostedService<AccountCreatedOutboxBackgroundService>();
+builder.Services.AddBackgroundServices();
 
 builder.Services.AddTexasTacoAuthenticationApiVersioning();
 builder.Services.AddTexasTacoAuthentication(builder.Configuration); 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using System.Net;
+using TexasTaco.Authentication.Api.BackgroundServices;
 using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Shared.Authentication;
 
@@ -82,6 +83,15 @@ namespace TexasTaco.Authentication.Api
                         return Task.CompletedTask;
                     };
                 });
+
+            return services;
+        }
+
+        internal static IServiceCollection AddBackgroundServices(this IServiceCollection services)
+        {
+            services.AddHostedService<EmailNotificationsBackgroundService>();
+            services.AddHostedService<AccountCreatedOutboxBackgroundService>();
+            services.AddHostedService<DatabaseCleaningBackgroundService>();
 
             return services;
         }
