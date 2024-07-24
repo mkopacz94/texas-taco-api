@@ -66,7 +66,7 @@ namespace TexasTaco.Authentication.Api
                     x.Cookie.Name = CookiesNames.ApiClaims;
                     x.Cookie.HttpOnly = true;
                     x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                    x.Cookie.SameSite = SameSiteMode.None;
+                    x.Cookie.SameSite = SameSiteMode.Strict;
                     x.Cookie.Domain = cookieDomain;
 
                     x.ExpireTimeSpan = TimeSpan.FromMinutes(expirationMinutes);

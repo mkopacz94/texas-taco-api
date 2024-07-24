@@ -12,7 +12,6 @@
       "UpstreamPathTemplate": "/api/{version}/auth/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT" ]
     },
-
     {
       "DownstreamPathTemplate": "/api/{version}/users/{everything}",
       "DownstreamScheme": "http",
@@ -25,7 +24,6 @@
       "UpstreamPathTemplate": "/api/{version}/users/{everything}",
       "UpstreamHttpMethod": [ "GET", "PUT" ]
     },
-
     {
       "DownstreamPathTemplate": "/api/{version}/products/{everything}",
       "DownstreamScheme": "http",
@@ -37,6 +35,18 @@
       ],
       "UpstreamPathTemplate": "/api/{version}/products/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/{version}/products",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "texastaco.products.api",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/{version}/products",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {

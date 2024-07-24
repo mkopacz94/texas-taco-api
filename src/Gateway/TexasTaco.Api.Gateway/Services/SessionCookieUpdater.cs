@@ -56,12 +56,14 @@ namespace TexasTaco.Api.Gateway.Services
                 $"expires={session.ExpirationDate:ddd, dd MMM yyyy HH':'mm':'ss 'GMT'};" +
                 $"path=/;" +
                 $"secure;" +
+                $"SameSite=Strict;" +
                 $"httponly",
 
                 $"account_id={accountId};" +
                 $"expires={session.ExpirationDate:ddd, dd MMM yyyy HH':'mm':'ss 'GMT'};" +
                 $"path=/;" +
                 $"secure;" +
+                $"SameSite=Strict;" +
                 $"httponly"
             };
 
