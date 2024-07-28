@@ -9,5 +9,11 @@ namespace TexasTaco.Products.Core.Entities
         public int RequiredPointsAmount { get; private set; } = requiredPointsAmount;
         public ProductId ProductId { get; private set; } = null!;
         public Product Product { get; private set; } = null!;
+
+        public Prize(string name, int requiredPointsAmount, ProductId productId)
+            : this(name, requiredPointsAmount)
+        {
+            ProductId = productId;
+        }
     }
 }
