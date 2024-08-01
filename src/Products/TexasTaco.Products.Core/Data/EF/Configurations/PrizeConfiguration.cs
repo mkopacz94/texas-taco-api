@@ -16,6 +16,10 @@ namespace TexasTaco.Products.Core.Data.EF.Configurations
                 .HasConversion(id => id.Value, value => new PrizeId(value));
 
             builder
+                .Navigation(p => p.Picture)
+                .AutoInclude();
+
+            builder
                 .Navigation(x => x.Product)
                 .AutoInclude();
         }

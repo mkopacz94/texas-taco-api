@@ -18,7 +18,8 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
                 var prizeToAdd = new Prize(
                     addPrizeDto.Name,
                     addPrizeDto.RequiredPointsAmount,
-                    new ProductId(Guid.Parse(addPrizeDto.ProductId)));
+                    new ProductId(Guid.Parse(addPrizeDto.ProductId)),
+                    new PictureId(Guid.Parse(addPrizeDto.PictureId)));
 
                 await prizesRepository.AddAsync(prizeToAdd);
                 return Results.CreatedAtRoute(Routes.GetPrize, new { Id = prizeToAdd.Id.Value });

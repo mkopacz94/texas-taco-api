@@ -23,6 +23,11 @@ namespace TexasTaco.Products.Core.Data.EF.Configurations
                 .HasOne(p => p.Product)
                 .WithOne(p => p.Picture)
                 .HasForeignKey<Product>(p => p.PictureId);
+
+            builder
+                .HasOne(p => p.Prize)
+                .WithOne(p => p.Picture)
+                .HasForeignKey<Prize>(p => p.PictureId);
         }
     }
 }
