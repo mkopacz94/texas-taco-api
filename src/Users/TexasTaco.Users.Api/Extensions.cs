@@ -1,7 +1,5 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.DataProtection;
-using StackExchange.Redis;
 using System.Net;
 using TexasTaco.Shared.Authentication;
 
@@ -27,26 +25,12 @@ namespace TexasTaco.Users.Api
             return services;
         }
 
-        internal static IServiceCollection AddDataProtectionCache(
-            this IServiceCollection services,
-            IConfiguration configuration)
-        {
-            string dataProtectionCacheUri = configuration
-                .GetRequiredSection("DataProtectionSettings:CacheUri").Value!;
-
-            var redis = ConnectionMultiplexer.Connect(dataProtectionCacheUri);
-            services.AddDataProtection()
-                .SetApplicationName(ApplicationName.Name)
-                .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys");
-
-            return services;
-        }
-
         internal static IServiceCollection AddTexasTacoUsersAuthentication(
             this IServiceCollection services,
             IConfiguration configuration)
         {
             services
+                .AddAuthorization()
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(x =>
                 {

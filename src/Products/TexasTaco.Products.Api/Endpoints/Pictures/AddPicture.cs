@@ -30,7 +30,7 @@ namespace TexasTaco.Products.Api.Endpoints.Pictures
                     return Results.BadRequest($"Picture size is too big ({pictureSizeInKB} KB). " +
                         $"Maximum picture size is {MaximumPictureFileSizeInKB} KB.");
                 }
-
+                
                 var uploadedPicture = await s3BucketClient.PutPictureAsync(
                     pictureFileBytes,
                     pictureFile.FileName,

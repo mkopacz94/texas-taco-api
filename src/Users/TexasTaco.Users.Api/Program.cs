@@ -1,3 +1,4 @@
+using TexasTaco.Shared.Authentication;
 using TexasTaco.Users.Api;
 using TexasTaco.Users.Api.OpenApi;
 using TexasTaco.Users.Core;
@@ -6,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 builder.Services.AddTexasTacoUsersApiVersioning();
-builder.Services.AddDataProtectionCache(builder.Configuration);
+builder.Services.AddSharedDataProtectionCache(builder.Configuration);
 builder.Services.AddTexasTacoUsersAuthentication(
     builder.Configuration);
 

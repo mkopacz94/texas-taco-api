@@ -30,21 +30,6 @@ namespace TexasTaco.Authentication.Api
             return services;
         }
 
-        internal static IServiceCollection AddDataProtectionCache(
-           this IServiceCollection services,
-           IConfiguration configuration)
-        {
-            string dataProtectionCacheUri = configuration
-                .GetRequiredSection("DataProtectionSettings:CacheUri").Value!;
-
-            var redis = ConnectionMultiplexer.Connect(dataProtectionCacheUri);
-            services.AddDataProtection()
-                .SetApplicationName(ApplicationName.Name)
-                .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys");
-
-            return services;
-        }
-
         internal static IServiceCollection AddTexasTacoApiAuthentication(
             this IServiceCollection services,
             IConfiguration configuration)
@@ -56,6 +41,7 @@ namespace TexasTaco.Authentication.Api
                 sp.GetRequiredService<IOptions<SessionConfiguration>>().Value);
 
             services
+                .AddAuthorization()
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(x =>
                 {

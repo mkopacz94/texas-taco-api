@@ -4,6 +4,8 @@ using TexasTaco.Products.Core.DTO;
 using TexasTaco.Products.Core.Entities;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.Authentication.Attributes;
 
 namespace TexasTaco.Products.Api.Endpoints.Products
 {
@@ -11,7 +13,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("", async (
+            app.MapPost("", [AuthorizeRole(Role.Admin)] async (
                 [FromBody] ProductInputDto productInputDto,
                 [FromServices] IProductsRepository productsRepository) =>
             {

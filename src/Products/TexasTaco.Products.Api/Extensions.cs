@@ -1,8 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using StackExchange.Redis;
 using System.Net;
 using System.Reflection;
 using TexasTaco.Products.Api.Endpoints;
@@ -12,21 +10,6 @@ namespace TexasTaco.Products.Api
 {
     public static class Extensions
     {
-        internal static IServiceCollection AddDataProtectionCache(
-            this IServiceCollection services,
-            IConfiguration configuration)
-        {
-            string dataProtectionCacheUri = configuration
-                .GetRequiredSection("DataProtectionSettings:CacheUri").Value!;
-
-            var redis = ConnectionMultiplexer.Connect(dataProtectionCacheUri);
-            services.AddDataProtection()
-                .SetApplicationName(ApplicationName.Name)
-                .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys");
-
-            return services;
-        }
-
         internal static IServiceCollection AddTexasTacoProductsAuthentication(
             this IServiceCollection services,
             IConfiguration configuration)
