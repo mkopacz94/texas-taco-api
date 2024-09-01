@@ -1,5 +1,4 @@
 using TexasTaco.Authentication.Api;
-using TexasTaco.Authentication.Api.BackgroundServices;
 using TexasTaco.Authentication.Api.ErrorHandling;
 using TexasTaco.Authentication.Api.OpenApi;
 using TexasTaco.Authentication.Api.Services;
@@ -12,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddBackgroundServices();
 
+builder.Services.AddSharedDataProtectionCache(builder.Configuration);
+builder.Services.AddAuthenticationApiAuthentication(builder.Configuration);
 builder.Services.AddTexasTacoAuthenticationApiVersioning();
 builder.Services.AddTexasTacoAuthentication(builder.Configuration); 
 builder.Services.AddSharedFramework();
@@ -25,9 +26,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ExceptionMiddleware>();
 
 builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
-
-builder.Services.AddSharedDataProtectionCache(builder.Configuration);
-builder.Services.AddTexasTacoApiAuthentication(builder.Configuration);
 
 var app = builder.Build();
 

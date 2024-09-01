@@ -14,12 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 builder.Services.AddTexasTacoProductsApiVersioning();
-
-builder.Services.AddSharedDataProtectionCache(
-    builder.Configuration);
-
-builder.Services.AddTexasTacoProductsAuthentication(
-    builder.Configuration);
+builder.Services.AddSharedDataProtectionCache(builder.Configuration);
+builder.Services.AddSharedAuthentication(builder.Configuration);
 
 builder.Services.AddAntiforgery(options =>
 {

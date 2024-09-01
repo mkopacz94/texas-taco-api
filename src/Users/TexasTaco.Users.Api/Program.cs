@@ -8,8 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 builder.Services.AddTexasTacoUsersApiVersioning();
 builder.Services.AddSharedDataProtectionCache(builder.Configuration);
-builder.Services.AddTexasTacoUsersAuthentication(
-    builder.Configuration);
+builder.Services.AddSharedAuthentication(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
