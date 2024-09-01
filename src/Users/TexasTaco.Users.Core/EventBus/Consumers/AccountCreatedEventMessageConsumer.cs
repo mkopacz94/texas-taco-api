@@ -26,6 +26,8 @@ namespace TexasTaco.Users.Core.EventBus.Consumers
             {
                 _logger.LogError(ex, "Failed to add user with accountId {accountId} " +
                     "and email address {emailAddress} to users database", user.AccountId, user.Email.Value);
+
+                throw;
             }
         }
     }
