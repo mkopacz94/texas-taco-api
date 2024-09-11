@@ -59,11 +59,11 @@ namespace TexasTaco.Authentication.Api.Controllers
 
         [MapToApiVersion(1)]
         [HttpPost("resend")]
-        public async Task<IActionResult> ResendVerificationEmail(
-            [FromBody] AccountId accountId)
+        public async Task<IActionResult> ResendVerificationEmail([FromQuery] string accountId)
         {
-            var account = await _authRepository.GetByIdAsync(accountId) 
-                ?? throw new AccountDoesNotExistException(accountId);
+            var accountIdObject = new AccountId(Guid.Parse(accountId));
+            var account = await _authRepository.GetByIdAsync(accountIdObject) 
+                ?? throw new AccountDoesNotExistException(accountIdObject);
 
             await _emailVerificationService.EnqueueVerificationEmail(account);
 

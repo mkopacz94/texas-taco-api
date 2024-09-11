@@ -11,7 +11,7 @@ services:
       - CacheSettings__ConnectionString=authentication-cache:6379
       - SmtpOptions__SourceAddress=texastaco.notifications@gmail.com
       - SmtpOptions__Host=smtp.gmail.com
-      - SmtpOptions__Password=tyol gpbo jttp fxhv
+      - SmtpOptions__Password=hsfg wdxi ryhw qvee
       - SmtpOptions__Port=587
       - SmtpOptions__UseSsl=false
       - MessageBroker__Host=amqp://texastaco-queue:5672
