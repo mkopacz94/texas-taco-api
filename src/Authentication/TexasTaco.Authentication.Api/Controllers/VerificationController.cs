@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using TexasTaco.Authentication.Core.Data;
 using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Exceptions;
 using TexasTaco.Authentication.Core.Repositories;
@@ -12,8 +13,10 @@ namespace TexasTaco.Authentication.Api.Controllers
     [Route("api/v{v:apiVersion}/auth/verify")]
     [ApiController]
     public class VerificationController(
+        IUnitOfWork _unitOfWork,
         IVerificationTokensRepository _verificationTokensRepository,
         IAuthenticationRepository _authRepository,
+        IAccountCreatedOutboxRepository _accountCreatedOutboxRepository,
         IEmailVerificationService _emailVerificationService) : ControllerBase
     {
         [MapToApiVersion(1)]
@@ -39,9 +42,17 @@ namespace TexasTaco.Authentication.Api.Controllers
 
             accountToBeVerified.MarkAsVerified();
 
-            await _authRepository.UpdateAccountAndAddAccountCreatedOutboxMessage(
-                accountToBeVerified,
-                new AccountCreatedOutbox(accountToBeVerified.Id, accountToBeVerified.Email));
+            var transaction = await _unitOfWork.BeginTransactionAsync();
+
+            await _authRepository.UpdateAccount(accountToBeVerified);
+
+            var accountCreatedOutboxMessage = new AccountCreatedOutbox(
+                accountToBeVerified.Id,
+                accountToBeVerified.Email);
+
+            await _accountCreatedOutboxRepository.AddAsync(accountCreatedOutboxMessage);
+
+            await transaction.CommitAsync();
 
             return Ok();
         }

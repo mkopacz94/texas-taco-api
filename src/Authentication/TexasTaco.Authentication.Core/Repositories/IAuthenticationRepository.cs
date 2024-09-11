@@ -10,8 +10,7 @@ namespace TexasTaco.Authentication.Core.Repositories
         Task<Account> CreateAccountAsync(EmailAddress email, Role role, string password);
         Task<Account> AuthenticateAccountAsync(EmailAddress email, string password);
         Task<Account?> GetByIdAsync(AccountId id);
-        Task UpdateAccountAndAddAccountCreatedOutboxMessage(
-            Account account, AccountCreatedOutbox accountCreatedOutbox);
+        Task UpdateAccount(Account account);
         Task<IEnumerable<AccountCreatedOutbox>> GetNonPublishedUserCreatedOutboxMessages();
     }
 }

@@ -26,6 +26,7 @@ namespace TexasTaco.Authentication.Api.ErrorHandling
             var (statusCode, message) = ex switch
             {
                 InvalidCredentialsException => (HttpStatusCode.Unauthorized, CreateErrorMessage(ex)),
+                AccountNotVerifiedException => (HttpStatusCode.Unauthorized, CreateErrorMessage(ex)),
                 AuthenticationServiceException => (HttpStatusCode.BadRequest, CreateErrorMessage(ex)),
                 TexasTacoException => (HttpStatusCode.BadRequest, CreateErrorMessage(ex)),
                 _ => (HttpStatusCode.InternalServerError, new ErrorMessage("server_error", "There was an internal server error."))

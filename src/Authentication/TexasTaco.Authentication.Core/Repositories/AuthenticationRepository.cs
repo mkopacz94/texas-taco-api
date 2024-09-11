@@ -36,6 +36,11 @@ namespace TexasTaco.Authentication.Core.Repositories
                 .FirstOrDefaultAsync(a => a.Email == email) 
                 ?? throw new InvalidCredentialsException();
 
+            if(!account.Verified)
+            {
+                throw new AccountNotVerifiedException(account);
+            }
+
             if(!_passwordManager.VerifyPasswordHash(
                 password, account.PasswordHash, account.PasswordSalt))
             {
@@ -51,16 +56,10 @@ namespace TexasTaco.Authentication.Core.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task UpdateAccountAndAddAccountCreatedOutboxMessage(
-            Account account, AccountCreatedOutbox accountCreatedOutbox)
+        public async Task UpdateAccount(Account account)
         {
-            using var transaction = await _dbContext.Database.BeginTransactionAsync();
-
             _dbContext.Accounts.Update(account);
-            await _dbContext.AddAsync(accountCreatedOutbox);
-
             await _dbContext.SaveChangesAsync();
-            await transaction.CommitAsync();
         }
 
         private Task<bool> EmailAlreadyExists(EmailAddress email)

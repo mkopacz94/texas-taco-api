@@ -12,7 +12,7 @@ namespace TexasTaco.Products.Core.Data.EF.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Prize",
+                name: "Prizes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -23,9 +23,9 @@ namespace TexasTaco.Products.Core.Data.EF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prize", x => x.Id);
+                    table.PrimaryKey("PK_Prizes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Prize_Products_ProductId",
+                        name: "FK_Prizes_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -34,8 +34,8 @@ namespace TexasTaco.Products.Core.Data.EF.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prize_ProductId",
-                table: "Prize",
+                name: "IX_Prizes_ProductId",
+                table: "Prizes",
                 column: "ProductId");
         }
 
@@ -43,7 +43,7 @@ namespace TexasTaco.Products.Core.Data.EF.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Prize");
+                name: "Prizes");
         }
     }
 }

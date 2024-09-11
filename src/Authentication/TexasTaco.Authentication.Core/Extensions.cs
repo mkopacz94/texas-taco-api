@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using TexasTaco.Authentication.Core.Data;
 using TexasTaco.Authentication.Core.Data.EF;
 using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Repositories;
@@ -27,11 +28,14 @@ namespace TexasTaco.Authentication.Core
 
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ISessionStorage, SessionStorage>();
             services.AddTransient<IPasswordManager, PasswordManager>();
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             services.AddScoped<IEmailNotificationsRepository, EmailNotificationsRepository>();
-            services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();  
+            services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();
+            services.AddScoped<IAccountCreatedOutboxRepository, AccountCreatedOutboxRepository>();
             services.AddScoped<IEmailVerificationService, EmailVerificationService>();
             services.AddScoped<IAccountCreatedOutboxService, AccountCreatedOutboxService>();
             services.AddSmtpClient(options =>

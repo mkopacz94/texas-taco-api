@@ -30,7 +30,6 @@ builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 var app = builder.Build();
 
 app.Services.ApplyDatabaseMigrations();
-app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -50,6 +49,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

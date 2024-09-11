@@ -64,6 +64,9 @@
       },
       {
         "Path": "/api/{version}/auth/verify"
+      },
+      {
+        "Path": "/api/{version}/auth/verify/resend"
       }
     ]
   }
