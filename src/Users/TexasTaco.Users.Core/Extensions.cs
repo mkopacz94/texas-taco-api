@@ -34,6 +34,7 @@ namespace TexasTaco.Users.Core
 
             services.AddMassTransit(busConfig =>
             {
+                busConfig.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(false));
                 busConfig.AddConsumer<AccountCreatedEventMessageConsumer>();
 
                 busConfig.UsingRabbitMq((context, config) =>
@@ -46,7 +47,8 @@ namespace TexasTaco.Users.Core
                         hostConfig.Password(settings.Password);
                     });
 
-                    config.UseMessageRetry(r => r.Interval(10, TimeSpan.FromMinutes(1)));    
+                    config.UseMessageRetry(r => r.Interval(10, TimeSpan.FromMinutes(1)));
+
                     config.ConfigureEndpoints(context);
                 });
             });
