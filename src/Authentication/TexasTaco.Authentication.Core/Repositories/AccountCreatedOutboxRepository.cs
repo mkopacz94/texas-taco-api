@@ -1,4 +1,5 @@
-﻿using TexasTaco.Authentication.Core.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using TexasTaco.Authentication.Core.Data.EF;
 using TexasTaco.Authentication.Core.Entities;
 
 namespace TexasTaco.Authentication.Core.Repositories
@@ -10,6 +11,19 @@ namespace TexasTaco.Authentication.Core.Repositories
         {
             await _dbContext.AddAsync(accountCreatedOutboxMessage);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(AccountCreatedOutbox accountCreatedOutboxMessage)
+        {
+            _dbContext.AccountsCreatedOutbox.Update(accountCreatedOutboxMessage);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<AccountCreatedOutbox>> GetNonPublishedAccountCreatedOutboxMessages()
+        {
+            return await _dbContext.AccountsCreatedOutbox
+                .Where(uo => uo.MessageStatus == OutboxMessageStatus.ToBePublished)
+                .ToListAsync();
         }
     }
 }

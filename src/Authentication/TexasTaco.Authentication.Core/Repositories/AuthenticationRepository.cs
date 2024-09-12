@@ -65,13 +65,6 @@ namespace TexasTaco.Authentication.Core.Repositories
         private Task<bool> EmailAlreadyExists(EmailAddress email)
         {
             return _dbContext.Accounts.AnyAsync(a => a.Email == email);
-        }
-
-        public async Task<IEnumerable<AccountCreatedOutbox>> GetNonPublishedUserCreatedOutboxMessages()
-        {
-            return await _dbContext.AccountsCreatedOutbox
-                .Where(uo => uo.MessageStatus == OutboxMessageStatus.ToBePublished)
-                .ToListAsync();
-        }
+        } 
     }
 }

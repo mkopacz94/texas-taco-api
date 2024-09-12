@@ -14,16 +14,16 @@ namespace TexasTaco.Authentication.Api.BackgroundServices
             {
                 using var scope = _serviceProvider.CreateScope();
 
-                var authenticationRepository = scope
+                var accountCreatedOutboxRepository = scope
                     .ServiceProvider
-                    .GetRequiredService<IAuthenticationRepository>();
+                    .GetRequiredService<IAccountCreatedOutboxRepository>();
 
                 var outboxService = scope
                     .ServiceProvider
                     .GetRequiredService<IAccountCreatedOutboxService>();
 
-                var messagesToBePublished = await authenticationRepository
-                    .GetNonPublishedUserCreatedOutboxMessages();
+                var messagesToBePublished = await accountCreatedOutboxRepository
+                    .GetNonPublishedAccountCreatedOutboxMessages();
 
                 foreach (var message in messagesToBePublished)
                 {
