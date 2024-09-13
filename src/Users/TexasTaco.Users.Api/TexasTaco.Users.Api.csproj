@@ -29,4 +29,8 @@
     <ProjectReference Include="..\TexasTaco.Users.Core\TexasTaco.Users.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BackgroundServices\" />
+  </ItemGroup>
+
 </Project>

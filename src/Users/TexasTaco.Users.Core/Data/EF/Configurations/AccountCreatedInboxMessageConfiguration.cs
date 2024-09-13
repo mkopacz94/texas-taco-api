@@ -17,7 +17,7 @@ namespace TexasTaco.Users.Core.Data.EF.Configurations
             builder.Property(m => m.Id)
                 .HasConversion(id => id.Value, value => new AccountCreatedInboxMessageId(value));
 
-            builder.Property(m => m.Message)
+            builder.Property(m => m.MessageBody)
                 .HasConversion(
                     m => JsonConvert.SerializeObject(m),
                     m => JsonConvert.DeserializeObject<AccountCreatedEventMessage>(m)!);

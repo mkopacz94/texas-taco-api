@@ -7,25 +7,39 @@ using TexasTaco.Users.Core.Repositories;
 namespace TexasTaco.Users.Core.EventBus.Consumers
 {
     internal class AccountCreatedEventMessageConsumer(
-        IUsersRepository _usersRepository, ILogger<AccountCreatedEventMessageConsumer> _logger) 
+        IAccountCreatedInboxMessagesRepository _inboxRepository, 
+        ILogger<AccountCreatedEventMessageConsumer> _logger) 
         : IConsumer<AccountCreatedEventMessage>
     {
         public async Task Consume(ConsumeContext<AccountCreatedEventMessage> context)
         {
             var message = context.Message;
-            var user = new User(message.AccountId, message.Email);
+            var inboxMessage = new AccountCreatedInboxMessage(message);
 
             try
             {
-                await _usersRepository.AddUserAsync(user);
+                if(await _inboxRepository.ContainsMessageWithSameId(message.Id))
+                {
+                    _logger.LogInformation("Inbox already contains {messageType} " +
+                        "with id {id}. Message ignored.",
+                        nameof(AccountCreatedInboxMessage),
+                        message.Id.ToString());
 
-                _logger.LogInformation("Added user with accountId {accountId} and email address " +
-                    "{emailAddress} to users database.", user.AccountId, user.Email.Value);
+                    return;
+                }
+
+                await _inboxRepository.AddAsync(inboxMessage);
+
+                _logger.LogInformation("Consumed {messageType} with id {id} and " +
+                    "successfully added it to the inbox.", 
+                    nameof(AccountCreatedInboxMessage),
+                    message.Id.ToString());
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to add user with accountId {accountId} " +
-                    "and email address {emailAddress} to users database", user.AccountId, user.Email.Value);
+                _logger.LogError(ex, "Failed to consume {message type} with id {id}.", 
+                    nameof(AccountCreatedInboxMessage),
+                    message.Id.ToString());
 
                 throw;
             }

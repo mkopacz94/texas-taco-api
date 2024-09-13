@@ -40,6 +40,11 @@ namespace TexasTaco.Authentication.Api.Controllers
                 .GetByIdAsync(verificationToken.AccountId) 
                 ?? throw new AccountAssociatedWithTokenNotFoundException(verificationToken);
 
+            if(accountToBeVerified.Verified)
+            {
+                throw new AccountAlreadyVerifiedException(accountToBeVerified);
+            }
+
             accountToBeVerified.MarkAsVerified();
 
             var transaction = await _unitOfWork.BeginTransactionAsync();

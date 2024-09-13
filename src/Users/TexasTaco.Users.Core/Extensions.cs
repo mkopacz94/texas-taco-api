@@ -25,6 +25,7 @@ namespace TexasTaco.Users.Core
             });
 
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IAccountCreatedInboxMessagesRepository, AccountCreatedInboxMessagesRepository>();
 
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));

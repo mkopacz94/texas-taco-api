@@ -4,12 +4,13 @@ using TexasTaco.Users.Core.ValueObjects;
 
 namespace TexasTaco.Users.Core.Entities
 {
-    public class AccountCreatedInboxMessage(AccountCreatedEventMessage message)
+    public class AccountCreatedInboxMessage(AccountCreatedEventMessage messageBody)
     {
         public AccountCreatedInboxMessageId Id { get; } = new AccountCreatedInboxMessageId(Guid.NewGuid());
-        public DateTime Received { get; private set; }
+        public DateTime Received { get; private set;  } = DateTime.UtcNow;
         public DateTime Processed { get; private set; }
-        public AccountCreatedEventMessage Message { get; } = message;
+        public Guid MessageId { get; private set;  } = messageBody.Id;
+        public AccountCreatedEventMessage MessageBody { get; } = messageBody;
         public InboxMessageStatus MessageStatus { get; private set; }
     }
 }
