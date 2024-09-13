@@ -12,5 +12,11 @@ namespace TexasTaco.Users.Core.Entities
         public Guid MessageId { get; private set;  } = messageBody.Id;
         public AccountCreatedEventMessage MessageBody { get; } = messageBody;
         public InboxMessageStatus MessageStatus { get; private set; }
+
+        public void MarkAsProcessed()
+        {
+            Processed = DateTime.UtcNow;
+            MessageStatus = InboxMessageStatus.Processed;
+        }
     }
 }

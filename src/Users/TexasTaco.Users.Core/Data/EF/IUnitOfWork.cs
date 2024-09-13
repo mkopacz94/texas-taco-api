@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 
-namespace TexasTaco.Authentication.Core.Data
+namespace TexasTaco.Users.Core.Data.EF
 {
     public interface IUnitOfWork
     {

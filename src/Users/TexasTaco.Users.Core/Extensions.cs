@@ -7,6 +7,7 @@ using TexasTaco.Shared.Settings;
 using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.EventBus.Consumers;
 using TexasTaco.Users.Core.Repositories;
+using TexasTaco.Users.Core.Services.Inbox;
 
 namespace TexasTaco.Users.Core
 {
@@ -16,16 +17,9 @@ namespace TexasTaco.Users.Core
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddDbContext<UsersDbContext>(options =>
-            {
-                string connectionString = configuration
-                    .GetRequiredSection("UsersDatabase:ConnectionString").Value!;
+            services.AddPresistence(configuration);
 
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-            });
-
-            services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddScoped<IAccountCreatedInboxMessagesRepository, AccountCreatedInboxMessagesRepository>();
+            services.AddScoped<IAccountCreatedInboxMessagesProcessor, AccountCreatedInboxMessagesProcessor>();
 
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));
@@ -53,6 +47,25 @@ namespace TexasTaco.Users.Core
                     config.ConfigureEndpoints(context);
                 });
             });
+
+            return services;
+        }
+
+        private static IServiceCollection AddPresistence(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.AddDbContext<UsersDbContext>(options =>
+            {
+                string connectionString = configuration
+                    .GetRequiredSection("UsersDatabase:ConnectionString").Value!;
+
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IAccountCreatedInboxMessagesRepository, AccountCreatedInboxMessagesRepository>();
 
             return services;
         }

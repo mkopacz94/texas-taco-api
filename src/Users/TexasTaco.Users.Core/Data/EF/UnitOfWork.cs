@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using TexasTaco.Authentication.Core.Data.EF;
 
-namespace TexasTaco.Authentication.Core.Data
+namespace TexasTaco.Users.Core.Data.EF
 {
-    internal class UnitOfWork(AuthDbContext _dbContext) : IUnitOfWork
+    internal class UnitOfWork(UsersDbContext _dbContext) : IUnitOfWork
     {
         private IDbContextTransaction? _dbTransaction;
 
