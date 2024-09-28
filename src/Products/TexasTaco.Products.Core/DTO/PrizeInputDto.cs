@@ -2,7 +2,7 @@
 {
     public record PrizeInputDto(
         string Name, 
-        string RequiredPointsAmount, 
+        int RequiredPointsAmount, 
         string ProductId, 
         string PictureId);
 }
