@@ -1,5 +1,7 @@
-﻿using TexasTaco.Products.Core.Data.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using TexasTaco.Products.Core.Data.EF;
 using TexasTaco.Products.Core.Entities;
+using TexasTaco.Products.Core.ValueObjects;
 
 namespace TexasTaco.Products.Core.Repositories
 {
@@ -9,6 +11,13 @@ namespace TexasTaco.Products.Core.Repositories
         {
             await _context.AddAsync(picture);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> AnyAsync(PictureId pictureId)
+        {
+            return await _context
+                .Pictures
+                .AnyAsync(p => p.Id == pictureId);
         }
     }
 }

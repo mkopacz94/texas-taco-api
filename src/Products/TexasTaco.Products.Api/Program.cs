@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using TexasTaco.Products.Api;
 using TexasTaco.Products.Api.Clients;
 using TexasTaco.Products.Api.Configuration;
+using TexasTaco.Products.Api.ErrorHandling;
 using TexasTaco.Products.Api.OpenApi;
 using TexasTaco.Products.Core;
 using TexasTaco.Shared.Authentication;
@@ -38,6 +39,8 @@ builder.Services.AddHttpClient<IAwsS3BucketClient, AwsS3BucketClient>(
     client.BaseAddress = new Uri(options.ApiBaseAddress!);
     client.DefaultRequestHeaders.Add("x-api-key", options.ApiKey);
 });
+
+builder.Services.AddSingleton<ExceptionMiddleware>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -80,6 +83,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();

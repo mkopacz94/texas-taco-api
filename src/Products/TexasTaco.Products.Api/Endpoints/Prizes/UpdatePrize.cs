@@ -2,6 +2,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Products.Core.DTO;
+using TexasTaco.Products.Core.Exceptions;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
 using TexasTaco.Shared.Errors;
@@ -15,7 +16,9 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
             app.MapPut("prizes/{id}", async (
                 string id,
                 PrizeInputDto prizeDto,
-                [FromServices] IPrizesRepository prizesRepository) =>
+                [FromServices] IPrizesRepository prizesRepository,
+                [FromServices] IProductsRepository productsRepository,
+                [FromServices] IPicturesRepository picturesRepository) =>
             {
                 if (!Guid.TryParse(id, out var prizeIdGuid))
                 {
@@ -48,11 +51,20 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
                     return Results.NotFound(errorMessage);
                 }
 
+                var productId = new ProductId(productIdGuid);
+                var pictureId = new PictureId(pictureIdGuid);
+
+                await ValidateAssociatedProductAndPictureExistInDatabase(
+                    productsRepository,
+                    picturesRepository,
+                    productId, 
+                    pictureId);
+
                 prizeToUpdate.UpdatePrize(
                     prizeDto.Name,
                     prizeDto.RequiredPointsAmount,
-                    new ProductId(productIdGuid),
-                    new PictureId(pictureIdGuid));
+                    productId,
+                    pictureId);
 
                 await prizesRepository.UpdateAsync(prizeToUpdate);
 
@@ -62,6 +74,23 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound, typeof(ErrorMessage));
+        }
+
+        private async static Task ValidateAssociatedProductAndPictureExistInDatabase(
+            IProductsRepository productsRepository,
+            IPicturesRepository picturesRepository,
+            ProductId productId, 
+            PictureId pictureId)
+        {
+            if(!await productsRepository.AnyAsync(productId))
+            {
+                throw new ProductNotFoundException(productId);
+            }
+
+            if (!await picturesRepository.AnyAsync(pictureId))
+            {
+                throw new PictureNotFoundException(pictureId);
+            }
         }
     }
 }

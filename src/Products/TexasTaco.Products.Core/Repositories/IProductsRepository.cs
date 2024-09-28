@@ -9,5 +9,6 @@ namespace TexasTaco.Products.Core.Repositories
         Task<IEnumerable<Product>> GetAllAsync();
         Task<Product?> GetAsync(ProductId id);
         Task UpdateAsync(Product product);
+        Task<bool> AnyAsync(ProductId productId);
     }
 }

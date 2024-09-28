@@ -18,7 +18,7 @@ namespace TexasTaco.Users.Core.Data.EF.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Received = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Processed = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Message = table.Column<string>(type: "longtext", nullable: false)
+                    MessageBody = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MessageStatus = table.Column<int>(type: "int", nullable: false)
                 },
