@@ -22,5 +22,17 @@ namespace TexasTaco.Products.Core.Entities
             ProductId = productId;
             PictureId = pictureId;
         }
+
+        public void UpdatePrize(
+            string name,
+            int requiredPointsAmount,
+            ProductId productId,
+            PictureId pictureId)
+        {
+            Name = name;
+            RequiredPointsAmount = requiredPointsAmount;
+            ProductId = productId;
+            PictureId = pictureId;
+        }
     }
 }

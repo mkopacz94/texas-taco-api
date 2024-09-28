@@ -1,6 +1,5 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using TexasTaco.Products.Api.Errors;
 using TexasTaco.Products.Core.DTO;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
@@ -19,21 +18,13 @@ namespace TexasTaco.Products.Api.Endpoints.Products
             {
                 if (!Guid.TryParse(id, out var productIdGuid))
                 {
-                    var errorMessage = new ErrorMessage(
-                        ErrorsCodes.InvalidGuidFormat,
-                        $"The given product ID GUID \"{id}\" is invalid and cannot be parsed. " +
-                            $"Provide GUID in a correct format.");
-
+                    var errorMessage = InvalidGuidErrorMessage.Create(id, "product");
                     return Results.BadRequest(errorMessage);
                 }
 
                 if (!Guid.TryParse(productDto.PictureId, out var pictureIdGuid))
                 {
-                    var errorMessage = new ErrorMessage(
-                        ErrorsCodes.InvalidGuidFormat,
-                        $"The given picture ID GUID \"{id}\" is invalid and cannot be parsed. " +
-                            $"Provide GUID in a correct format.");
-
+                    var errorMessage = InvalidGuidErrorMessage.Create(productDto.PictureId, "picture");
                     return Results.BadRequest(errorMessage);
                 }
 
@@ -43,7 +34,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                 if (productToUpdate is null)
                 {
                     var errorMessage = new ErrorMessage(
-                        ErrorsCodes.ProductNotFound,
+                        Errors.ErrorsCodes.ProductNotFound,
                         $"Product with the \"{id}\" id has not been found in the database. " +
                             "Provide an id of an existing product.");
 

@@ -34,7 +34,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/{version}/products/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/{version}/products",
@@ -46,7 +46,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/{version}/products",
-      "UpstreamHttpMethod": [ "GET", "POST" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     }
   ],
   "GlobalConfiguration": {

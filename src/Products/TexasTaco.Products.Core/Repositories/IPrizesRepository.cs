@@ -8,5 +8,6 @@ namespace TexasTaco.Products.Core.Repositories
         Task<IEnumerable<Prize>> GetAllAsync();
         Task AddAsync(Prize prize);
         Task<Prize?> GetAsync(PrizeId id);
+        Task UpdateAsync(Prize prize);
     }
 }

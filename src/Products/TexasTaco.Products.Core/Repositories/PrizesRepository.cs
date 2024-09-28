@@ -23,5 +23,11 @@ namespace TexasTaco.Products.Core.Repositories
             return await _context.Prizes
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
+
+        public async Task UpdateAsync(Prize prize)
+        {
+            _context.Update(prize);
+            await _context.SaveChangesAsync();
+        }
     }
 }
