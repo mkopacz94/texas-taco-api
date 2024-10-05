@@ -12,11 +12,12 @@ using TexasTaco.Shared.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
+builder.Services.AddEndpoints(typeof(Program).Assembly);
+builder.Services.AddTexasTacoProducts(builder.Configuration);
 builder.Services.AddTexasTacoProductsApiVersioning();
 builder.Services.AddSharedDataProtectionCache(builder.Configuration);
 builder.Services.AddSharedAuthentication(builder.Configuration);
+builder.Services.AddSingleton<ExceptionMiddleware>();
 
 builder.Services.AddAntiforgery(options =>
 {
@@ -24,23 +25,20 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.Name = "asp-net-xsrf-cookie";
 });
 
-builder.Services.AddTexasTacoProducts(builder.Configuration);
-builder.Services.AddEndpoints(typeof(Program).Assembly);
+builder.Services.AddHttpClient<IAwsS3BucketClient, AwsS3BucketClient>(
+    (serviceProvider, client) =>
+    {
+        var options = serviceProvider
+            .GetRequiredService<IOptions<AwsS3BucketClientOptions>>().Value;
+
+        client.BaseAddress = new Uri(options.ApiBaseAddress!);
+        client.DefaultRequestHeaders.Add("x-api-key", options.ApiKey);
+    });
+
+builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 
 builder.Services.AddOptions<AwsS3BucketClientOptions>()
     .Bind(builder.Configuration.GetSection("AwsS3BucketClientOptions"));
-
-builder.Services.AddHttpClient<IAwsS3BucketClient, AwsS3BucketClient>(
-    (serviceProvider, client) =>
-{
-    var options = serviceProvider
-        .GetRequiredService<IOptions<AwsS3BucketClientOptions>>().Value;
-
-    client.BaseAddress = new Uri(options.ApiBaseAddress!);
-    client.DefaultRequestHeaders.Add("x-api-key", options.ApiKey);
-});
-
-builder.Services.AddSingleton<ExceptionMiddleware>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -61,11 +59,10 @@ var versionedGroup = app
     .MapGroup("api/v{version:apiVersion}/products")
     .WithApiVersionSet(apiVersionSet);
 
-app.MapEndpoints(versionedGroup);
-
 app.Services.ApplyDatabaseMigrations();
 
-// Configure the HTTP request pipeline.
+app.MapEndpoints(versionedGroup);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
