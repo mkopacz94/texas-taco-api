@@ -47,6 +47,18 @@
       ],
       "UpstreamPathTemplate": "/api/{version}/products",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/{version}/orders/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "texastaco.orders.api",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/api/{version}/orders/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     }
   ],
   "GlobalConfiguration": {

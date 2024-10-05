@@ -41,6 +41,16 @@ services:
       - products-db
     restart: always
 
+  texastaco.orders.api:
+    image: ${DOCKER_REGISTRY-}texastacoordersapi
+    build:
+      context: .
+      dockerfile: src/Orders/TexasTaco.Orders.Api/Dockerfile
+    depends_on:
+      - authentication-cache
+      - texastaco-mq
+    restart: always
+
   authentication-db:
     image: mysql
     container_name: authentication-db
@@ -69,7 +79,3 @@ volumes:
    authentication_db_volume:
    users_db_volume:
    products_db_volume:
-
-
-
-

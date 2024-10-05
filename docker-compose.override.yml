@@ -37,7 +37,7 @@ services:
       - MessageBroker__Host=amqp://texastaco-queue:5672
       - MessageBroker__Username=admin
       - MessageBroker__Password=1234
-      - Cookies__Domain=localhost
+      - AuthCookies__Domain=localhost
       - DataProtectionSettings__CacheUri=authentication-cache
     ports:
       - "5002:8080"
@@ -47,11 +47,24 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ProductsDatabase__ConnectionString=server=products-db;user=root;password=root1234;database=products;
-      - Cookies__Domain=localhost
+      - AuthCookies__Domain=localhost
       - DataProtectionSettings__CacheUri=authentication-cache
       - AwsS3BucketClientOptions__ApiKey=isbYkOeEE19PU1eYzdOjHxFa7t9YXxg2FWDewVK3
     ports:
       - "5003:8080"
+
+  texastaco.orders.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - DataProtectionSettings__CacheUri=authentication-cache
+      - AuthCookies__Domain=localhost
+      - MessageBroker__Host=amqp://texastaco-queue:5672
+      - MessageBroker__Username=admin
+      - MessageBroker__Password=1234
+
+    ports:
+      - "5004:8080"
 
   authentication-db:
     environment:

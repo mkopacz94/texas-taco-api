@@ -10,7 +10,8 @@
         "texastaco.authentication.api": "StartDebugging",
         "texastaco.api.gateway": "StartDebugging",
         "texastaco.users.api": "StartDebugging",
-        "texastaco.products.api": "StartDebugging"
+        "texastaco.products.api": "StartDebugging",
+        "texastaco.orders.api": "StartDebugging"
       }
     }
   }
