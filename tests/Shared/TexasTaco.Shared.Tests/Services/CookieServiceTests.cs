@@ -78,7 +78,8 @@ namespace TexasTaco.Shared.Tests.Services
             var cookieOptions = new CookieOptions
             {
                 Domain = "test",
-                Expires = new DateTime(2024, 4, 11)
+                Expires = new DateTime(2024, 4, 11),
+                SameSite = SameSiteMode.Lax
             };
 
             cookieService.SetCookie(cookieName, cookieValue, cookieOptions);
