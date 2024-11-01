@@ -13,6 +13,7 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
                 var prizes = await prizesRepository.GetAllAsync();
                 return Results.Ok(prizes);
             })
+            .RequireAuthorization()
             .WithTags(Tags.Prizes)
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status200OK, typeof(IEnumerable<Prize>));

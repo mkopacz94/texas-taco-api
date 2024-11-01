@@ -19,6 +19,7 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
 
                 return Results.Ok(product);
             })
+            .RequireAuthorization()
             .WithTags(Tags.Prizes)
             .WithName(Routes.GetPrize)
             .HasApiVersion(new ApiVersion(1))

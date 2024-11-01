@@ -42,6 +42,7 @@ namespace TexasTaco.Products.Api.Endpoints.Pictures
 
                 return Results.Created(uploadedPicture.Url, picture);
             })
+            .RequireAuthorization()
             .WithTags(Tags.Pictures)
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status201Created, typeof(Picture))

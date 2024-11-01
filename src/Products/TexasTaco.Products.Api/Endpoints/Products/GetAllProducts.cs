@@ -13,6 +13,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                 var products = await productsRepository.GetAllAsync();
                 return Results.Ok(products);
             })
+            .RequireAuthorization()
             .WithTags(Tags.Products)
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status200OK, typeof(IEnumerable<Product>));

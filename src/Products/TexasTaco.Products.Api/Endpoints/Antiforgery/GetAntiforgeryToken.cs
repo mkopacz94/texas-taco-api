@@ -15,6 +15,7 @@ namespace TexasTaco.Products.Api.Endpoints.Antiforgery
                 var xsrfToken = tokens.RequestToken!;
                 return TypedResults.Content(xsrfToken, "text/plain");
             })
+            .RequireAuthorization()
             .WithTags(Tags.Security)
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status200OK, typeof(ContentHttpResult))

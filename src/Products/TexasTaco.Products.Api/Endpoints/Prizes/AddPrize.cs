@@ -37,6 +37,7 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
                 await prizesRepository.AddAsync(prizeToAdd);
                 return Results.CreatedAtRoute(Routes.GetPrize, new { Id = prizeToAdd.Id.Value });
             })
+            .RequireAuthorization()
             .WithTags(Tags.Prizes)
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status201Created, typeof(Prize));

@@ -28,6 +28,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
 
                 return Results.CreatedAtRoute(Routes.GetProduct, new { Id = product.Id.Value });
             })
+            .RequireAuthorization()
             .WithTags(Tags.Products)
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status201Created, typeof(Product));

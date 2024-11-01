@@ -52,6 +52,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
 
                 return Results.NoContent();
             })
+            .RequireAuthorization()
             .WithTags(Tags.Products)
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status204NoContent)
