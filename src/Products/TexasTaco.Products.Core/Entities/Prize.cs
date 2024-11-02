@@ -1,4 +1,5 @@
 ﻿using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Entities
 {
@@ -13,8 +14,8 @@ namespace TexasTaco.Products.Core.Entities
         public Picture Picture { get; private set; } = null!;
 
         public Prize(
-            string name, 
-            int requiredPointsAmount, 
+            string name,
+            int requiredPointsAmount,
             ProductId productId,
             PictureId pictureId)
             : this(name, requiredPointsAmount)

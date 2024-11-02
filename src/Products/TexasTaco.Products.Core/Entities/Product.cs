@@ -1,4 +1,5 @@
 ﻿using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Entities
 {
@@ -16,11 +17,11 @@ namespace TexasTaco.Products.Core.Entities
         public IReadOnlyCollection<Prize> Prizes => _prizes;
 
         public Product(
-            string name, 
-            string shortDescription, 
-            bool recommended, 
-            decimal price, 
-            PictureId pictureId) 
+            string name,
+            string shortDescription,
+            bool recommended,
+            decimal price,
+            PictureId pictureId)
             : this(name, shortDescription, recommended, price)
         {
             PictureId = pictureId;
