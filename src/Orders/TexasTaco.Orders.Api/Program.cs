@@ -1,11 +1,15 @@
+using System.Text.Json.Serialization;
 using TexasTaco.Orders.Api;
 using TexasTaco.Shared.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 builder.Services.AddTexasTacoOrdersApiVersioning();
-builder.Services.AddTexasTacoOrders();
+builder.Services.AddTexasTacoOrders(builder.Configuration);
 builder.Services.AddOrdersOptions(builder.Configuration);
 builder.Services.AddSharedDataProtectionCache(builder.Configuration);
 builder.Services.AddSharedAuthentication(builder.Configuration);

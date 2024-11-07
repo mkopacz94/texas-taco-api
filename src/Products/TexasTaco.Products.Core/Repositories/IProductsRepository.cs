@@ -1,5 +1,5 @@
 ﻿using TexasTaco.Products.Core.Entities;
-using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Repositories
 {

@@ -9,11 +9,12 @@ namespace TexasTaco.Orders.Api
     public static class Extensions
     {
         internal static IServiceCollection AddTexasTacoOrders(
-            this IServiceCollection services)
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddOrdersApplication()
                 .AddOrdersDomain()
-                .AddOrdersInfrastructure();
+                .AddOrdersInfrastructure(configuration);
 
             return services;
         }

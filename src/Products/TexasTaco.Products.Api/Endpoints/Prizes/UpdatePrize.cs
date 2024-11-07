@@ -6,6 +6,7 @@ using TexasTaco.Products.Core.Exceptions;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
 using TexasTaco.Shared.Errors;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Api.Endpoints.Prizes
 {
@@ -57,7 +58,7 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
                 await ValidateAssociatedProductAndPictureExistInDatabase(
                     productsRepository,
                     picturesRepository,
-                    productId, 
+                    productId,
                     pictureId);
 
                 prizeToUpdate.UpdatePrize(
@@ -80,10 +81,10 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
         private async static Task ValidateAssociatedProductAndPictureExistInDatabase(
             IProductsRepository productsRepository,
             IPicturesRepository picturesRepository,
-            ProductId productId, 
+            ProductId productId,
             PictureId pictureId)
         {
-            if(!await productsRepository.AnyAsync(productId))
+            if (!await productsRepository.AnyAsync(productId))
             {
                 throw new ProductNotFoundException(productId);
             }

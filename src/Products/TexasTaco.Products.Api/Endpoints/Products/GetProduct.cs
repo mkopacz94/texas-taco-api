@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Products.Core.Entities;
 using TexasTaco.Products.Core.Repositories;
-using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Api.Endpoints.Products
 {
@@ -11,7 +11,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapGet("{id}", async (
-                string id, 
+                string id,
                 [FromServices] IProductsRepository productsRepository) =>
             {
                 var product = await productsRepository

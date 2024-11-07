@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TexasTaco.Products.Core.Entities;
-using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Data.EF.Configurations
 {

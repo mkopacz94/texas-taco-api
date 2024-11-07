@@ -7,6 +7,8 @@ namespace TexasTaco.Orders.Domain.Basket
     {
         public BasketItemId Id { get; } = new(Guid.NewGuid());
         public ProductId ProductId { get; private set; }
+        public BasketId BasketId { get; private set; } = null!;
+        public Basket Basket { get; private set; } = null!;
         public string Name { get; private set; }
         public decimal Price { get; private set; }
         public string PictureUrl { get; private set; }

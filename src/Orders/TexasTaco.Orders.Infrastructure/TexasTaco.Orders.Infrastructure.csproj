@@ -13,12 +13,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj" />
+    <ProjectReference Include="..\TexasTaco.Orders.Application\TexasTaco.Orders.Application.csproj" />
     <ProjectReference Include="..\TexasTaco.Orders.Domain\TexasTaco.Orders.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\EF\Migrations\" />
-    <Folder Include="Data\EF\Configurations\" />
+    <Folder Include="Data\EF\Migrations\" />
   </ItemGroup>
 
 </Project>

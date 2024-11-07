@@ -12,23 +12,17 @@ namespace TexasTaco.Orders.Domain.Basket
         public CustomerId CustomerId { get; private set; } = customerId;
         public IReadOnlyCollection<BasketItem> Items => _items;
 
-        public void AddProduct(
-            ProductId productId,
-            string name,
-            decimal price,
-            string pictureUrl)
+        public void AddProduct(BasketItem item)
         {
-            var basketItem = _items.SingleOrDefault(i => i.ProductId == productId);
+            var sameItemInBasket = _items.SingleOrDefault(i => i.ProductId == item.ProductId);
 
-            if (basketItem is not null)
+            if (sameItemInBasket is not null)
             {
-                basketItem.IncreaseQuantity();
+                sameItemInBasket.IncreaseQuantity();
                 return;
             }
 
-            var newItem = new BasketItem(productId, name, price, pictureUrl, 1);
-
-            _items.Add(newItem);
+            _items.Add(item);
         }
 
         public void RemoveItem(ProductId productId)

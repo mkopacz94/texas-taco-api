@@ -4,6 +4,7 @@ using TexasTaco.Products.Core.DTO;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
 using TexasTaco.Shared.Errors;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Api.Endpoints.Products
 {

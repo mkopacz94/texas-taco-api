@@ -57,6 +57,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
+      - OrdersDatabase__ConnectionString=server=orders-db;user=root;password=root1234;database=orders;
       - DataProtectionSettings__CacheUri=authentication-cache
       - AuthCookies__Domain=localhost
       - MessageBroker__Host=amqp://texastaco-queue:5672
@@ -92,6 +93,15 @@ services:
       - 3308:3306
     volumes:
       - products_db_volume:/var/lib/mysql
+
+  orders-db:
+    environment:
+      - MYSQL_ROOT_PASSWORD=root1234
+      - MYSQL_DATABASE=orders
+    ports:
+      - 3309:3306
+    volumes:
+      - orders_db_volume:/var/lib/mysql
 
   authentication-cache:
     ports: 

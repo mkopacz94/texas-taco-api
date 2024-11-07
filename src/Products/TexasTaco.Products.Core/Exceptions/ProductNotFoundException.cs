@@ -1,7 +1,7 @@
-﻿using TexasTaco.Products.Core.ValueObjects;
+﻿using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Exceptions
 {
-    public sealed class ProductNotFoundException(ProductId productId) 
+    public sealed class ProductNotFoundException(ProductId productId)
         : ProductsServiceException($"Product with Id {productId.Value} does not exist.");
 }
