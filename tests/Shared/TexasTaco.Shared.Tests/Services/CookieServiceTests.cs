@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
-using System.Collections;
 using TexasTaco.Shared.Services;
 
 namespace TexasTaco.Shared.Tests.Services
@@ -73,21 +72,25 @@ namespace TexasTaco.Shared.Tests.Services
                 .Returns(httpContext);
 
             var cookieService = new CookieService(_httpContextAccessorMock);
+            var cookieExpirationTimeInUtc = DateTime.UtcNow;
 
             //Act
             var cookieOptions = new CookieOptions
             {
                 Domain = "test",
-                Expires = new DateTime(2024, 4, 11),
+                Expires = cookieExpirationTimeInUtc,
                 SameSite = SameSiteMode.Lax
             };
 
             cookieService.SetCookie(cookieName, cookieValue, cookieOptions);
 
             //Assert
+            string expectedCookieValue = $"cookie=cookieValue; " +
+                $"expires={cookieExpirationTimeInUtc:R}; domain=test; path=/; samesite=lax";
+
             httpContext.Response.Headers
                 .Should()
-                .Contain(h => h.Value.Contains("cookie=cookieValue; expires=Wed, 10 Apr 2024 22:00:00 GMT; domain=test; path=/; samesite=lax"));
+                .Contain(h => h.Value == expectedCookieValue);
         }
 
         internal class FakeCookieCollection : Dictionary<string, string>, IRequestCookieCollection
