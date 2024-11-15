@@ -47,6 +47,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ProductsDatabase__ConnectionString=server=products-db;user=root;password=root1234;database=products;
+      - MessageBroker__Host=amqp://texastaco-queue:5672
+      - MessageBroker__Username=admin
+      - MessageBroker__Password=1234
       - AuthCookies__Domain=localhost
       - DataProtectionSettings__CacheUri=authentication-cache
       - AwsS3BucketClientOptions__ApiKey=isbYkOeEE19PU1eYzdOjHxFa7t9YXxg2FWDewVK3

@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using TexasTaco.Products.Core.Data.EF;
 using TexasTaco.Products.Core.Repositories;
+using TexasTaco.Shared.Settings;
 
 namespace TexasTaco.Products.Core
 {
@@ -23,6 +26,28 @@ namespace TexasTaco.Products.Core
             services.AddScoped<IPicturesRepository, PicturesRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IPrizesRepository, PrizesRepository>();
+
+            services.Configure<MessageBrokerSettings>(
+                configuration.GetSection("MessageBroker"));
+
+            services.AddSingleton(sp =>
+                sp.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);
+
+            services.AddMassTransit(busConfig =>
+            {
+                busConfig.SetKebabCaseEndpointNameFormatter();
+
+                busConfig.UsingRabbitMq((context, config) =>
+                {
+                    var settings = context.GetRequiredService<MessageBrokerSettings>();
+
+                    config.Host(new Uri(settings.Host), hostConfig =>
+                    {
+                        hostConfig.Username(settings.Username);
+                        hostConfig.Password(settings.Password);
+                    });
+                });
+            });
 
             return services;
         }

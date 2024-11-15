@@ -1,7 +1,7 @@
 ﻿using MassTransit;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using TexasTaco.Orders.Infrastructure.MessageBus.Consumers;
 using TexasTaco.Shared.Settings;
 
 namespace TexasTaco.Orders.Infrastructure.MessageBus
@@ -16,7 +16,9 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
 
             services.AddMassTransit(busConfig =>
             {
-                busConfig.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(false));
+                busConfig.SetKebabCaseEndpointNameFormatter();
+
+                busConfig.AddConsumer<AddProductToBasketRequestConsumer>();
 
                 busConfig.UsingRabbitMq((context, config) =>
                 {
