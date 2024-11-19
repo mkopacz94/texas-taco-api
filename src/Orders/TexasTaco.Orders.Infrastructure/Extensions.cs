@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Orders.Application.Baskets;
 using TexasTaco.Orders.Infrastructure.Data.EF;
 using TexasTaco.Orders.Infrastructure.Data.Repositories;
+using TexasTaco.Orders.Infrastructure.Data.Repositories.Abstractions;
 using TexasTaco.Orders.Infrastructure.MessageBus;
 
 namespace TexasTaco.Orders.Infrastructure
@@ -33,6 +34,8 @@ namespace TexasTaco.Orders.Infrastructure
             this IServiceCollection services)
         {
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IAccountCreatedInboxMessagesRepository,
+                AccountCreatedInboxMessagesRepository>();
 
             return services;
         }

@@ -1,5 +1,5 @@
 ﻿using TexasTaco.Orders.Domain.Basket.Exceptions;
-using TexasTaco.Orders.Domain.Customer;
+using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Domain.Basket

@@ -1,6 +1,6 @@
 ﻿using TexasTaco.Shared.ValueObjects;
 
-namespace TexasTaco.Orders.Domain.Customer
+namespace TexasTaco.Orders.Domain.Customers
 {
     public class Address(string addressLine, string postalCode, string city, string country)
     {

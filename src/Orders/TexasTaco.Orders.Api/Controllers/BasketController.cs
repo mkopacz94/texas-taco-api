@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Orders.Application.Baskets;
 using TexasTaco.Orders.Domain.Basket;
-using TexasTaco.Orders.Domain.Customer;
+using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Api.Controllers

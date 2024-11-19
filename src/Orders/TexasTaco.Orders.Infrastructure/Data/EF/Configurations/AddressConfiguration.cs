@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TexasTaco.Orders.Domain.Customer;
+using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations

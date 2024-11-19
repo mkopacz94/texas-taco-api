@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TexasTaco.Orders.Domain.Basket;
-using TexasTaco.Orders.Domain.Customer;
+using TexasTaco.Orders.Domain.Customers;
 
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
 {

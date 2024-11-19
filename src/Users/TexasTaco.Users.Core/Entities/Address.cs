@@ -1,4 +1,5 @@
-﻿using TexasTaco.Users.Core.ValueObjects;
+﻿using TexasTaco.Shared.ValueObjects;
+using TexasTaco.Users.Core.ValueObjects;
 
 namespace TexasTaco.Users.Core.Entities
 {

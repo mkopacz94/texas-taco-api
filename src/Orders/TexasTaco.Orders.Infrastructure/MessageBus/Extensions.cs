@@ -19,6 +19,7 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
                 busConfig.SetKebabCaseEndpointNameFormatter();
 
                 busConfig.AddConsumer<AddProductToBasketRequestConsumer>();
+                busConfig.AddConsumer<AccountCreatedEventMessageConsumer>();
 
                 busConfig.UsingRabbitMq((context, config) =>
                 {

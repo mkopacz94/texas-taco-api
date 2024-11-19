@@ -11,8 +11,9 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
     {
         public async Task Consume(ConsumeContext<AddProductToBasketRequest> context)
         {
-            _logger.LogInformation($"Received AddProductToBasketRequest. " +
-                $"{JsonSerializer.Serialize(context.Message)}");
+            _logger.LogInformation(
+                "Received AddProductToBasketRequest. {jsonObject}",
+                JsonSerializer.Serialize(context.Message));
 
             var response = new AddProductToBasketResponse(true);
             await context.RespondAsync(response);

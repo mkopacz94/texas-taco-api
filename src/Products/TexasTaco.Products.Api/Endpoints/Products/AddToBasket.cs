@@ -37,8 +37,9 @@ namespace TexasTaco.Products.Api.Endpoints.Products
 
                 var response = await busClient.GetResponse<AddProductToBasketResponse>(request);
 
-                logger.LogInformation($"Received AddProductToBasketResponse." +
-                    $" {JsonSerializer.Serialize(response.Message)}.");
+                logger.LogInformation(
+                    "Received AddProductToBasketResponse. {jsonObject}",
+                    JsonSerializer.Serialize(response.Message));
 
                 return Results.Created();
             })
