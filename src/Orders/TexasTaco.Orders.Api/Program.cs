@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using TexasTaco.Orders.Api;
+using TexasTaco.Orders.Infrastructure;
 using TexasTaco.Shared.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,11 +14,13 @@ builder.Services.AddTexasTacoOrders(builder.Configuration);
 builder.Services.AddOrdersOptions(builder.Configuration);
 builder.Services.AddSharedDataProtectionCache(builder.Configuration);
 builder.Services.AddSharedAuthentication(builder.Configuration);
+builder.Services.AddOrdersHostedServices();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.Services.ApplyDatabaseMigrations();
 
 if (app.Environment.IsDevelopment())
 {

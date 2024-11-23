@@ -44,7 +44,10 @@ namespace TexasTaco.Users.Core
 
                     config.UseMessageRetry(r => r.Interval(10, TimeSpan.FromMinutes(1)));
 
-                    config.ConfigureEndpoints(context);
+                    config.ReceiveEndpoint("users.account-created-event-message", cfg =>
+                    {
+                        cfg.ConfigureConsumer<AccountCreatedEventMessageConsumer>(context);
+                    });
                 });
             });
 

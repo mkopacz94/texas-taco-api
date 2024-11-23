@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TexasTaco.Orders.Application.AccountCreatedInbox;
 using TexasTaco.Orders.Domain.AccountCreatedInboxMessages;
 using TexasTaco.Orders.Infrastructure.Data.EF;
-using TexasTaco.Orders.Infrastructure.Data.Repositories.Abstractions;
 using TexasTaco.Shared.Inbox;
 
 namespace TexasTaco.Orders.Infrastructure.Data.Repositories

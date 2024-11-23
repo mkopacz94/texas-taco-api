@@ -19,7 +19,8 @@ namespace TexasTaco.Users.Core.Services.Inbox
 
             foreach (var message in nonProcessedMessages)
             {
-                _logger.LogInformation("Processing inbox message with Id={messageId}...", message.Id);
+                _logger.LogInformation("Processing account created inbox " +
+                    "message with Id={messageId}...", message.Id);
 
                 try
                 {
@@ -32,10 +33,11 @@ namespace TexasTaco.Users.Core.Services.Inbox
                     var userWithSameAccount = await _usersRepository
                         .GetByAccountIdAsync(user.AccountId);
 
-                    if(userWithSameAccount is not null)
+                    if (userWithSameAccount is not null)
                     {
                         _logger.LogError(
-                            "User with acoountId={accountId} already exists and cannot be added to database.",
+                            "User with accountId={accountId} already " +
+                            "exists and cannot be added to database.",
                             user.AccountId);
                     }
                     else
@@ -48,7 +50,8 @@ namespace TexasTaco.Users.Core.Services.Inbox
 
                     await transaction.CommitAsync();
 
-                    _logger.LogInformation("Successfully processed message with Id={messageId}...", message.Id);
+                    _logger.LogInformation("Successfully processed " +
+                        "message with Id={messageId}...", message.Id);
                 }
                 catch (Exception ex)
                 {

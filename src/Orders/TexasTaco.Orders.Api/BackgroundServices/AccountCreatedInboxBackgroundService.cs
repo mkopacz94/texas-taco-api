@@ -1,6 +1,6 @@
-﻿using TexasTaco.Users.Core.Services.Inbox;
+﻿using TexasTaco.Orders.Application.AccountCreatedInbox;
 
-namespace TexasTaco.Users.Api.BackgroundServices
+namespace TexasTaco.Orders.Api.BackgroundServices
 {
     public class AccountCreatedInboxBackgroundService(
         IServiceProvider _serviceProvider) : BackgroundService

@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using TexasTaco.Orders.Api.BackgroundServices;
 using TexasTaco.Orders.Application;
 using TexasTaco.Orders.Domain;
 using TexasTaco.Orders.Infrastructure;
@@ -44,6 +45,13 @@ namespace TexasTaco.Orders.Api
                 options.SubstituteApiVersionInUrl = true;
             });
 
+            return services;
+        }
+
+        internal static IServiceCollection AddOrdersHostedServices(
+            this IServiceCollection services)
+        {
+            services.AddHostedService<AccountCreatedInboxBackgroundService>();
             return services;
         }
     }

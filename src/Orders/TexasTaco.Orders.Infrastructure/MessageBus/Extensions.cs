@@ -33,7 +33,10 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
 
                     config.UseMessageRetry(r => r.Interval(10, TimeSpan.FromMinutes(1)));
 
-                    config.ConfigureEndpoints(context);
+                    config.ReceiveEndpoint("orders.account-created-event-message", cfg =>
+                    {
+                        cfg.ConfigureConsumer<AccountCreatedEventMessageConsumer>(context);
+                    });
                 });
             });
 

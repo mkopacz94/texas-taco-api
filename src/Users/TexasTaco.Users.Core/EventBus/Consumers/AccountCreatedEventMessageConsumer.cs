@@ -7,8 +7,8 @@ using TexasTaco.Users.Core.Repositories;
 namespace TexasTaco.Users.Core.EventBus.Consumers
 {
     internal class AccountCreatedEventMessageConsumer(
-        IAccountCreatedInboxMessagesRepository _inboxRepository, 
-        ILogger<AccountCreatedEventMessageConsumer> _logger) 
+        IAccountCreatedInboxMessagesRepository _inboxRepository,
+        ILogger<AccountCreatedEventMessageConsumer> _logger)
         : IConsumer<AccountCreatedEventMessage>
     {
         public async Task Consume(ConsumeContext<AccountCreatedEventMessage> context)
@@ -18,7 +18,7 @@ namespace TexasTaco.Users.Core.EventBus.Consumers
 
             try
             {
-                if(await _inboxRepository.ContainsMessageWithSameId(message.Id))
+                if (await _inboxRepository.ContainsMessageWithSameId(message.Id))
                 {
                     _logger.LogInformation("Inbox already contains {messageType} " +
                         "with id {id}. Message ignored.",
@@ -31,13 +31,13 @@ namespace TexasTaco.Users.Core.EventBus.Consumers
                 await _inboxRepository.AddAsync(inboxMessage);
 
                 _logger.LogInformation("Consumed {messageType} with id {id} and " +
-                    "successfully added it to the inbox.", 
+                    "successfully added it to the inbox.",
                     nameof(AccountCreatedInboxMessage),
                     message.Id.ToString());
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to consume {message type} with id {id}.", 
+                _logger.LogError(ex, "Failed to consume {message type} with id {id}.",
                     nameof(AccountCreatedInboxMessage),
                     message.Id.ToString());
 

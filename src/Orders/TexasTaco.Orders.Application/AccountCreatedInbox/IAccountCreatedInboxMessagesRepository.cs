@@ -1,8 +1,8 @@
 ﻿using TexasTaco.Orders.Domain.AccountCreatedInboxMessages;
 
-namespace TexasTaco.Orders.Infrastructure.Data.Repositories.Abstractions
+namespace TexasTaco.Orders.Application.AccountCreatedInbox
 {
-    internal interface IAccountCreatedInboxMessagesRepository
+    public interface IAccountCreatedInboxMessagesRepository
     {
         Task AddAsync(AccountCreatedInboxMessage message);
         Task UpdateAsync(AccountCreatedInboxMessage message);
