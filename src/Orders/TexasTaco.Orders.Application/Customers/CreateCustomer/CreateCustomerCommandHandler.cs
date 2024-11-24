@@ -5,7 +5,7 @@ using TexasTaco.Orders.Domain.Customers;
 namespace TexasTaco.Orders.Application.Customers.CreateCustomer
 {
     internal class CreateCustomerCommandHandler(
-        ICustomerRepository _customersRepository)
+        ICustomersRepository _customersRepository)
         : IRequestHandler<CreateCustomerCommand>
     {
         public async Task Handle(
