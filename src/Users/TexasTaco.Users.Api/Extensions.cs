@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using TexasTaco.Users.Api.BackgroundServices;
 
 namespace TexasTaco.Users.Api
 {
@@ -18,6 +19,15 @@ namespace TexasTaco.Users.Api
                 options.GroupNameFormat = "'v'V";
                 options.SubstituteApiVersionInUrl = true;
             });
+
+            return services;
+        }
+
+        internal static IServiceCollection AddUsersHostedServices(
+            this IServiceCollection services)
+        {
+            services.AddHostedService<AccountCreatedInboxBackgroundService>();
+            services.AddHostedService<UserUpdatedOutboxBackgroundService>();
 
             return services;
         }

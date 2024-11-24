@@ -1,6 +1,5 @@
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Users.Api;
-using TexasTaco.Users.Api.BackgroundServices;
 using TexasTaco.Users.Api.OpenApi;
 using TexasTaco.Users.Core;
 
@@ -15,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTexasTacoUsers(builder.Configuration);
-builder.Services.AddHostedService<AccountCreatedInboxBackgroundService>();
+builder.Services.AddUsersHostedServices();
 
 var app = builder.Build();
 

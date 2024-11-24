@@ -8,6 +8,7 @@ using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.EventBus.Consumers;
 using TexasTaco.Users.Core.Repositories;
 using TexasTaco.Users.Core.Services.Inbox;
+using TexasTaco.Users.Core.Services.Outbox;
 
 namespace TexasTaco.Users.Core
 {
@@ -21,6 +22,8 @@ namespace TexasTaco.Users.Core
 
             services.AddScoped<IAccountCreatedInboxMessagesProcessor,
                 AccountCreatedInboxMessagesProcessor>();
+            services.AddScoped<IUserUpdatedOutboxMessagesProcessor,
+                UserUpdatedOutboxMessagesProcessor>();
 
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));

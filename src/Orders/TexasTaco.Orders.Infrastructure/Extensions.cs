@@ -5,6 +5,7 @@ using TexasTaco.Orders.Application.AccountCreatedInbox;
 using TexasTaco.Orders.Application.Baskets;
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.UnitOfWork;
+using TexasTaco.Orders.Application.UserUpdatedInbox;
 using TexasTaco.Orders.Infrastructure.Data;
 using TexasTaco.Orders.Infrastructure.Data.EF;
 using TexasTaco.Orders.Infrastructure.Data.Repositories;
@@ -50,6 +51,8 @@ namespace TexasTaco.Orders.Infrastructure
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAccountCreatedInboxMessagesRepository,
                 AccountCreatedInboxMessagesRepository>();
+            services.AddScoped<IUserUpdatedInboxMessagesRepository,
+                UserUpdatedInboxMessagesRepository>();
 
             return services;
         }

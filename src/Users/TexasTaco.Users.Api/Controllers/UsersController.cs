@@ -82,6 +82,7 @@ namespace TexasTaco.Users.Api.Controllers
             await _usersRepository.UpdateUserAsync(user);
 
             var outboxMessageBody = new UserUpdatedEventMessage(
+                Guid.NewGuid(),
                 user.AccountId,
                 user.FirstName!,
                 user.LastName!,

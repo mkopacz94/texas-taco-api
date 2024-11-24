@@ -20,6 +20,7 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
 
                 busConfig.AddConsumer<AddProductToBasketRequestConsumer>();
                 busConfig.AddConsumer<AccountCreatedEventMessageConsumer>();
+                busConfig.AddConsumer<UserUpdatedEventMessageConsumer>();
 
                 busConfig.UsingRabbitMq((context, config) =>
                 {
@@ -36,6 +37,11 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
                     config.ReceiveEndpoint("orders.account-created-event-message", cfg =>
                     {
                         cfg.ConfigureConsumer<AccountCreatedEventMessageConsumer>(context);
+                    });
+
+                    config.ReceiveEndpoint("orders.user-updated-event-message", cfg =>
+                    {
+                        cfg.ConfigureConsumer<UserUpdatedEventMessageConsumer>(context);
                     });
                 });
             });
