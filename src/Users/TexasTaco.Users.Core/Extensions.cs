@@ -19,7 +19,8 @@ namespace TexasTaco.Users.Core
         {
             services.AddPresistence(configuration);
 
-            services.AddScoped<IAccountCreatedInboxMessagesProcessor, AccountCreatedInboxMessagesProcessor>();
+            services.AddScoped<IAccountCreatedInboxMessagesProcessor,
+                AccountCreatedInboxMessagesProcessor>();
 
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));
@@ -68,7 +69,10 @@ namespace TexasTaco.Users.Core
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddScoped<IAccountCreatedInboxMessagesRepository, AccountCreatedInboxMessagesRepository>();
+            services.AddScoped<IAccountCreatedInboxMessagesRepository,
+                AccountCreatedInboxMessagesRepository>();
+            services.AddScoped<IUserUpdatedOutboxMessagesRepository,
+                UserUpdatedOutboxMessagesRepository>();
 
             return services;
         }

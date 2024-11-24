@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.EventBus.Users;
+using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.Dtos;
 using TexasTaco.Users.Core.Entities;
 using TexasTaco.Users.Core.Repositories;
@@ -13,7 +15,11 @@ namespace TexasTaco.Users.Api.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/users")]
     [ApiController]
-    public class UsersController(IUsersRepository _usersRepository) : ControllerBase
+    public class UsersController(
+        IUnitOfWork _unitOfWork,
+        IUsersRepository _usersRepository,
+        IUserUpdatedOutboxMessagesRepository _userUpdatedOutboxMessagesRepository)
+        : ControllerBase
     {
         [MapToApiVersion(1)]
         [HttpGet("{accountId}")]
@@ -55,7 +61,7 @@ namespace TexasTaco.Users.Api.Controllers
 
             string currentUserAccountId = User.FindFirst(TexasTacoClaimNames.AccountId)!.Value;
 
-            if(user.AccountId.ToString() != currentUserAccountId)
+            if (user.AccountId.ToString() != currentUserAccountId)
             {
                 return Unauthorized();
             }
@@ -67,11 +73,28 @@ namespace TexasTaco.Users.Api.Controllers
                 userToUpdateDto.Address.Country);
 
             user.UpdateUser(
-                userToUpdateDto.FirstName, 
+                userToUpdateDto.FirstName,
                 userToUpdateDto.LastName,
                 address);
 
+            var transaction = await _unitOfWork.BeginTransactionAsync();
+
             await _usersRepository.UpdateUserAsync(user);
+
+            var outboxMessageBody = new UserUpdatedEventMessage(
+                user.AccountId,
+                user.FirstName!,
+                user.LastName!,
+                user.Address.AddressLine,
+                user.Address.PostalCode,
+                user.Address.City,
+                user.Address.Country);
+
+            var outboxMessage = new UserUpdatedOutboxMessage(outboxMessageBody);
+
+            await _userUpdatedOutboxMessagesRepository.AddAsync(outboxMessage);
+
+            await transaction.CommitAsync();
 
             return NoContent();
         }
