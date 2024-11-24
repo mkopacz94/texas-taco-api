@@ -2,6 +2,6 @@
 
 namespace TexasTaco.Shared.EventBus.Account
 {
-    public record AccountCreatedEventMessage(
+    public sealed record AccountCreatedEventMessage(
         Guid Id, Guid AccountId, EmailAddress Email, DateTime PublishedDate);
 }

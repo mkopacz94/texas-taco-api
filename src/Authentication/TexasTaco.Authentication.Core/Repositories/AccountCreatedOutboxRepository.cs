@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TexasTaco.Authentication.Core.Data.EF;
 using TexasTaco.Authentication.Core.Entities;
+using TexasTaco.Shared.Outbox;
 
 namespace TexasTaco.Authentication.Core.Repositories
 {
-    internal class AccountCreatedOutboxRepository(AuthDbContext _dbContext) 
+    internal class AccountCreatedOutboxRepository(AuthDbContext _dbContext)
         : IAccountCreatedOutboxRepository
     {
         public async Task AddAsync(AccountCreatedOutbox accountCreatedOutboxMessage)

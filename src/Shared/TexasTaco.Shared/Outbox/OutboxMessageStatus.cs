@@ -1,4 +1,4 @@
-﻿namespace TexasTaco.Authentication.Core.Entities
+﻿namespace TexasTaco.Shared.Outbox
 {
     public enum OutboxMessageStatus
     {

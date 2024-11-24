@@ -1,4 +1,5 @@
 ﻿using TexasTaco.Authentication.Core.ValueObjects;
+using TexasTaco.Shared.Outbox;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Entities

@@ -7,6 +7,7 @@ namespace TexasTaco.Users.Core.Data.EF
     {
         public DbSet<User> Users { get; set; }
         public DbSet<AccountCreatedInboxMessage> AccountCreatedInboxMessages { get; set; }
+        public DbSet<UserUpdatedOutboxMessage> UserUpdatedOutboxMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
