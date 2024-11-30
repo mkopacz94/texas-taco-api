@@ -18,7 +18,7 @@ namespace TexasTaco.Orders.Domain.Basket
 
             if (sameItemInBasket is not null)
             {
-                sameItemInBasket.IncreaseQuantity();
+                sameItemInBasket.IncreaseQuantity(item.Quantity);
                 return;
             }
 

@@ -2,5 +2,6 @@
 {
     public sealed record AddProductToBasketResponse(
         bool IsSuccess,
+        string? ProductLocation = null,
         string? ErrorMessage = null);
 }

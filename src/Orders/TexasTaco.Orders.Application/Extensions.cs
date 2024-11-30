@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Orders.Application.AccountCreatedInbox;
+using TexasTaco.Orders.Application.Baskets;
 using TexasTaco.Orders.Application.UserUpdatedInbox;
 
 namespace TexasTaco.Orders.Application
@@ -18,6 +19,16 @@ namespace TexasTaco.Orders.Application
                 AccountCreatedInboxMessagesProcessor>();
             services.AddScoped<IUserUpdatedInboxMessagesProcessor,
                 UserUpdatedInboxMessagesProcessor>();
+
+            services.AddApplicationServices();
+
+            return services;
+        }
+
+        private static IServiceCollection AddApplicationServices(
+            this IServiceCollection services)
+        {
+            services.AddScoped<IBasketService, BasketService>();
 
             return services;
         }

@@ -1,9 +1,11 @@
 ﻿using Asp.Versioning;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Text.Json;
 using TexasTaco.Products.Core.Entities;
 using TexasTaco.Products.Core.Repositories;
+using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.EventBus.Products;
 using TexasTaco.Shared.ValueObjects;
 
@@ -18,7 +20,8 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                 [FromQuery] int quantity,
                 [FromServices] IProductsRepository productsRepository,
                 [FromServices] IRequestClient<AddProductToBasketRequest> busClient,
-                [FromServices] ILogger<AddToBasket> logger) =>
+                [FromServices] ILogger<AddToBasket> logger,
+                ClaimsPrincipal user) =>
             {
                 var productId = new ProductId(Guid.Parse(id));
                 var productToAdd = await productsRepository.GetAsync(productId);
@@ -28,7 +31,10 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                     return Results.BadRequest($"Product with id {productId.Value} not found.");
                 }
 
+                string currentUserAccountId = user.FindFirst(TexasTacoClaimNames.AccountId)!.Value;
+
                 var request = new AddProductToBasketRequest(
+                    Guid.Parse(currentUserAccountId),
                     productToAdd.Id,
                     productToAdd.Name,
                     productToAdd.Price,
@@ -41,7 +47,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                     "Received AddProductToBasketResponse. {jsonObject}",
                     JsonSerializer.Serialize(response.Message));
 
-                return Results.Created();
+                return Results.Created(response.Message.ProductLocation, null);
             })
             .WithTags(Tags.Products)
             .HasApiVersion(new ApiVersion(1))

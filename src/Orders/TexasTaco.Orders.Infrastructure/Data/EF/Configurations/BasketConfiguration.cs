@@ -19,6 +19,10 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
             builder
                 .Property(b => b.CustomerId)
                 .HasConversion(id => id.Value, value => new CustomerId(value));
+
+            builder
+                .Navigation(b => b.Items)
+                .AutoInclude();
         }
     }
 }

@@ -11,14 +11,14 @@ namespace TexasTaco.Orders.Domain.Basket
         public Basket Basket { get; private set; } = null!;
         public string Name { get; private set; }
         public decimal Price { get; private set; }
-        public string PictureUrl { get; private set; }
+        public string? PictureUrl { get; private set; }
         public int Quantity { get; private set; }
 
         public BasketItem(
             ProductId productId,
             string name,
             decimal price,
-            string pictureUrl,
+            string? pictureUrl,
             int quantity)
         {
             if (quantity < 1)
@@ -34,6 +34,7 @@ namespace TexasTaco.Orders.Domain.Basket
         }
 
         public void IncreaseQuantity() => Quantity++;
+        public void IncreaseQuantity(int quantity) => Quantity += quantity;
         public void DecreaseQuantity()
         {
             int decreasedQuantity = Quantity - 1;

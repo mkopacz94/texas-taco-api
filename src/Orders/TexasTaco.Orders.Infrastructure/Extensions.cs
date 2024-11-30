@@ -47,7 +47,7 @@ namespace TexasTaco.Orders.Infrastructure
             this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IBasketsRepository, BasketsRepository>();
             services.AddScoped<ICustomersRepository, CustomersRepository>();
             services.AddScoped<IAccountCreatedInboxMessagesRepository,
                 AccountCreatedInboxMessagesRepository>();
