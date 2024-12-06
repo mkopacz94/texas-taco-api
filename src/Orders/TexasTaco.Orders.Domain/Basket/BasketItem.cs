@@ -33,7 +33,7 @@ namespace TexasTaco.Orders.Domain.Basket
             Quantity = quantity;
         }
 
-        public void IncreaseQuantity() => Quantity++;
+        public void ChangeQuantity(int quantity) => Quantity = quantity;
         public void IncreaseQuantity(int quantity) => Quantity += quantity;
         public void DecreaseQuantity()
         {
