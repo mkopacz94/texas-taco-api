@@ -5,7 +5,7 @@ using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Exceptions;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services.Verification;
-using TexasTaco.Authentication.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Api.Controllers
 {
@@ -26,21 +26,21 @@ namespace TexasTaco.Authentication.Api.Controllers
             var verificationToken = await _verificationTokensRepository
                 .GetByTokenValueAsync(Guid.Parse(token));
 
-            if(verificationToken == null)
+            if (verificationToken == null)
             {
                 return BadRequest();
             }
 
-            if(verificationToken.IsExpired)
+            if (verificationToken.IsExpired)
             {
                 throw new VerificationTokenExpiredException();
             }
 
             var accountToBeVerified = await _authRepository
-                .GetByIdAsync(verificationToken.AccountId) 
+                .GetByIdAsync(verificationToken.AccountId)
                 ?? throw new AccountAssociatedWithTokenNotFoundException(verificationToken);
 
-            if(accountToBeVerified.Verified)
+            if (accountToBeVerified.Verified)
             {
                 throw new AccountAlreadyVerifiedException(accountToBeVerified);
             }
@@ -67,7 +67,7 @@ namespace TexasTaco.Authentication.Api.Controllers
         public async Task<IActionResult> ResendVerificationEmail([FromQuery] string accountId)
         {
             var accountIdObject = new AccountId(Guid.Parse(accountId));
-            var account = await _authRepository.GetByIdAsync(accountIdObject) 
+            var account = await _authRepository.GetByIdAsync(accountIdObject)
                 ?? throw new AccountDoesNotExistException(accountIdObject);
 
             await _emailVerificationService.EnqueueVerificationEmail(account);

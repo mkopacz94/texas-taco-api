@@ -11,9 +11,10 @@ namespace TexasTaco.Orders.Api.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/orders/[controller]")]
     [Authorize]
-    public class BasketController(
-        IMediator _mediator) : ControllerBase
+    public sealed class BasketController(IMediator mediator) : ControllerBase
     {
+        private readonly IMediator _mediator = mediator;
+
         [HttpGet]
         public async Task<IActionResult> GetBasket([FromQuery] string customerId)
         {

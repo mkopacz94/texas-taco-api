@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.ValueObjects;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Core.Services
 {
@@ -10,12 +11,12 @@ namespace TexasTaco.Authentication.Core.Services
         public async Task<SessionId> CreateSession(AccountId accountId, DateTime expirationDate)
         {
             var newSession = new Session(
-                new SessionId(Guid.NewGuid()), 
-                DateTime.UtcNow, 
-                expirationDate, 
+                new SessionId(Guid.NewGuid()),
+                DateTime.UtcNow,
+                expirationDate,
                 false);
 
-            var cachedAccountSessions = await GetAccountSessions(accountId); 
+            var cachedAccountSessions = await GetAccountSessions(accountId);
 
             if (cachedAccountSessions is null)
             {

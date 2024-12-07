@@ -6,12 +6,17 @@ using TexasTaco.Orders.Application.UnitOfWork;
 namespace TexasTaco.Orders.Application.AccountCreatedInbox
 {
     internal class AccountCreatedInboxMessagesProcessor(
-        IUnitOfWork _unitOfWork,
-        IMediator _mediator,
-        IAccountCreatedInboxMessagesRepository _inboxRepository,
-        ILogger<AccountCreatedInboxMessagesProcessor> _logger)
+        IUnitOfWork unitOfWork,
+        IMediator mediator,
+        IAccountCreatedInboxMessagesRepository inboxRepository,
+        ILogger<AccountCreatedInboxMessagesProcessor> logger)
         : IAccountCreatedInboxMessagesProcessor
     {
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IMediator _mediator = mediator;
+        private readonly IAccountCreatedInboxMessagesRepository _inboxRepository = inboxRepository;
+        private readonly ILogger<AccountCreatedInboxMessagesProcessor> _logger = logger;
+
         public async Task ProcessMessages()
         {
             var nonProcessedMessages = await _inboxRepository

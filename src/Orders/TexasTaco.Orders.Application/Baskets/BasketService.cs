@@ -6,10 +6,14 @@ using TexasTaco.Orders.Domain.Basket;
 namespace TexasTaco.Orders.Application.Baskets
 {
     internal class BasketService(
-        ICustomersRepository _customersRepository,
-        IBasketsRepository _basketRepository,
-        ILogger<BasketService> _logger) : IBasketService
+        ICustomersRepository customersRepository,
+        IBasketsRepository basketRepository,
+        ILogger<BasketService> logger) : IBasketService
     {
+        private readonly ICustomersRepository _customersRepository = customersRepository;
+        private readonly IBasketsRepository _basketRepository = basketRepository;
+        private readonly ILogger<BasketService> _logger = logger;
+
         public async Task<Basket> AddItemToBasket(Guid accountId, BasketItem item)
         {
             var customer = await _customersRepository

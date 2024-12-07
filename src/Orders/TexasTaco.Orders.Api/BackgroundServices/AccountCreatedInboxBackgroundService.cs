@@ -3,8 +3,10 @@
 namespace TexasTaco.Orders.Api.BackgroundServices
 {
     public class AccountCreatedInboxBackgroundService(
-        IServiceProvider _serviceProvider) : BackgroundService
+        IServiceProvider serviceProvider) : BackgroundService
     {
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
