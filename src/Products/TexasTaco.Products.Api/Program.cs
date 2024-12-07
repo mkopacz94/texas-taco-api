@@ -61,6 +61,7 @@ var versionedGroup = app
 
 app.Services.ApplyDatabaseMigrations();
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapEndpoints(versionedGroup);
 
 if (app.Environment.IsDevelopment())
@@ -80,7 +81,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();

@@ -12,9 +12,10 @@ namespace TexasTaco.Users.Core.Entities
         public string? LastName { get; private set; }
         public Address Address { get; private set; } = new Address();
         public int PointsCollected { get; private set; }
+        public string FullName => $"{FirstName} {LastName}";
 
-        public void UpdateUser(string firstName, string lastName, Address address) 
-        { 
+        public void UpdateUser(string firstName, string lastName, Address address)
+        {
             FirstName = firstName;
             LastName = lastName;
             Address.UpdateAddress(address);

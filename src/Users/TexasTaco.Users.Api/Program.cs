@@ -1,5 +1,6 @@
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Users.Api;
+using TexasTaco.Users.Api.ErrorHandling;
 using TexasTaco.Users.Api.OpenApi;
 using TexasTaco.Users.Core;
 
@@ -15,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTexasTacoUsers(builder.Configuration);
 builder.Services.AddUsersHostedServices();
+builder.Services.AddSingleton<ExceptionMiddleware>();
 
 var app = builder.Build();
 
@@ -37,6 +39,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
