@@ -9,6 +9,8 @@
 
     public enum ExceptionCategory
     {
-        BadRequest
+        BadRequest,
+        NotFound,
+        ValidationError
     }
 }

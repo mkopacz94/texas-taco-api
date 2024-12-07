@@ -1,5 +1,9 @@
-﻿namespace TexasTaco.Orders.Domain.Basket.Exceptions
+﻿using TexasTaco.Orders.Shared.Exceptions;
+
+namespace TexasTaco.Orders.Domain.Basket.Exceptions
 {
     public class InvalidBasketItemQuantityException(int quantity)
-        : Exception($"Quantity {quantity} is invalid value.");
+        : OrdersServiceException(
+            $"Quantity {quantity} is invalid value.",
+            ExceptionCategory.ValidationError);
 }

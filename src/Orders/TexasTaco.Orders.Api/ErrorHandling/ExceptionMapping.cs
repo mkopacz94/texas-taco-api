@@ -10,6 +10,8 @@ namespace TexasTaco.Orders.Api.ErrorHandling
             return exceptionCategory switch
             {
                 ExceptionCategory.BadRequest => HttpStatusCode.BadRequest,
+                ExceptionCategory.NotFound => HttpStatusCode.NotFound,
+                ExceptionCategory.ValidationError => HttpStatusCode.UnprocessableEntity,
                 _ => HttpStatusCode.InternalServerError
             };
         }
