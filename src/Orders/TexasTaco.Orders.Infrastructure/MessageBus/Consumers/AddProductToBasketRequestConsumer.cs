@@ -5,6 +5,7 @@ using TexasTaco.Orders.Application.Baskets;
 using TexasTaco.Orders.Domain.Basket;
 using TexasTaco.Orders.Domain.Basket.Exceptions;
 using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 {
@@ -31,8 +32,10 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
                     busMessage.PictureUrl,
                     busMessage.Quantity);
 
+                var accountId = new AccountId(busMessage.AccountId);
+
                 var basket = await _basketService
-                    .AddItemToBasket(busMessage.AccountId, basketItem);
+                    .AddItemToBasket(accountId, basketItem);
 
                 string productLocation = $"/api/v1/orders/basket/{basket.Id.Value}/items/{basketItem.Id.Value}";
                 response = new AddProductToBasketResponse(true, productLocation);

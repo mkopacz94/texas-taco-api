@@ -6,6 +6,7 @@ using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Application.Customers.UpdateCustomer;
 using TexasTaco.Orders.Application.UnitOfWork;
 using TexasTaco.Orders.Domain.Customers;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Application.UserUpdatedInbox
 {
@@ -31,10 +32,11 @@ namespace TexasTaco.Orders.Application.UserUpdatedInbox
                 {
                     await _unitOfWork.ExecuteTransactionAsync(async () =>
                     {
+                        var accountId = new AccountId(message.MessageBody.AccountId);
+
                         var customerToUpdate = await _customersRepository
-                            .GetByAccountIdAsync(message.MessageBody.AccountId)
-                            ?? throw new CustomerWithAccountIdNotFoundException(
-                                message.MessageBody.AccountId);
+                            .GetByAccountIdAsync(accountId)
+                            ?? throw new CustomerWithAccountIdNotFoundException(accountId);
 
                         var address = new Address(
                             message.MessageBody.AddressLine,

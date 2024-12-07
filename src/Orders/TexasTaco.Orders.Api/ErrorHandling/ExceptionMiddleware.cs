@@ -3,6 +3,7 @@ using Humanizer;
 using System.Net;
 using TexasTaco.Orders.Shared.Exceptions;
 using TexasTaco.Shared.Errors;
+using TexasTaco.Shared.Exceptions;
 
 namespace TexasTaco.Orders.Api.ErrorHandling
 {
@@ -32,6 +33,13 @@ namespace TexasTaco.Orders.Api.ErrorHandling
 
                 return;
             }
+            else if (ex is InvalidRequestParametersException invalidParamsException)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                await context.Response.WriteAsJsonAsync(CreateErrorMessage(invalidParamsException));
+
+                return;
+            }
 
             _logger.LogError(ex, "{message}", ex.Message);
 
@@ -41,7 +49,7 @@ namespace TexasTaco.Orders.Api.ErrorHandling
             await context.Response.WriteAsJsonAsync(errorMessage);
         }
 
-        private static ErrorMessage CreateErrorMessage(OrdersServiceException ex)
+        private static ErrorMessage CreateErrorMessage(Exception ex)
         {
             var errorCode = ex
                 .GetType()

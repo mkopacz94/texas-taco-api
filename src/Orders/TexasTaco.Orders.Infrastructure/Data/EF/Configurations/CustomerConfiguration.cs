@@ -15,6 +15,9 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
+            builder.Property(u => u.AccountId)
+               .HasConversion(id => id.Value, value => new AccountId(value));
+
             builder.Property(u => u.Id)
                 .HasConversion(id => id.Value, value => new CustomerId(value));
 

@@ -4,7 +4,7 @@ using TexasTaco.Shared.ValueObjects;
 namespace TexasTaco.Orders.Application.Customers.CreateCustomer
 {
     public sealed record CreateCustomerCommand(
-        Guid AccountId,
+        AccountId AccountId,
         EmailAddress EmailAddress)
         : IRequest;
 }

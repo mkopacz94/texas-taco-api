@@ -2,6 +2,7 @@
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Domain.Basket;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Application.Baskets
 {
@@ -14,7 +15,7 @@ namespace TexasTaco.Orders.Application.Baskets
         private readonly IBasketsRepository _basketRepository = basketRepository;
         private readonly ILogger<BasketService> _logger = logger;
 
-        public async Task<Basket> AddItemToBasket(Guid accountId, BasketItem item)
+        public async Task<Basket> AddItemToBasket(AccountId accountId, BasketItem item)
         {
             var customer = await _customersRepository
                 .GetByAccountIdAsync(accountId)

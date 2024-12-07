@@ -2,12 +2,13 @@
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Orders.Infrastructure.Data.EF;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Infrastructure.Data.Repositories
 {
     internal class CustomersRepository(OrdersDbContext _context) : ICustomersRepository
     {
-        public async Task<Customer?> GetByAccountIdAsync(Guid accountId)
+        public async Task<Customer?> GetByAccountIdAsync(AccountId accountId)
         {
             return await _context.Customers
                 .FirstOrDefaultAsync(u => u.AccountId == accountId);

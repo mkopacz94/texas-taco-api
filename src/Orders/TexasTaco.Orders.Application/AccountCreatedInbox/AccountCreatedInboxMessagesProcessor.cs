@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using TexasTaco.Orders.Application.Customers.CreateCustomer;
 using TexasTaco.Orders.Application.UnitOfWork;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Application.AccountCreatedInbox
 {
@@ -32,7 +33,7 @@ namespace TexasTaco.Orders.Application.AccountCreatedInbox
                     await _unitOfWork.ExecuteTransactionAsync(async () =>
                     {
                         var createCustomerCommand = new CreateCustomerCommand(
-                            message.MessageBody.AccountId,
+                            new AccountId(message.MessageBody.AccountId),
                             message.MessageBody.Email);
 
                         await _mediator.Send(createCustomerCommand);

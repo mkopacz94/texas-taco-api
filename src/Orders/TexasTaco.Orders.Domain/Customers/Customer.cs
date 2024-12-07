@@ -2,10 +2,10 @@
 
 namespace TexasTaco.Orders.Domain.Customers
 {
-    public class Customer(Guid accountId, EmailAddress email)
+    public class Customer(AccountId accountId, EmailAddress email)
     {
         public CustomerId Id { get; } = new CustomerId(Guid.NewGuid());
-        public Guid AccountId { get; private set; } = accountId;
+        public AccountId AccountId { get; private set; } = accountId;
         public EmailAddress Email { get; private set; } = email;
         public string? FirstName { get; private set; }
         public string? LastName { get; private set; }

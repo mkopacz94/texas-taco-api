@@ -1,9 +1,10 @@
 ﻿using TexasTaco.Orders.Domain.Basket;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Application.Baskets
 {
     public interface IBasketService
     {
-        Task<Basket> AddItemToBasket(Guid accountId, BasketItem item);
+        Task<Basket> AddItemToBasket(AccountId accountId, BasketItem item);
     }
 }
