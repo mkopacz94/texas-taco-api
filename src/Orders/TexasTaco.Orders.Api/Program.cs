@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using TexasTaco.Orders.Api;
+using TexasTaco.Orders.Api.ErrorHandling;
 using TexasTaco.Orders.Infrastructure;
 using TexasTaco.Shared.Authentication;
 
@@ -15,6 +16,7 @@ builder.Services.AddOrdersOptions(builder.Configuration);
 builder.Services.AddSharedDataProtectionCache(builder.Configuration);
 builder.Services.AddSharedAuthentication(builder.Configuration);
 builder.Services.AddOrdersHostedServices();
+builder.Services.AddSingleton<ExceptionMiddleware>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,6 +30,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

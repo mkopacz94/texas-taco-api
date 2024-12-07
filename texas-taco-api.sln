@@ -53,13 +53,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Authentication.Co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orders", "Orders", "{E33AB53D-EBE8-4D2B-9889-9ECA24A648DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Orders.Application", "src\Orders\TexasTaco.Orders.Application\TexasTaco.Orders.Application.csproj", "{6D9AB147-7D5F-4770-A642-A7913465E2A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Orders.Application", "src\Orders\TexasTaco.Orders.Application\TexasTaco.Orders.Application.csproj", "{6D9AB147-7D5F-4770-A642-A7913465E2A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Orders.Domain", "src\Orders\TexasTaco.Orders.Domain\TexasTaco.Orders.Domain.csproj", "{53E96878-8FB0-4FDD-A0CD-25CA38DDC90A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Orders.Domain", "src\Orders\TexasTaco.Orders.Domain\TexasTaco.Orders.Domain.csproj", "{53E96878-8FB0-4FDD-A0CD-25CA38DDC90A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Orders.Infrastructure", "src\Orders\TexasTaco.Orders.Infrastructure\TexasTaco.Orders.Infrastructure.csproj", "{7DAFABBB-0334-4BA4-87E6-6356C8E297E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Orders.Infrastructure", "src\Orders\TexasTaco.Orders.Infrastructure\TexasTaco.Orders.Infrastructure.csproj", "{7DAFABBB-0334-4BA4-87E6-6356C8E297E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Orders.Api", "src\Orders\TexasTaco.Orders.Api\TexasTaco.Orders.Api.csproj", "{FFCE8333-6D88-428F-A3B6-A68D22E38DDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TexasTaco.Orders.Api", "src\Orders\TexasTaco.Orders.Api\TexasTaco.Orders.Api.csproj", "{FFCE8333-6D88-428F-A3B6-A68D22E38DDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasTaco.Orders.Shared", "src\Orders\TexasTaco.Orders.Shared\TexasTaco.Orders.Shared.csproj", "{1F8D16B8-7624-4423-84A7-4BF5AADCEEBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +141,10 @@ Global
 		{FFCE8333-6D88-428F-A3B6-A68D22E38DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFCE8333-6D88-428F-A3B6-A68D22E38DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFCE8333-6D88-428F-A3B6-A68D22E38DDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F8D16B8-7624-4423-84A7-4BF5AADCEEBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F8D16B8-7624-4423-84A7-4BF5AADCEEBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F8D16B8-7624-4423-84A7-4BF5AADCEEBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F8D16B8-7624-4423-84A7-4BF5AADCEEBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -170,6 +176,7 @@ Global
 		{53E96878-8FB0-4FDD-A0CD-25CA38DDC90A} = {E33AB53D-EBE8-4D2B-9889-9ECA24A648DA}
 		{7DAFABBB-0334-4BA4-87E6-6356C8E297E4} = {E33AB53D-EBE8-4D2B-9889-9ECA24A648DA}
 		{FFCE8333-6D88-428F-A3B6-A68D22E38DDD} = {E33AB53D-EBE8-4D2B-9889-9ECA24A648DA}
+		{1F8D16B8-7624-4423-84A7-4BF5AADCEEBD} = {E33AB53D-EBE8-4D2B-9889-9ECA24A648DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8962ABFE-4441-4C72-A04E-0038C172612D}
