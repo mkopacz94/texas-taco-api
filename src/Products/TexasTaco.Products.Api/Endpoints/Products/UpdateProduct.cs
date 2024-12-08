@@ -1,8 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Products.Core.DTO;
-using TexasTaco.Products.Core.Repositories;
-using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Products.Core.Services;
 using TexasTaco.Shared.Errors;
 using TexasTaco.Shared.ValueObjects;
 
@@ -15,7 +14,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
             app.MapPut("{id}", async (
                 string id,
                 ProductInputDto productDto,
-                [FromServices] IProductsRepository productsRepository) =>
+                [FromServices] IProductUpdateService productUpdateService) =>
             {
                 if (!Guid.TryParse(id, out var productIdGuid))
                 {
@@ -29,35 +28,15 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                     return Results.BadRequest(errorMessage);
                 }
 
-                var productToUpdate = await productsRepository
-                    .GetAsync(new ProductId(Guid.Parse(id)));
-
-                if (productToUpdate is null)
-                {
-                    var errorMessage = new ErrorMessage(
-                        Errors.ErrorsCodes.ProductNotFound,
-                        $"Product with the \"{id}\" id has not been found in the database. " +
-                            "Provide an id of an existing product.");
-
-                    return Results.NotFound(errorMessage);
-                }
-
-                productToUpdate.UpdateProduct(
-                    productDto.Name,
-                    productDto.ShortDescription,
-                    productDto.Recommended,
-                    productDto.Price,
-                    new PictureId(pictureIdGuid));
-
-                await productsRepository.UpdateAsync(productToUpdate);
-
+                var productId = new ProductId(Guid.Parse(id));
+                await productUpdateService.UpdateProductAsync(productId, productDto);
                 return Results.NoContent();
             })
             .RequireAuthorization()
             .WithTags(Tags.Products)
             .HasApiVersion(new ApiVersion(1))
             .Produces(StatusCodes.Status204NoContent)
-            .Produces(StatusCodes.Status404NotFound, typeof(ErrorMessage));
+            .Produces(StatusCodes.Status400BadRequest, typeof(ErrorMessage));
         }
     }
 }

@@ -77,7 +77,7 @@ namespace TexasTaco.Users.Api.Controllers
                 userToUpdateDto.LastName,
                 address);
 
-            var transaction = await _unitOfWork.BeginTransactionAsync();
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             await _usersRepository.UpdateUserAsync(user);
 

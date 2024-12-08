@@ -11,6 +11,7 @@ namespace TexasTaco.Products.Core.Data.EF.Configurations
         {
             builder.HasKey(p => p.Id);
             builder.HasIndex(p => p.Name);
+            builder.Ignore(p => p.PriceChanged);
 
             builder
                 .Property(p => p.Id)

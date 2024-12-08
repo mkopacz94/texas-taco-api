@@ -16,6 +16,8 @@ namespace TexasTaco.Products.Core.Entities
         public Picture Picture { get; private set; } = null!;
         public IReadOnlyCollection<Prize> Prizes => _prizes;
 
+        public bool PriceChanged { get; private set; }
+
         public Product(
             string name,
             string shortDescription,
@@ -34,6 +36,8 @@ namespace TexasTaco.Products.Core.Entities
             decimal price,
             PictureId pictureId)
         {
+            PriceChanged = Price != price;
+
             Name = name;
             ShortDescription = shortDescription;
             Recommended = recommended;

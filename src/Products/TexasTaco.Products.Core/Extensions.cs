@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using TexasTaco.Products.Core.Data.EF;
 using TexasTaco.Products.Core.Repositories;
+using TexasTaco.Products.Core.Services;
 using TexasTaco.Shared.Settings;
 
 namespace TexasTaco.Products.Core
@@ -23,9 +24,14 @@ namespace TexasTaco.Products.Core
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPicturesRepository, PicturesRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IPrizesRepository, PrizesRepository>();
+            services.AddScoped<IProductPriceChangedOutboxMessagesRepository,
+                ProductPriceChangedOutboxMessagesRepository>();
+
+            services.AddScoped<IProductUpdateService, ProductUpdateService>();
 
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));
