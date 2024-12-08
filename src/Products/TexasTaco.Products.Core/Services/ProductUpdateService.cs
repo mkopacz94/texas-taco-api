@@ -38,6 +38,7 @@ namespace TexasTaco.Products.Core.Services
             if (productToUpdate.PriceChanged)
             {
                 var outboxMessageBody = new ProductPriceChangedEventMessage(
+                    Guid.NewGuid(),
                     productId,
                     productToUpdate.Price);
 

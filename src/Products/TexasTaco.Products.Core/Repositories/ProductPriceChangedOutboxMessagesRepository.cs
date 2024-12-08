@@ -17,7 +17,8 @@ namespace TexasTaco.Products.Core.Repositories
         public async Task<IEnumerable<ProductPriceChangedOutboxMessage>> GetNonPublishedOutboxMessages()
         {
             return await _dbContext.ProductPriceChangedOutboxMessages
-                .Where(uo => uo.MessageStatus == OutboxMessageStatus.ToBePublished)
+                .Where(pc => pc.MessageStatus == OutboxMessageStatus.ToBePublished)
+                .OrderBy(pc => pc.Created)
                 .ToListAsync();
         }
 
