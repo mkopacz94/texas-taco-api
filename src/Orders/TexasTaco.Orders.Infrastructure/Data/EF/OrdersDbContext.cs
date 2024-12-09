@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TexasTaco.Orders.Domain.AccountCreatedInboxMessages;
 using TexasTaco.Orders.Domain.Basket;
 using TexasTaco.Orders.Domain.Customers;
-using TexasTaco.Orders.Domain.UserUpdatedInboxMessages;
+using TexasTaco.Orders.Persistence.AccountCreatedInboxMessages;
 using TexasTaco.Orders.Persistence.ProductPriceChangedInbox;
+using TexasTaco.Orders.Persistence.UserUpdatedInboxMessages;
 
 namespace TexasTaco.Orders.Infrastructure.Data.EF
 {

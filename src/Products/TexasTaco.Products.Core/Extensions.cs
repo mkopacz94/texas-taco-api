@@ -32,6 +32,8 @@ namespace TexasTaco.Products.Core
                 ProductPriceChangedOutboxMessagesRepository>();
 
             services.AddScoped<IProductUpdateService, ProductUpdateService>();
+            services.AddScoped<IProductPriceChangedOutboxMessagesProcessor,
+                ProductPriceChangedOutboxMessagesProcessor>();
 
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));

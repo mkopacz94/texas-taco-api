@@ -1,7 +1,7 @@
 ﻿using TexasTaco.Shared.EventBus.Account;
 using TexasTaco.Shared.Inbox;
 
-namespace TexasTaco.Orders.Domain.AccountCreatedInboxMessages
+namespace TexasTaco.Orders.Persistence.AccountCreatedInboxMessages
 {
     public class AccountCreatedInboxMessage(AccountCreatedEventMessage messageBody)
     {

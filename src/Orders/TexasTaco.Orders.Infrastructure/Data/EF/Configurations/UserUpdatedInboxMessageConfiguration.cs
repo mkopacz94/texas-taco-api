@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
-using TexasTaco.Orders.Domain.UserUpdatedInboxMessages;
+using TexasTaco.Orders.Persistence.UserUpdatedInboxMessages;
 using TexasTaco.Shared.EventBus.Users;
 
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations

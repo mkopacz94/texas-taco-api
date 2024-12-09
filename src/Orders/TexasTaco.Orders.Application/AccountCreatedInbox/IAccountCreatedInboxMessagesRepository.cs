@@ -1,4 +1,4 @@
-﻿using TexasTaco.Orders.Domain.AccountCreatedInboxMessages;
+﻿using TexasTaco.Orders.Persistence.AccountCreatedInboxMessages;
 
 namespace TexasTaco.Orders.Application.AccountCreatedInbox
 {

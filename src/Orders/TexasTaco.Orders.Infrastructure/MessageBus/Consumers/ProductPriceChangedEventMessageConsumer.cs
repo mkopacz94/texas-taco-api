@@ -1,20 +1,20 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
-using TexasTaco.Orders.Application.AccountCreatedInbox;
-using TexasTaco.Orders.Persistence.AccountCreatedInboxMessages;
-using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Orders.Application.ProductPriceChangedInbox;
+using TexasTaco.Orders.Persistence.ProductPriceChangedInbox;
+using TexasTaco.Shared.EventBus.Products;
 
 namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 {
-    internal class AccountCreatedEventMessageConsumer(
-        IAccountCreatedInboxMessagesRepository _inboxRepository,
-        ILogger<AccountCreatedEventMessageConsumer> _logger)
-        : IConsumer<AccountCreatedEventMessage>
+    internal class ProductPriceChangedEventMessageConsumer(
+        IProductPriceChangedInboxMessagesRepository _inboxRepository,
+        ILogger<ProductPriceChangedEventMessageConsumer> _logger)
+        : IConsumer<ProductPriceChangedEventMessage>
     {
-        public async Task Consume(ConsumeContext<AccountCreatedEventMessage> context)
+        public async Task Consume(ConsumeContext<ProductPriceChangedEventMessage> context)
         {
             var message = context.Message;
-            var inboxMessage = new AccountCreatedInboxMessage(message);
+            var inboxMessage = new ProductPriceChangedInboxMessage(message);
 
             try
             {
@@ -22,7 +22,7 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
                 {
                     _logger.LogInformation("Inbox already contains {messageType} " +
                         "with id {id}. Message ignored.",
-                        nameof(AccountCreatedInboxMessage),
+                        nameof(ProductPriceChangedEventMessage),
                         message.Id.ToString());
 
                     return;
@@ -32,13 +32,13 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 
                 _logger.LogInformation("Consumed {messageType} with id {id} and " +
                     "successfully added it to the inbox.",
-                    nameof(AccountCreatedInboxMessage),
+                    nameof(ProductPriceChangedEventMessage),
                     message.Id.ToString());
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to consume {message type} with id {id}.",
-                    nameof(AccountCreatedInboxMessage),
+                    nameof(ProductPriceChangedEventMessage),
                     message.Id.ToString());
 
                 throw;

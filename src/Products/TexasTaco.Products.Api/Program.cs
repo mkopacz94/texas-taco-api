@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
 using TexasTaco.Products.Api;
+using TexasTaco.Products.Api.BackgroundServices;
 using TexasTaco.Products.Api.Clients;
 using TexasTaco.Products.Api.Configuration;
 using TexasTaco.Products.Api.ErrorHandling;
@@ -18,6 +19,7 @@ builder.Services.AddTexasTacoProductsApiVersioning();
 builder.Services.AddSharedDataProtectionCache(builder.Configuration);
 builder.Services.AddSharedAuthentication(builder.Configuration);
 builder.Services.AddSingleton<ExceptionMiddleware>();
+builder.Services.AddHostedService<ProductPriceChangedOutboxBackgroundService>();
 
 builder.Services.AddAntiforgery(options =>
 {

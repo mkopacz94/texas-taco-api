@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Orders.Application.AccountCreatedInbox;
 using TexasTaco.Orders.Application.Baskets;
 using TexasTaco.Orders.Application.Customers;
+using TexasTaco.Orders.Application.ProductPriceChangedInbox;
 using TexasTaco.Orders.Application.UnitOfWork;
 using TexasTaco.Orders.Application.UserUpdatedInbox;
 using TexasTaco.Orders.Infrastructure.Data;
@@ -53,6 +54,8 @@ namespace TexasTaco.Orders.Infrastructure
                 AccountCreatedInboxMessagesRepository>();
             services.AddScoped<IUserUpdatedInboxMessagesRepository,
                 UserUpdatedInboxMessagesRepository>();
+            services.AddScoped<IProductPriceChangedInboxMessagesRepository,
+                ProductPriceChangedInboxMessagesRepository>();
 
             return services;
         }

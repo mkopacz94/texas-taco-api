@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using TexasTaco.Orders.Application.UserUpdatedInbox;
-using TexasTaco.Orders.Domain.UserUpdatedInboxMessages;
+using TexasTaco.Orders.Persistence.UserUpdatedInboxMessages;
 using TexasTaco.Shared.EventBus.Users;
 
 namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers

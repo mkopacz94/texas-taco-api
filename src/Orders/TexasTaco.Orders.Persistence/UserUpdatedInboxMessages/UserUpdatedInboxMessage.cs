@@ -1,7 +1,7 @@
 ﻿using TexasTaco.Shared.EventBus.Users;
 using TexasTaco.Shared.Inbox;
 
-namespace TexasTaco.Orders.Domain.UserUpdatedInboxMessages
+namespace TexasTaco.Orders.Persistence.UserUpdatedInboxMessages
 {
     public class UserUpdatedInboxMessage(UserUpdatedEventMessage messageBody)
     {
