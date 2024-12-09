@@ -46,5 +46,7 @@ namespace TexasTaco.Orders.Domain.Basket
 
             Quantity = decreasedQuantity;
         }
+
+        public void UpdatePrice(decimal newPrice) => Price = newPrice;
     }
 }

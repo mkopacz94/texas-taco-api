@@ -34,5 +34,8 @@ namespace TexasTaco.Orders.Domain.Basket
         }
 
         public void Clear() => _items.Clear();
+
+        public bool ContainsProduct(ProductId productId)
+            => Items.Any(i => i.ProductId == productId);
     }
 }
