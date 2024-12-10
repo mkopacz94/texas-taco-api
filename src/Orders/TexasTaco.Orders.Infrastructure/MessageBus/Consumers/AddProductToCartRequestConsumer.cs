@@ -1,9 +1,10 @@
 ﻿using Humanizer;
 using MassTransit;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text.Json;
-using TexasTaco.Orders.Application.Carts;
+using TexasTaco.Orders.Application.Carts.AddProductToCart;
 using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Orders.Domain.Cart.Exceptions;
 using TexasTaco.Shared.Errors;
@@ -14,7 +15,7 @@ using TexasTaco.Shared.ValueObjects;
 namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 {
     internal class AddProductToCartRequestConsumer(
-        ICartService _cartService,
+        IMediator _mediator,
         ILogger<AddProductToCartRequestConsumer> _logger)
         : IConsumer<AddProductToCartRequest>
     {
@@ -38,8 +39,8 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 
                 var accountId = new AccountId(busMessage.AccountId);
 
-                var cart = await _cartService
-                    .AddItemToCart(accountId, cartProduct);
+                var command = new AddProductToCartCommand(accountId, cartProduct);
+                var cart = await _mediator.Send(command);
 
                 string productLocation = $"/api/v1/orders/cart/{cart.Id.Value}/products/{cartProduct.Id.Value}";
                 response = new AddProductToCartResponse(
@@ -51,11 +52,17 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
             }
             catch (CartProductException ex)
             {
+                _logger.LogError(ex, "{exceptionMessage}", ex.Message);
+
                 response = new AddProductToCartResponse(
                     false,
                     ex.ExceptionCategory.AsStatusCode(),
                     ErrorMessage: BuildErrorMessage(ex));
             }
+
+            _logger.LogInformation(
+                "Responded with AddProductToCartResponse. {jsonObject}",
+                JsonSerializer.Serialize(response));
 
             await context.RespondAsync(response);
         }
@@ -68,9 +75,13 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
                 .Underscore()
                 .Replace("_exception", string.Empty);
 
+            string? additionalInformation = ex is ProductAmountExceededException productAmountException
+                ? productAmountException.MaximumQuantity.ToString() : null;
+
             return new ErrorMessage(
                 errorCode,
-                ex.Message);
+                ex.Message,
+                additionalInformation);
         }
     }
 }

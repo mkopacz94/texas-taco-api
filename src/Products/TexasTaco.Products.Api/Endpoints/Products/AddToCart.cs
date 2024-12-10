@@ -15,23 +15,30 @@ namespace TexasTaco.Products.Api.Endpoints.Products
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("cart-add/{id}", async (
+            app.MapPost("add-to-cart/{id}", async (
                 string id,
+                [FromQuery] string accountId,
                 [FromQuery] int quantity,
                 [FromServices] IProductsRepository productsRepository,
                 [FromServices] IRequestClient<AddProductToCartRequest> busClient,
                 [FromServices] ILogger<AddToCart> logger,
                 ClaimsPrincipal user) =>
             {
+                string currentUserAccountId = user.FindFirst(TexasTacoClaimNames.AccountId)!.Value;
+
+                if (currentUserAccountId != accountId)
+                {
+                    return Results.BadRequest("Given account ID is different " +
+                        "from the ID of the currently logged user.");
+                }
+
                 var productId = new ProductId(Guid.Parse(id));
                 var productToAdd = await productsRepository.GetAsync(productId);
 
                 if (productToAdd is null)
                 {
-                    return Results.BadRequest($"Product with id {productId.Value} not found.");
+                    return Results.BadRequest($"Product with ID {productId.Value} not found.");
                 }
-
-                string currentUserAccountId = user.FindFirst(TexasTacoClaimNames.AccountId)!.Value;
 
                 var request = new AddProductToCartRequest(
                     Guid.Parse(currentUserAccountId),

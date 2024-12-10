@@ -1,25 +1,26 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MediatR;
+using Microsoft.Extensions.Logging;
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Domain.Cart;
-using TexasTaco.Shared.ValueObjects;
 
-namespace TexasTaco.Orders.Application.Carts
+namespace TexasTaco.Orders.Application.Carts.AddProductToCart
 {
-    internal class CartService(
+    internal sealed class AddProductToCartCommandHandler(
         ICustomersRepository customersRepository,
         ICartsRepository cartsRepository,
-        ILogger<CartService> logger) : ICartService
+        ILogger<AddProductToCartCommandHandler> logger)
+        : IRequestHandler<AddProductToCartCommand, Cart>
     {
         private readonly ICustomersRepository _customersRepository = customersRepository;
         private readonly ICartsRepository _cartsRepository = cartsRepository;
-        private readonly ILogger<CartService> _logger = logger;
+        private readonly ILogger<AddProductToCartCommandHandler> _logger = logger;
 
-        public async Task<Cart> AddItemToCart(AccountId accountId, CartProduct item)
+        public async Task<Cart> Handle(AddProductToCartCommand request, CancellationToken cancellationToken)
         {
             var customer = await _customersRepository
-                .GetByAccountIdAsync(accountId)
-                ?? throw new CustomerWithAccountIdNotFoundException(accountId);
+                .GetByAccountIdAsync(request.AccountId)
+                ?? throw new CustomerWithAccountIdNotFoundException(request.AccountId);
 
             var customerCart = await _cartsRepository
                 .GetCartByCustomerId(customer.Id);
@@ -38,7 +39,7 @@ namespace TexasTaco.Orders.Application.Carts
                 "Customer's {customerId} cart has been found. The item will be added to it.",
                 customer.Id.Value);
 
-            customerCart.AddProduct(item);
+            customerCart.AddProduct(request.Item);
             await _cartsRepository.UpdateAsync(customerCart);
 
             return customerCart;

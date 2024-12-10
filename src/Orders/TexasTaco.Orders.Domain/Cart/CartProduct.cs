@@ -35,18 +35,6 @@ namespace TexasTaco.Orders.Domain.Cart
 
         public void ChangeQuantity(int quantity) => Quantity = quantity;
         public void IncreaseQuantity(int quantity) => Quantity += quantity;
-        public void DecreaseQuantity()
-        {
-            int decreasedQuantity = Quantity - 1;
-
-            if (decreasedQuantity < 0)
-            {
-                throw new InvalidCartProductQuantityException(decreasedQuantity);
-            }
-
-            Quantity = decreasedQuantity;
-        }
-
         public void UpdatePrice(decimal newPrice) => Price = newPrice;
     }
 }

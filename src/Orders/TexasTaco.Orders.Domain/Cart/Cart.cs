@@ -37,7 +37,7 @@ namespace TexasTaco.Orders.Domain.Cart
             var cartProduct = _products.SingleOrDefault(i => i.ProductId == productId)
                 ?? throw new CartProductNotFoundException(productId);
 
-            cartProduct.DecreaseQuantity();
+            _products.Remove(cartProduct);
         }
 
         public void Clear() => _products.Clear();
