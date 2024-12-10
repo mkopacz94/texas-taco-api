@@ -11,16 +11,16 @@ using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Api.Endpoints.Products
 {
-    internal class AddToBasket : IEndpoint
+    internal class AddToCart : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("basket-add/{id}", async (
+            app.MapPost("cart-add/{id}", async (
                 string id,
                 [FromQuery] int quantity,
                 [FromServices] IProductsRepository productsRepository,
-                [FromServices] IRequestClient<AddProductToBasketRequest> busClient,
-                [FromServices] ILogger<AddToBasket> logger,
+                [FromServices] IRequestClient<AddProductToCartRequest> busClient,
+                [FromServices] ILogger<AddToCart> logger,
                 ClaimsPrincipal user) =>
             {
                 var productId = new ProductId(Guid.Parse(id));
@@ -33,7 +33,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
 
                 string currentUserAccountId = user.FindFirst(TexasTacoClaimNames.AccountId)!.Value;
 
-                var request = new AddProductToBasketRequest(
+                var request = new AddProductToCartRequest(
                     Guid.Parse(currentUserAccountId),
                     productToAdd.Id,
                     productToAdd.Name,
@@ -41,11 +41,11 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                     productToAdd.Picture?.Url,
                     quantity);
 
-                var response = await busClient.GetResponse<AddProductToBasketResponse>(request);
+                var response = await busClient.GetResponse<AddProductToCartResponse>(request);
                 var message = response.Message;
 
                 logger.LogInformation(
-                    "Received AddProductToBasketResponse. {jsonObject}",
+                    "Received AddProductToCartResponse. {jsonObject}",
                     JsonSerializer.Serialize(message));
 
                 if (!message.IsSuccess)

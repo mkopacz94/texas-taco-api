@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Orders.Application.AccountCreatedInbox;
-using TexasTaco.Orders.Application.Baskets;
+using TexasTaco.Orders.Application.Carts;
 using TexasTaco.Orders.Application.ProductPriceChangedInbox;
 using TexasTaco.Orders.Application.UserUpdatedInbox;
 
@@ -31,7 +31,7 @@ namespace TexasTaco.Orders.Application
         private static IServiceCollection AddApplicationServices(
             this IServiceCollection services)
         {
-            services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<ICartService, CartService>();
 
             return services;
         }

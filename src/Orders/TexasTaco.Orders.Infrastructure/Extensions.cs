@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Orders.Application.AccountCreatedInbox;
-using TexasTaco.Orders.Application.Baskets;
+using TexasTaco.Orders.Application.Carts;
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.ProductPriceChangedInbox;
 using TexasTaco.Orders.Application.UnitOfWork;
@@ -48,7 +48,7 @@ namespace TexasTaco.Orders.Infrastructure
             this IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IBasketsRepository, BasketsRepository>();
+            services.AddScoped<ICartsRepository, CartsRepository>();
             services.AddScoped<ICustomersRepository, CustomersRepository>();
             services.AddScoped<IAccountCreatedInboxMessagesRepository,
                 AccountCreatedInboxMessagesRepository>();

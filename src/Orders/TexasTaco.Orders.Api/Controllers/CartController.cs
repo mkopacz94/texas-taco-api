@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TexasTaco.Orders.Application.Baskets.GetBasket;
+using TexasTaco.Orders.Application.Carts.GetCart;
 using TexasTaco.Orders.Domain.Customers;
 
 namespace TexasTaco.Orders.Api.Controllers
@@ -11,18 +11,18 @@ namespace TexasTaco.Orders.Api.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/orders/[controller]")]
     [Authorize]
-    public sealed class BasketController(IMediator mediator) : ControllerBase
+    public sealed class CartController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
         [HttpGet]
-        public async Task<IActionResult> GetBasket([FromQuery] string customerId)
+        public async Task<IActionResult> GetCart([FromQuery] string customerId)
         {
             var customerIdentifier = new CustomerId(Guid.Parse(customerId));
-            var query = new GetBasketQuery(customerIdentifier);
-            var basket = await _mediator.Send(query);
+            var query = new GetCartQuery(customerIdentifier);
+            var cart = await _mediator.Send(query);
 
-            return Ok(basket);
+            return Ok(cart);
         }
     }
 }

@@ -3,7 +3,7 @@ using TexasTaco.Shared.Errors;
 
 namespace TexasTaco.Shared.EventBus.Products
 {
-    public sealed record AddProductToBasketResponse(
+    public sealed record AddProductToCartResponse(
         bool IsSuccess,
         HttpStatusCode StatusCode,
         string? ProductLocation = null,

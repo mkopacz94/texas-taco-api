@@ -18,7 +18,7 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
             {
                 busConfig.SetKebabCaseEndpointNameFormatter();
 
-                busConfig.AddConsumer<AddProductToBasketRequestConsumer>();
+                busConfig.AddConsumer<AddProductToCartRequestConsumer>();
                 busConfig.AddConsumer<AccountCreatedEventMessageConsumer>();
                 busConfig.AddConsumer<UserUpdatedEventMessageConsumer>();
                 busConfig.AddConsumer<ProductPriceChangedEventMessageConsumer>();
@@ -35,9 +35,9 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
 
                     config.UseMessageRetry(r => r.Interval(10, TimeSpan.FromMinutes(1)));
 
-                    config.ReceiveEndpoint("orders.add-product-to-basket-request", cfg =>
+                    config.ReceiveEndpoint("orders.add-product-to-cart-request", cfg =>
                     {
-                        cfg.ConfigureConsumer<AddProductToBasketRequestConsumer>(context);
+                        cfg.ConfigureConsumer<AddProductToCartRequestConsumer>(context);
                     });
 
                     config.ReceiveEndpoint("orders.account-created-event-message", cfg =>

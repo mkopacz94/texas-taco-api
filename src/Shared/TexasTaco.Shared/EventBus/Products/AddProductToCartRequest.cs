@@ -2,7 +2,7 @@
 
 namespace TexasTaco.Shared.EventBus.Products
 {
-    public sealed record AddProductToBasketRequest(
+    public sealed record AddProductToCartRequest(
         Guid AccountId,
         ProductId ProductId,
         string Name,

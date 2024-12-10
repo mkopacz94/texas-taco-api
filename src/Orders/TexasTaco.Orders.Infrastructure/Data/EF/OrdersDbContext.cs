@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TexasTaco.Orders.Domain.Basket;
+using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Orders.Persistence.AccountCreatedInboxMessages;
 using TexasTaco.Orders.Persistence.ProductPriceChangedInbox;
@@ -10,8 +10,8 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF
     internal class OrdersDbContext(DbContextOptions<OrdersDbContext> options)
         : DbContext(options)
     {
-        public DbSet<BasketItem> BasketItems { get; private set; }
-        public DbSet<Basket> Baskets { get; private set; }
+        public DbSet<CartProduct> CartProducts { get; private set; }
+        public DbSet<Cart> Carts { get; private set; }
         public DbSet<Customer> Customers { get; private set; }
         public DbSet<AccountCreatedInboxMessage> AccountCreatedInboxMessages { get; private set; }
         public DbSet<UserUpdatedInboxMessage> UserUpdatedInboxMessages { get; private set; }

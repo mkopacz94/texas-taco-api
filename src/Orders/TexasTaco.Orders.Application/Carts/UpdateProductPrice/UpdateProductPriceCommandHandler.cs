@@ -1,28 +1,28 @@
 ﻿using MediatR;
 
-namespace TexasTaco.Orders.Application.Baskets.UpdateProductPrice
+namespace TexasTaco.Orders.Application.Carts.UpdateProductPrice
 {
     internal sealed class UpdateProductPriceCommandHandler(
-        IBasketsRepository _basketsRepository)
+        ICartsRepository _cartsRepository)
         : IRequestHandler<UpdateProductPriceCommand>
     {
         public async Task Handle(
             UpdateProductPriceCommand request,
             CancellationToken cancellationToken)
         {
-            var basketsWithProduct = await _basketsRepository
-                .GetBasketsWithProduct(request.ProductId);
+            var cartsWithProduct = await _cartsRepository
+                .GetCartsWithProduct(request.ProductId);
 
-            foreach (var basket in basketsWithProduct)
+            foreach (var cart in cartsWithProduct)
             {
-                var productsToUpdate = basket
-                    .Items
+                var productsToUpdate = cart
+                    .Products
                     .Where(bi => bi.ProductId == request.ProductId)
                     .ToList();
 
                 productsToUpdate.ForEach(p => p.UpdatePrice(request.NewPrice));
 
-                await _basketsRepository.UpdateAsync(basket);
+                await _cartsRepository.UpdateAsync(cart);
             }
         }
     }

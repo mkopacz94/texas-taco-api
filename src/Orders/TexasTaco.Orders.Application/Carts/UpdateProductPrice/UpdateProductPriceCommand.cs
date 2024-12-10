@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using TexasTaco.Shared.ValueObjects;
 
-namespace TexasTaco.Orders.Application.Baskets.UpdateProductPrice
+namespace TexasTaco.Orders.Application.Carts.UpdateProductPrice
 {
     public sealed record UpdateProductPriceCommand(
         ProductId ProductId,
