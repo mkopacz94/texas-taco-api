@@ -50,7 +50,9 @@ namespace TexasTaco.Products.Api.Endpoints.Products
 
                 if (!message.IsSuccess)
                 {
-                    return Results.BadRequest(message.ErrorMessage);
+                    return Results.Json(
+                        message.ErrorMessage,
+                        statusCode: (int)message.StatusCode);
                 }
 
                 return Results.Created(response.Message.ProductLocation, null);

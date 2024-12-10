@@ -6,4 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\..\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj" />
+	</ItemGroup>
 </Project>

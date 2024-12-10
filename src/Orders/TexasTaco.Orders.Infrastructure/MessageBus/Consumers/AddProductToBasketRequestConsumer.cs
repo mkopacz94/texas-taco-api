@@ -1,10 +1,14 @@
-﻿using MassTransit;
+﻿using Humanizer;
+using MassTransit;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Text.Json;
 using TexasTaco.Orders.Application.Baskets;
 using TexasTaco.Orders.Domain.Basket;
 using TexasTaco.Orders.Domain.Basket.Exceptions;
+using TexasTaco.Shared.Errors;
 using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.Exceptions;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
@@ -38,16 +42,35 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
                     .AddItemToBasket(accountId, basketItem);
 
                 string productLocation = $"/api/v1/orders/basket/{basket.Id.Value}/items/{basketItem.Id.Value}";
-                response = new AddProductToBasketResponse(true, productLocation);
+                response = new AddProductToBasketResponse(
+                    true,
+                    HttpStatusCode.Created,
+                    productLocation);
+
                 await context.RespondAsync(response);
             }
-            catch (InvalidBasketItemQuantityException ex)
+            catch (BasketItemException ex)
             {
-                response = new AddProductToBasketResponse(false, null, ex.Message);
-
+                response = new AddProductToBasketResponse(
+                    false,
+                    ex.ExceptionCategory.AsStatusCode(),
+                    ErrorMessage: BuildErrorMessage(ex));
             }
 
             await context.RespondAsync(response);
+        }
+
+        private static ErrorMessage BuildErrorMessage(Exception ex)
+        {
+            string errorCode = ex
+                .GetType()
+                .Name
+                .Underscore()
+                .Replace("_exception", string.Empty);
+
+            return new ErrorMessage(
+                errorCode,
+                ex.Message);
         }
     }
 }

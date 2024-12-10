@@ -1,4 +1,5 @@
 ﻿using TexasTaco.Orders.Shared.Exceptions;
+using TexasTaco.Shared.Exceptions;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Application.Customers.Exceptions

@@ -6,6 +6,8 @@ namespace TexasTaco.Orders.Domain.Basket
 {
     public class Basket(CustomerId customerId)
     {
+        private const int MaximumAmountOfProductInBasket = 5;
+
         private readonly List<BasketItem> _items = [];
 
         public BasketId Id { get; } = new(Guid.NewGuid());
@@ -16,13 +18,18 @@ namespace TexasTaco.Orders.Domain.Basket
         {
             var sameItemInBasket = _items.SingleOrDefault(i => i.ProductId == item.ProductId);
 
-            if (sameItemInBasket is not null)
+            if (sameItemInBasket is null)
             {
-                sameItemInBasket.IncreaseQuantity(item.Quantity);
+                _items.Add(item);
                 return;
             }
 
-            _items.Add(item);
+            if (sameItemInBasket.Quantity + item.Quantity > MaximumAmountOfProductInBasket)
+            {
+                throw new ProductAmountExceededException(item, MaximumAmountOfProductInBasket);
+            }
+
+            sameItemInBasket.IncreaseQuantity(item.Quantity);
         }
 
         public void RemoveItem(ProductId productId)

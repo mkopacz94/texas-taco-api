@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Orders\TexasTaco.Orders.Shared\TexasTaco.Orders.Shared.csproj" />
     <ProjectReference Include="..\..\Shared\TexasTaco.Shared.Authentication\TexasTaco.Shared.Authentication.csproj" />
     <ProjectReference Include="..\..\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj" />
     <ProjectReference Include="..\TexasTaco.Products.Core\TexasTaco.Products.Core.csproj" />
