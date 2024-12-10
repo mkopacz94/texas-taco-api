@@ -58,7 +58,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/{version}/orders/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {

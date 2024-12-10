@@ -15,18 +15,25 @@ namespace TexasTaco.Orders.Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Cart?> GetCartByCustomerId(CustomerId customerId)
+        public async Task<Cart?> GetCartAsync(CartId id)
         {
             return await _context
                 .Carts
-                .FirstOrDefaultAsync(b => b.CustomerId == customerId);
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IReadOnlyCollection<Cart>> GetCartsWithProduct(ProductId productId)
+        public async Task<Cart?> GetCartByCustomerIdAsync(CustomerId customerId)
         {
             return await _context
                 .Carts
-                .Where(b => b.Products.Any(bi => bi.ProductId == productId))
+                .FirstOrDefaultAsync(c => c.CustomerId == customerId);
+        }
+
+        public async Task<IReadOnlyCollection<Cart>> GetCartsWithProductAsync(ProductId productId)
+        {
+            return await _context
+                .Carts
+                .Where(c => c.Products.Any(cp => cp.ProductId == productId))
                 .ToListAsync();
         }
 

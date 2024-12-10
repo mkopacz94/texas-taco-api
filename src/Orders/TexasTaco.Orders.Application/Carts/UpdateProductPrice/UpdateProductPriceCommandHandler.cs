@@ -11,7 +11,7 @@ namespace TexasTaco.Orders.Application.Carts.UpdateProductPrice
             CancellationToken cancellationToken)
         {
             var cartsWithProduct = await _cartsRepository
-                .GetCartsWithProduct(request.ProductId);
+                .GetCartsWithProductAsync(request.ProductId);
 
             foreach (var cart in cartsWithProduct)
             {

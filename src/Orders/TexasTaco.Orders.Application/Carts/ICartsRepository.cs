@@ -6,8 +6,9 @@ namespace TexasTaco.Orders.Application.Carts
 {
     public interface ICartsRepository
     {
-        Task<Cart?> GetCartByCustomerId(CustomerId customerId);
-        Task<IReadOnlyCollection<Cart>> GetCartsWithProduct(ProductId productId);
+        Task<Cart?> GetCartAsync(CartId id);
+        Task<Cart?> GetCartByCustomerIdAsync(CustomerId customerId);
+        Task<IReadOnlyCollection<Cart>> GetCartsWithProductAsync(ProductId productId);
         Task AddAsync(Cart cart);
         Task UpdateAsync(Cart cart);
     }

@@ -23,7 +23,7 @@ namespace TexasTaco.Orders.Application.Carts.AddProductToCart
                 ?? throw new CustomerWithAccountIdNotFoundException(request.AccountId);
 
             var customerCart = await _cartsRepository
-                .GetCartByCustomerId(customer.Id);
+                .GetCartByCustomerIdAsync(customer.Id);
 
             if (customerCart is null)
             {

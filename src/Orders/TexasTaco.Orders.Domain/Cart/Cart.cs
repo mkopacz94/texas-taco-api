@@ -16,6 +16,11 @@ namespace TexasTaco.Orders.Domain.Cart
 
         public void AddProduct(CartProduct product)
         {
+            if (product.Quantity > MaximumAmountOfProductInCart)
+            {
+                throw new ProductAmountExceededException(product, MaximumAmountOfProductInCart);
+            }
+
             var sameItemInCart = _products.SingleOrDefault(i => i.ProductId == product.ProductId);
 
             if (sameItemInCart is null)
@@ -32,10 +37,10 @@ namespace TexasTaco.Orders.Domain.Cart
             sameItemInCart.IncreaseQuantity(product.Quantity);
         }
 
-        public void RemoveItem(ProductId productId)
+        public void RemoveItem(CartProductId id)
         {
-            var cartProduct = _products.SingleOrDefault(i => i.ProductId == productId)
-                ?? throw new CartProductNotFoundException(productId);
+            var cartProduct = _products.SingleOrDefault(i => i.Id == id)
+                ?? throw new CartProductNotFoundException(id);
 
             _products.Remove(cartProduct);
         }

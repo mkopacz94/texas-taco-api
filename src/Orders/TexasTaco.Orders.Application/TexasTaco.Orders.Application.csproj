@@ -18,8 +18,4 @@
     <ProjectReference Include="..\TexasTaco.Orders.Shared\TexasTaco.Orders.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Carts\RemoveProduct\" />
-  </ItemGroup>
-
 </Project>

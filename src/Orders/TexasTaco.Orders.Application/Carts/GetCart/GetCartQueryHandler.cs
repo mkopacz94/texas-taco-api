@@ -22,7 +22,7 @@ namespace TexasTaco.Orders.Application.Carts.GetCart
                 ?? throw new CustomerNotFoundException(request.CustomerId);
 
             var cart = await _cartsRepository
-                .GetCartByCustomerId(customer.Id);
+                .GetCartByCustomerIdAsync(customer.Id);
 
             return cart is null
                 ? throw new CartNotFoundException(request.CustomerId)
