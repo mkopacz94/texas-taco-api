@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Orders.Application.Carts.GetCart;
 using TexasTaco.Orders.Application.Carts.RemoveProductFromCart;
+using TexasTaco.Orders.Application.Carts.UpdateProductQuantity;
 using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Shared.Exceptions;
@@ -28,6 +29,34 @@ namespace TexasTaco.Orders.Api.Controllers
             return Ok(cart);
         }
 
+        [HttpPut("{cartId}/products/{cartProductId}")]
+        public async Task<IActionResult> UpdateProductQuantity(
+            string cartId,
+            string cartProductId,
+            [FromQuery] int quantity)
+        {
+            if (!Guid.TryParse(cartId, out var cartIdGuid))
+            {
+                throw new InvalidRequestParametersException(
+                    $"Given cart ID ({cartId}) is not a valid GUID.");
+            }
+
+            if (!Guid.TryParse(cartProductId, out var cartProductIdGuid))
+            {
+                throw new InvalidRequestParametersException(
+                    $"Given cart product ID ({cartProductId}) is not a valid GUID.");
+            }
+
+            var command = new UpdateProductQuantityCommand(
+                new CartId(cartIdGuid),
+                new CartProductId(cartProductIdGuid),
+                quantity);
+
+            var product = await _mediator.Send(command);
+
+            return Ok(product);
+        }
+
         [HttpDelete("{cartId}/products/{cartProductId}")]
         public async Task<IActionResult> RemoveProductFromCart(
             string cartId,
@@ -39,7 +68,7 @@ namespace TexasTaco.Orders.Api.Controllers
                     $"Given cart ID ({cartId}) is not a valid GUID.");
             }
 
-            if (!Guid.TryParse(cartProductId, out var productIdGuid))
+            if (!Guid.TryParse(cartProductId, out var cartProductIdGuid))
             {
                 throw new InvalidRequestParametersException(
                     $"Given cart product ID ({cartProductId}) is not a valid GUID.");
@@ -47,7 +76,7 @@ namespace TexasTaco.Orders.Api.Controllers
 
             var command = new RemoveProductFromCartCommand(
                 new CartId(cartIdGuid),
-                new CartProductId(productIdGuid));
+                new CartProductId(cartProductIdGuid));
 
             await _mediator.Send(command);
 
