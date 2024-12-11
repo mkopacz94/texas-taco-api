@@ -14,7 +14,26 @@ namespace TexasTaco.Orders.Domain.Cart
         public string Name { get; private set; }
         public decimal Price { get; private set; }
         public string? PictureUrl { get; private set; }
-        public int Quantity { get; private set; }
+
+        private int _quantity;
+        public int Quantity
+        {
+            get => _quantity;
+            private set
+            {
+                if (value < 0)
+                {
+                    throw new InvalidCartProductQuantityException(value);
+                }
+
+                if (value > MaximumAmountOfProduct)
+                {
+                    throw new ProductAmountExceededException(this, MaximumAmountOfProduct);
+                }
+
+                _quantity = value;
+            }
+        }
 
         public CartProduct(
             ProductId productId,
@@ -28,11 +47,6 @@ namespace TexasTaco.Orders.Domain.Cart
                 throw new InvalidCartProductQuantityException(quantity);
             }
 
-            if (quantity > MaximumAmountOfProduct)
-            {
-                throw new ProductAmountExceededException(this, MaximumAmountOfProduct);
-            }
-
             ProductId = productId;
             Name = name;
             Price = price;
@@ -40,21 +54,13 @@ namespace TexasTaco.Orders.Domain.Cart
             Quantity = quantity;
         }
 
-        public void ChangeQuantity(int quantity)
-        {
-            if (quantity > MaximumAmountOfProduct)
-            {
-                throw new ProductAmountExceededException(this, MaximumAmountOfProduct);
-            }
-
-            Quantity = quantity;
-        }
+        public void ChangeQuantity(int quantity) => Quantity = quantity;
 
         public void IncreaseQuantity(int quantity)
         {
-            if (Quantity + quantity > MaximumAmountOfProduct)
+            if (quantity < 0)
             {
-                throw new ProductAmountExceededException(this, MaximumAmountOfProduct);
+                throw new InvalidCartProductQuantityException(quantity);
             }
 
             Quantity += quantity;

@@ -65,6 +65,29 @@ namespace TexasTaco.Orders.Domain.Tests.Cart
         }
 
         [Fact]
+        public void ChangeQuantity_Should_ThrowInvalidCartProductQuantityException_IfQuantityHasNegativeValue()
+        {
+            //Arrange
+            var product = new CartProduct(
+                new ProductId(Guid.NewGuid()),
+                "Product",
+                10,
+                null,
+                4);
+
+            int newQuantity = -2;
+
+            //Act
+            Action changeQuantityAction = () => product
+                .ChangeQuantity(newQuantity);
+
+            //Assert
+            changeQuantityAction
+                .Should()
+                .Throw<InvalidCartProductQuantityException>();
+        }
+
+        [Fact]
         public void ChangeQuantity_Should_ThrowProductAmountExceededException_IfExceededMaximumAmountOfProducts()
         {
             //Arrange
@@ -108,6 +131,29 @@ namespace TexasTaco.Orders.Domain.Tests.Cart
                 .Quantity
                 .Should()
                 .Be(oldQuantity + newQuantity);
+        }
+
+        [Fact]
+        public void IncreaseQuantity_Should_ThrowInvalidCartProductQuantityException_IfQuantityHasNegativeValue()
+        {
+            //Arrange
+            var product = new CartProduct(
+                new ProductId(Guid.NewGuid()),
+                "Product",
+                10,
+                null,
+                4);
+
+            int newQuantity = -2;
+
+            //Act
+            Action increaseQuantityAction = () => product
+                .IncreaseQuantity(newQuantity);
+
+            //Assert
+            increaseQuantityAction
+                .Should()
+                .Throw<InvalidCartProductQuantityException>();
         }
 
         [Fact]
