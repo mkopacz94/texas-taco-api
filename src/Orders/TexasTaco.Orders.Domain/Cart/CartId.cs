@@ -1,4 +1,4 @@
 ﻿namespace TexasTaco.Orders.Domain.Cart
 {
-    public record CartId(Guid Value);
+    public sealed record CartId(Guid Value);
 }

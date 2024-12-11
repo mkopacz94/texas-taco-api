@@ -3,7 +3,7 @@ using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Domain.Cart
 {
-    public class CartProduct
+    public sealed class CartProduct
     {
         public const int MaximumAmountOfProduct = 5;
 

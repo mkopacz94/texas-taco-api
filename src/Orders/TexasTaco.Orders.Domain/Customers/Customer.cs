@@ -2,7 +2,7 @@
 
 namespace TexasTaco.Orders.Domain.Customers
 {
-    public class Customer(AccountId accountId, EmailAddress email)
+    public sealed class Customer(AccountId accountId, EmailAddress email)
     {
         public CustomerId Id { get; } = new CustomerId(Guid.NewGuid());
         public AccountId AccountId { get; private set; } = accountId;

@@ -2,7 +2,7 @@
 
 namespace TexasTaco.Orders.Domain.Customers
 {
-    public class Address(string addressLine, string postalCode, string city, string country)
+    public sealed class Address(string addressLine, string postalCode, string city, string country)
     {
         public AddressId Id { get; } = new AddressId(Guid.NewGuid());
         public string AddressLine { get; private set; } = addressLine;

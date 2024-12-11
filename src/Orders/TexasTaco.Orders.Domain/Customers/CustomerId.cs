@@ -1,4 +1,4 @@
 ﻿namespace TexasTaco.Orders.Domain.Customers
 {
-    public record CustomerId(Guid Value);
+    public sealed record CustomerId(Guid Value);
 }
