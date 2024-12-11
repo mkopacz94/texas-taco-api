@@ -2,6 +2,5 @@
 {
     public record ErrorMessage(
         string ErrorCode,
-        string Message,
-        string? AdditionalInformation = null);
+        string Message);
 }

@@ -6,8 +6,6 @@ namespace TexasTaco.Orders.Domain.Cart
 {
     public class Cart(CustomerId customerId)
     {
-        private const int MaximumAmountOfProductInCart = 5;
-
         private readonly List<CartProduct> _products = [];
 
         public CartId Id { get; } = new(Guid.NewGuid());
@@ -16,22 +14,12 @@ namespace TexasTaco.Orders.Domain.Cart
 
         public void AddProduct(CartProduct product)
         {
-            if (product.Quantity > MaximumAmountOfProductInCart)
-            {
-                throw new ProductAmountExceededException(product, MaximumAmountOfProductInCart);
-            }
-
             var sameItemInCart = _products.SingleOrDefault(i => i.ProductId == product.ProductId);
 
             if (sameItemInCart is null)
             {
                 _products.Add(product);
                 return;
-            }
-
-            if (sameItemInCart.Quantity + product.Quantity > MaximumAmountOfProductInCart)
-            {
-                throw new ProductAmountExceededException(product, MaximumAmountOfProductInCart);
             }
 
             sameItemInCart.IncreaseQuantity(product.Quantity);

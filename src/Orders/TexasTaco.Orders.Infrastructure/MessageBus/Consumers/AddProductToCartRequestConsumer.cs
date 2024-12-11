@@ -75,13 +75,9 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
                 .Underscore()
                 .Replace("_exception", string.Empty);
 
-            string? additionalInformation = ex is ProductAmountExceededException productAmountException
-                ? productAmountException.MaximumQuantity.ToString() : null;
-
             return new ErrorMessage(
                 errorCode,
-                ex.Message,
-                additionalInformation);
+                ex.Message);
         }
     }
 }

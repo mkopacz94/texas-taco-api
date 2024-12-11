@@ -5,6 +5,8 @@ namespace TexasTaco.Orders.Domain.Cart
 {
     public class CartProduct
     {
+        private const int MaximumAmountOfProduct = 5;
+
         public CartProductId Id { get; } = new(Guid.NewGuid());
         public ProductId ProductId { get; private set; }
         public CartId CartId { get; private set; } = null!;
@@ -26,6 +28,11 @@ namespace TexasTaco.Orders.Domain.Cart
                 throw new InvalidCartProductQuantityException(quantity);
             }
 
+            if (quantity > MaximumAmountOfProduct)
+            {
+                throw new ProductAmountExceededException(this, MaximumAmountOfProduct);
+            }
+
             ProductId = productId;
             Name = name;
             Price = price;
@@ -33,8 +40,26 @@ namespace TexasTaco.Orders.Domain.Cart
             Quantity = quantity;
         }
 
-        public void ChangeQuantity(int quantity) => Quantity = quantity;
-        public void IncreaseQuantity(int quantity) => Quantity += quantity;
+        public void ChangeQuantity(int quantity)
+        {
+            if (quantity > MaximumAmountOfProduct)
+            {
+                throw new ProductAmountExceededException(this, MaximumAmountOfProduct);
+            }
+
+            Quantity = quantity;
+        }
+
+        public void IncreaseQuantity(int quantity)
+        {
+            if (Quantity + quantity > MaximumAmountOfProduct)
+            {
+                throw new ProductAmountExceededException(this, MaximumAmountOfProduct);
+            }
+
+            Quantity += quantity;
+        }
+
         public void UpdatePrice(decimal newPrice) => Price = newPrice;
     }
 }
