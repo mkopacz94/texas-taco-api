@@ -5,7 +5,7 @@ namespace TexasTaco.Orders.Domain.Cart
 {
     public class CartProduct
     {
-        private const int MaximumAmountOfProduct = 5;
+        public const int MaximumAmountOfProduct = 5;
 
         public CartProductId Id { get; } = new(Guid.NewGuid());
         public ProductId ProductId { get; private set; }
