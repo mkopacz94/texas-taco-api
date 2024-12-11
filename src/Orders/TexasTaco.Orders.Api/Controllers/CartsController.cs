@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TexasTaco.Orders.Application.Carts.CheckoutCart;
 using TexasTaco.Orders.Application.Carts.GetCart;
 using TexasTaco.Orders.Application.Carts.RemoveProductFromCart;
 using TexasTaco.Orders.Application.Carts.UpdateProductQuantity;
@@ -15,7 +16,7 @@ namespace TexasTaco.Orders.Api.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/orders/[controller]")]
     [Authorize]
-    public sealed class CartController(IMediator mediator) : ControllerBase
+    public sealed class CartsController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
@@ -81,6 +82,27 @@ namespace TexasTaco.Orders.Api.Controllers
             await _mediator.Send(command);
 
             return NoContent();
+        }
+
+        [HttpPost("{cartId}/checkout")]
+        public async Task<IActionResult> RemoveProductFromCart(string cartId)
+        {
+            if (!Guid.TryParse(cartId, out var cartIdGuid))
+            {
+                throw new InvalidRequestParametersException(
+                    $"Given cart ID ({cartId}) is not a valid GUID.");
+            }
+
+            var command = new CheckoutCartCommand(
+                new CartId(cartIdGuid));
+
+            var checkoutCart = await _mediator.Send(command);
+
+            return CreatedAtAction(
+                nameof(CheckoutCartsController.GetCheckoutCart),
+                "checkoutCarts",
+                new { id = checkoutCart.Id.Value.ToString() },
+                checkoutCart);
         }
     }
 }

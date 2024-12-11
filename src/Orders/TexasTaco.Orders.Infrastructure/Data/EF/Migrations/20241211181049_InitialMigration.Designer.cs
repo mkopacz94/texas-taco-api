@@ -12,8 +12,8 @@ using TexasTaco.Orders.Infrastructure.Data.EF;
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    [Migration("20241209161449_AddProductPriceChangedInboxMessageEntity")]
-    partial class AddProductPriceChangedInboxMessageEntity
+    [Migration("20241211181049_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,33 +25,7 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("TexasTaco.Orders.Domain.AccountCreatedInboxMessages.AccountCreatedInboxMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("MessageBody")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid>("MessageId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("MessageStatus")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Processed")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("Received")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountCreatedInboxMessages");
-                });
-
-            modelBuilder.Entity("TexasTaco.Orders.Domain.Basket.Basket", b =>
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -63,15 +37,18 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("TexasTaco.Orders.Domain.Basket.BasketItem", b =>
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.CartProduct", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("BasketId")
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("CheckoutCartId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
@@ -92,9 +69,32 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BasketId");
+                    b.HasIndex("CartId");
 
-                    b.ToTable("BasketItems");
+                    b.HasIndex("CheckoutCartId");
+
+                    b.ToTable("CartProducts");
+                });
+
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.CheckoutCart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId")
+                        .IsUnique();
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("CheckoutCarts");
                 });
 
             modelBuilder.Entity("TexasTaco.Orders.Domain.Customers.Address", b =>
@@ -161,7 +161,41 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("TexasTaco.Orders.Domain.UserUpdatedInboxMessages.UserUpdatedInboxMessage", b =>
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Shared.DeliveryAddress", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("AddressLine")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid?>("CheckoutCartId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ReceiverFullName")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CheckoutCartId")
+                        .IsUnique();
+
+                    b.HasIndex("ReceiverFullName");
+
+                    b.ToTable("DeliveryAddress");
+                });
+
+            modelBuilder.Entity("TexasTaco.Orders.Persistence.AccountCreatedInboxMessages.AccountCreatedInboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -184,7 +218,7 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserUpdatedInboxMessages");
+                    b.ToTable("AccountCreatedInboxMessages");
                 });
 
             modelBuilder.Entity("TexasTaco.Orders.Persistence.ProductPriceChangedInbox.ProductPriceChangedInboxMessage", b =>
@@ -213,15 +247,56 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
                     b.ToTable("ProductPriceChangedInboxMessages");
                 });
 
-            modelBuilder.Entity("TexasTaco.Orders.Domain.Basket.BasketItem", b =>
+            modelBuilder.Entity("TexasTaco.Orders.Persistence.UserUpdatedInboxMessages.UserUpdatedInboxMessage", b =>
                 {
-                    b.HasOne("TexasTaco.Orders.Domain.Basket.Basket", "Basket")
-                        .WithMany("Items")
-                        .HasForeignKey("BasketId")
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("MessageBody")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("MessageStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Processed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("Received")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserUpdatedInboxMessages");
+                });
+
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.CartProduct", b =>
+                {
+                    b.HasOne("TexasTaco.Orders.Domain.Cart.Cart", "Cart")
+                        .WithMany("Products")
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Basket");
+                    b.HasOne("TexasTaco.Orders.Domain.Cart.CheckoutCart", null)
+                        .WithMany("Products")
+                        .HasForeignKey("CheckoutCartId");
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.CheckoutCart", b =>
+                {
+                    b.HasOne("TexasTaco.Orders.Domain.Cart.Cart", "Cart")
+                        .WithOne("CheckoutCart")
+                        .HasForeignKey("TexasTaco.Orders.Domain.Cart.CheckoutCart", "CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("TexasTaco.Orders.Domain.Customers.Address", b =>
@@ -235,9 +310,27 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("TexasTaco.Orders.Domain.Basket.Basket", b =>
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Shared.DeliveryAddress", b =>
                 {
-                    b.Navigation("Items");
+                    b.HasOne("TexasTaco.Orders.Domain.Cart.CheckoutCart", "CheckoutCart")
+                        .WithOne("DeliveryAddress")
+                        .HasForeignKey("TexasTaco.Orders.Domain.Shared.DeliveryAddress", "CheckoutCartId");
+
+                    b.Navigation("CheckoutCart");
+                });
+
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.Cart", b =>
+                {
+                    b.Navigation("CheckoutCart");
+
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.CheckoutCart", b =>
+                {
+                    b.Navigation("DeliveryAddress");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("TexasTaco.Orders.Domain.Customers.Customer", b =>

@@ -12,6 +12,7 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF
     {
         public DbSet<CartProduct> CartProducts { get; private set; }
         public DbSet<Cart> Carts { get; private set; }
+        public DbSet<CheckoutCart> CheckoutCarts { get; private set; }
         public DbSet<Customer> Customers { get; private set; }
         public DbSet<AccountCreatedInboxMessage> AccountCreatedInboxMessages { get; private set; }
         public DbSet<UserUpdatedInboxMessage> UserUpdatedInboxMessages { get; private set; }

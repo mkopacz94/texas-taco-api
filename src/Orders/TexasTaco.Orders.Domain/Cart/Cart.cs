@@ -12,6 +12,7 @@ namespace TexasTaco.Orders.Domain.Cart
 
         public CartId Id { get; } = new(Guid.NewGuid());
         public CustomerId CustomerId { get; private set; } = customerId;
+        public CheckoutCart? CheckoutCart { get; private set; } = null;
         public IReadOnlyCollection<CartProduct> Products => _products;
 
         public void AddProduct(CartProduct product)
@@ -44,5 +45,15 @@ namespace TexasTaco.Orders.Domain.Cart
 
         public bool ContainsProduct(ProductId productId)
             => Products.Any(i => i.ProductId == productId);
+
+        public CheckoutCart Checkout()
+        {
+            if (Products.Count == 0)
+            {
+                throw new CannotCheckoutEmptyCartException();
+            }
+
+            return new CheckoutCart(this);
+        }
     }
 }

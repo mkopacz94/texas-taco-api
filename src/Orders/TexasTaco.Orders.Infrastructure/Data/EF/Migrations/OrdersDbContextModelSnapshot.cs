@@ -78,14 +78,20 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("char(36)");
+
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartId")
+                        .IsUnique();
+
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("CheckoutCart");
+                    b.ToTable("CheckoutCarts");
                 });
 
             modelBuilder.Entity("TexasTaco.Orders.Domain.Customers.Address", b =>
@@ -279,6 +285,17 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
                     b.Navigation("Cart");
                 });
 
+            modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.CheckoutCart", b =>
+                {
+                    b.HasOne("TexasTaco.Orders.Domain.Cart.Cart", "Cart")
+                        .WithOne("CheckoutCart")
+                        .HasForeignKey("TexasTaco.Orders.Domain.Cart.CheckoutCart", "CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
             modelBuilder.Entity("TexasTaco.Orders.Domain.Customers.Address", b =>
                 {
                     b.HasOne("TexasTaco.Orders.Domain.Customers.Customer", "Customer")
@@ -301,6 +318,8 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 
             modelBuilder.Entity("TexasTaco.Orders.Domain.Cart.Cart", b =>
                 {
+                    b.Navigation("CheckoutCart");
+
                     b.Navigation("Products");
                 });
 
