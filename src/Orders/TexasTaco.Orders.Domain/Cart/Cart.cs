@@ -46,6 +46,8 @@ namespace TexasTaco.Orders.Domain.Cart
         public bool ContainsProduct(ProductId productId)
             => Products.Any(i => i.ProductId == productId);
 
+        public bool HasAssignedCheckoutCart() => CheckoutCart is not null;
+
         public CheckoutCart Checkout()
         {
             if (Products.Count == 0)
