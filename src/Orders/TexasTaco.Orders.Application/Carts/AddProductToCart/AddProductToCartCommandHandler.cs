@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using TexasTaco.Orders.Application.Carts.DTO;
+using TexasTaco.Orders.Application.Carts.Mapping;
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Domain.Cart;
@@ -10,13 +12,13 @@ namespace TexasTaco.Orders.Application.Carts.AddProductToCart
         ICustomersRepository customersRepository,
         ICartsRepository cartsRepository,
         ILogger<AddProductToCartCommandHandler> logger)
-        : IRequestHandler<AddProductToCartCommand, Cart>
+        : IRequestHandler<AddProductToCartCommand, CartDto>
     {
         private readonly ICustomersRepository _customersRepository = customersRepository;
         private readonly ICartsRepository _cartsRepository = cartsRepository;
         private readonly ILogger<AddProductToCartCommandHandler> _logger = logger;
 
-        public async Task<Cart> Handle(AddProductToCartCommand request, CancellationToken cancellationToken)
+        public async Task<CartDto> Handle(AddProductToCartCommand request, CancellationToken cancellationToken)
         {
             var customer = await _customersRepository
                 .GetByAccountIdAsync(request.AccountId)
@@ -42,7 +44,7 @@ namespace TexasTaco.Orders.Application.Carts.AddProductToCart
             customerCart.AddProduct(request.Item);
             await _cartsRepository.UpdateAsync(customerCart);
 
-            return customerCart;
+            return CartMap.Map(customerCart);
         }
     }
 }

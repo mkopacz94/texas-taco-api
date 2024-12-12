@@ -1,4 +1,4 @@
-﻿namespace TexasTaco.Orders.Application.UnitOfWork
+﻿namespace TexasTaco.Orders.Application.Shared
 {
     public interface IUnitOfWork
     {

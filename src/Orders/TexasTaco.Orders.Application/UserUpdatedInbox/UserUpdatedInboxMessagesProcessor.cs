@@ -4,7 +4,7 @@ using TexasTaco.Orders.Application.AccountCreatedInbox;
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Application.Customers.UpdateCustomer;
-using TexasTaco.Orders.Application.UnitOfWork;
+using TexasTaco.Orders.Application.Shared;
 using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Shared.ValueObjects;
 

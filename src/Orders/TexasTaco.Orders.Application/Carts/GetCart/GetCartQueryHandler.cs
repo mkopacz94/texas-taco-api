@@ -1,19 +1,20 @@
 ﻿using MediatR;
+using TexasTaco.Orders.Application.Carts.DTO;
 using TexasTaco.Orders.Application.Carts.Exceptions;
+using TexasTaco.Orders.Application.Carts.Mapping;
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.Customers.Exceptions;
-using TexasTaco.Orders.Domain.Cart;
 
 namespace TexasTaco.Orders.Application.Carts.GetCart
 {
     internal class GetCartQueryHandler(
         ICustomersRepository customersRepository,
-        ICartsRepository cartsRepository) : IRequestHandler<GetCartQuery, Cart>
+        ICartsRepository cartsRepository) : IRequestHandler<GetCartQuery, CartDto>
     {
         private readonly ICustomersRepository _customersRepository = customersRepository;
         private readonly ICartsRepository _cartsRepository = cartsRepository;
 
-        public async Task<Cart> Handle(
+        public async Task<CartDto> Handle(
             GetCartQuery request,
             CancellationToken cancellationToken)
         {
@@ -26,7 +27,7 @@ namespace TexasTaco.Orders.Application.Carts.GetCart
 
             return cart is null
                 ? throw new CartNotFoundException(request.CustomerId)
-                : cart;
+                : CartMap.Map(cart);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using TexasTaco.Orders.Application.Carts.DTO;
 using TexasTaco.Orders.Application.Carts.Exceptions;
-using TexasTaco.Orders.Domain.Cart;
+using TexasTaco.Orders.Application.Carts.Mapping;
 using TexasTaco.Orders.Domain.Cart.Exceptions;
 
 namespace TexasTaco.Orders.Application.Carts.UpdateProductQuantity
@@ -9,12 +10,12 @@ namespace TexasTaco.Orders.Application.Carts.UpdateProductQuantity
     internal sealed class UpdateProductQuantityCommandHandler(
         ICartsRepository cartsRepository,
         ILogger<UpdateProductQuantityCommandHandler> logger)
-        : IRequestHandler<UpdateProductQuantityCommand, CartProduct>
+        : IRequestHandler<UpdateProductQuantityCommand, CartProductDto>
     {
         private readonly ICartsRepository _cartsRepository = cartsRepository;
         private readonly ILogger<UpdateProductQuantityCommandHandler> _logger = logger;
 
-        public async Task<CartProduct> Handle(
+        public async Task<CartProductDto> Handle(
             UpdateProductQuantityCommand request,
             CancellationToken cancellationToken)
         {
@@ -41,7 +42,7 @@ namespace TexasTaco.Orders.Application.Carts.UpdateProductQuantity
                 oldQuantity,
                 request.Quantity);
 
-            return product;
+            return CartProductMap.Map(product);
         }
     }
 }

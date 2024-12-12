@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using TexasTaco.Orders.Application.Carts.UpdateProductPrice;
-using TexasTaco.Orders.Application.UnitOfWork;
+using TexasTaco.Orders.Application.Shared;
 
 namespace TexasTaco.Orders.Application.ProductPriceChangedInbox
 {

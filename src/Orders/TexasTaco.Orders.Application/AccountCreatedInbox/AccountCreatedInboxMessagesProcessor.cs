@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using TexasTaco.Orders.Application.Customers.CreateCustomer;
-using TexasTaco.Orders.Application.UnitOfWork;
+using TexasTaco.Orders.Application.Shared;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Application.AccountCreatedInbox

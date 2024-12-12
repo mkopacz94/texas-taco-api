@@ -27,9 +27,9 @@ namespace TexasTaco.Orders.Api.Controllers
 
             var accountIdentifier = new AccountId(accountIdGuid);
             var query = new GetCustomerQuery(accountIdentifier);
-            var customer = await _mediator.Send(query);
+            var customerDto = await _mediator.Send(query);
 
-            return Ok(customer);
+            return Ok(customerDto);
         }
     }
 }

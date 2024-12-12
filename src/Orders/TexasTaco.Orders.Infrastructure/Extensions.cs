@@ -5,7 +5,7 @@ using TexasTaco.Orders.Application.AccountCreatedInbox;
 using TexasTaco.Orders.Application.Carts;
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.ProductPriceChangedInbox;
-using TexasTaco.Orders.Application.UnitOfWork;
+using TexasTaco.Orders.Application.Shared;
 using TexasTaco.Orders.Application.UserUpdatedInbox;
 using TexasTaco.Orders.Infrastructure.Data;
 using TexasTaco.Orders.Infrastructure.Data.EF;
@@ -49,7 +49,6 @@ namespace TexasTaco.Orders.Infrastructure
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICartsRepository, CartsRepository>();
-            services.AddScoped<ICheckoutCartsRepository, CheckoutCartsRepository>();
             services.AddScoped<ICustomersRepository, CustomersRepository>();
             services.AddScoped<IAccountCreatedInboxMessagesRepository,
                 AccountCreatedInboxMessagesRepository>();

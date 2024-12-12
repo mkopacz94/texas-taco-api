@@ -1,4 +1,4 @@
-﻿using TexasTaco.Orders.Application.UnitOfWork;
+﻿using TexasTaco.Orders.Application.Shared;
 using TexasTaco.Orders.Infrastructure.Data.EF;
 
 namespace TexasTaco.Orders.Infrastructure.Data

@@ -14,6 +14,7 @@ namespace TexasTaco.Orders.Domain.Cart
         public CustomerId CustomerId { get; private set; } = customerId;
         public CheckoutCart? CheckoutCart { get; private set; } = null;
         public IReadOnlyCollection<CartProduct> Products => _products;
+        public decimal TotalPrice => Products.Sum(p => p.Price * p.Quantity);
 
         public void AddProduct(CartProduct product)
         {

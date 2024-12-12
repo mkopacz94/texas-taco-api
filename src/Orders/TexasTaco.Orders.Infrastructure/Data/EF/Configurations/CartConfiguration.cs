@@ -12,6 +12,8 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
             builder.HasKey(c => c.Id);
             builder.HasIndex(c => c.CustomerId);
 
+            builder.Ignore(c => c.TotalPrice);
+
             builder
                 .Property(c => c.Id)
                 .HasConversion(id => id.Value, value => new CartId(value));

@@ -25,9 +25,9 @@ namespace TexasTaco.Orders.Api.Controllers
         {
             var customerIdentifier = new CustomerId(Guid.Parse(customerId));
             var query = new GetCartQuery(customerIdentifier);
-            var cart = await _mediator.Send(query);
+            var cartDto = await _mediator.Send(query);
 
-            return Ok(cart);
+            return Ok(cartDto);
         }
 
         [HttpPut("{cartId}/products/{cartProductId}")]
@@ -53,9 +53,9 @@ namespace TexasTaco.Orders.Api.Controllers
                 new CartProductId(cartProductIdGuid),
                 quantity);
 
-            var product = await _mediator.Send(command);
+            var productDto = await _mediator.Send(command);
 
-            return Ok(product);
+            return Ok(productDto);
         }
 
         [HttpDelete("{cartId}/products/{cartProductId}")]
@@ -85,7 +85,7 @@ namespace TexasTaco.Orders.Api.Controllers
         }
 
         [HttpPost("{cartId}/checkout")]
-        public async Task<IActionResult> RemoveProductFromCart(string cartId)
+        public async Task<IActionResult> CheckoutCart(string cartId)
         {
             if (!Guid.TryParse(cartId, out var cartIdGuid))
             {
@@ -96,13 +96,13 @@ namespace TexasTaco.Orders.Api.Controllers
             var command = new CheckoutCartCommand(
                 new CartId(cartIdGuid));
 
-            var checkoutCart = await _mediator.Send(command);
+            var checkoutCartDto = await _mediator.Send(command);
 
             return CreatedAtAction(
                 nameof(CheckoutCartsController.GetCheckoutCart),
                 "checkoutCarts",
-                new { id = checkoutCart.Id.ToString() },
-                checkoutCart);
+                new { id = checkoutCartDto.Id.ToString() },
+                checkoutCartDto);
         }
     }
 }
