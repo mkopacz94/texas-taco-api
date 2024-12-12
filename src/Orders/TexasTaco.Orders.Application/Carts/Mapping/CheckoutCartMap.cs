@@ -16,7 +16,8 @@ namespace TexasTaco.Orders.Application.Carts.Mapping
                 checkoutCart.Id.Value,
                 checkoutCart.CustomerId.Value,
                 DeliveryAddressMap.Map(checkoutCart.DeliveryAddress),
-                productsDto);
+                productsDto,
+                checkoutCart.TotalPrice);
         }
     }
 }

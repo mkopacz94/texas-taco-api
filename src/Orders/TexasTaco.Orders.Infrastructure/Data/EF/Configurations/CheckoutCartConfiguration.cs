@@ -14,6 +14,8 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
             builder.HasKey(c => c.Id);
             builder.HasIndex(c => c.CustomerId);
 
+            builder.Ignore(c => c.TotalPrice);
+
             builder
                 .Property(c => c.Id)
                 .HasConversion(id => id.Value, value => new CheckoutCartId(value));
@@ -28,6 +30,14 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
 
             builder
                 .Navigation(u => u.DeliveryAddress)
+                .AutoInclude();
+
+            builder
+                .Navigation(c => c.Products)
+                .AutoInclude();
+
+            builder
+                .Navigation(c => c.Cart)
                 .AutoInclude();
         }
     }

@@ -6,5 +6,6 @@ namespace TexasTaco.Orders.Application.Carts.DTO
         Guid Id,
         Guid CustomerId,
         DeliveryAddressDto? DeliveryAddress,
-        List<CartProductDto> Products);
+        List<CartProductDto> Products,
+        decimal TotalPrice);
 }

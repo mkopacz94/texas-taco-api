@@ -13,6 +13,7 @@ namespace TexasTaco.Orders.Domain.Cart
         public CartId CartId { get; private set; } = null!;
         public Cart Cart { get; private set; } = null!;
         public IReadOnlyCollection<CartProduct> Products => _products;
+        public decimal TotalPrice => Products.Sum(p => p.Price * p.Quantity);
 
         private CheckoutCart(CustomerId customerId)
         {
