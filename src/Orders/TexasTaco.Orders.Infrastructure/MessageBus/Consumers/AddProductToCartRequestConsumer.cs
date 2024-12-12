@@ -40,9 +40,9 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
                 var accountId = new AccountId(busMessage.AccountId);
 
                 var command = new AddProductToCartCommand(accountId, cartProduct);
-                var cart = await _mediator.Send(command);
+                var cartDto = await _mediator.Send(command);
 
-                string productLocation = $"/api/v1/orders/cart/{cart.Id.Value}/products/{cartProduct.Id.Value}";
+                string productLocation = $"/api/v1/orders/cart/{cartDto.Id}/products/{cartProduct.Id.Value}";
                 response = new AddProductToCartResponse(
                     true,
                     HttpStatusCode.Created,
