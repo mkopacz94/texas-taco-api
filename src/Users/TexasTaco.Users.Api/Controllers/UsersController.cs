@@ -34,7 +34,7 @@ namespace TexasTaco.Users.Api.Controllers
             }
 
             var userDto = new UserDto(
-                user.Id.Value.ToString(),
+                user.Id.Value,
                 user.Email.Value.ToString(),
                 user.FirstName,
                 user.LastName,

@@ -31,7 +31,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
             .RequireAuthorization()
             .WithTags(Tags.Products)
             .HasApiVersion(new ApiVersion(1))
-            .Produces(StatusCodes.Status201Created, typeof(Product));
+            .Produces(StatusCodes.Status201Created, typeof(ProductDto));
         }
     }
 }

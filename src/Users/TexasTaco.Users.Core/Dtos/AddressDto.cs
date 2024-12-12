@@ -1,4 +1,8 @@
 ﻿namespace TexasTaco.Users.Core.Dtos
 {
-    public record AddressDto(string AddressLine, string PostalCode, string City, string Country);
+    public sealed record AddressDto(
+        string AddressLine,
+        string PostalCode,
+        string City,
+        string Country);
 }

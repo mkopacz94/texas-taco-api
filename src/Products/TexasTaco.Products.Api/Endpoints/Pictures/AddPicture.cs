@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Products.Api.Clients;
 using TexasTaco.Products.Core.Entities;
+using TexasTaco.Products.Core.Mapping;
 using TexasTaco.Products.Core.Repositories;
 
 namespace TexasTaco.Products.Api.Endpoints.Pictures
@@ -12,7 +13,7 @@ namespace TexasTaco.Products.Api.Endpoints.Pictures
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPost("pictures", async (
-                IFormFile pictureFile, 
+                IFormFile pictureFile,
                 [FromServices] IAwsS3BucketClient s3BucketClient,
                 [FromServices] IPicturesRepository picturesRepository,
                 [FromServices] ILogger<AddPicture> logger,
@@ -30,7 +31,7 @@ namespace TexasTaco.Products.Api.Endpoints.Pictures
                     return Results.BadRequest($"Picture size is too big ({pictureSizeInKB} KB). " +
                         $"Maximum picture size is {MaximumPictureFileSizeInKB} KB.");
                 }
-                
+
                 var uploadedPicture = await s3BucketClient.PutPictureAsync(
                     pictureFileBytes,
                     pictureFile.FileName,
@@ -40,7 +41,8 @@ namespace TexasTaco.Products.Api.Endpoints.Pictures
                 var picture = new Picture(uploadedPicture.Url);
                 await picturesRepository.AddAsync(picture);
 
-                return Results.Created(uploadedPicture.Url, picture);
+                return Results.Created(
+                    uploadedPicture.Url, PictureMap.Map(picture));
             })
             .RequireAuthorization()
             .WithTags(Tags.Pictures)

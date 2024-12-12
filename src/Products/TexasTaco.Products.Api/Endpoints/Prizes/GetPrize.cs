@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using TexasTaco.Products.Core.Entities;
+using TexasTaco.Products.Core.DTO;
+using TexasTaco.Products.Core.Exceptions;
+using TexasTaco.Products.Core.Mapping;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
 
@@ -14,16 +16,20 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
                 string id,
                 [FromServices] IPrizesRepository prizesRepository) =>
             {
-                var product = await prizesRepository
-                    .GetAsync(new PrizeId(Guid.Parse(id)));
+                var prizeId = new PrizeId(Guid.Parse(id));
 
-                return Results.Ok(product);
+                var prize = await prizesRepository
+                    .GetAsync(prizeId)
+                    ?? throw new PrizeNotFoundException(prizeId);
+
+                var prizeDto = PrizeMap.Map(prize);
+                return Results.Ok(prizeDto);
             })
             .RequireAuthorization()
             .WithTags(Tags.Prizes)
             .WithName(Routes.GetPrize)
             .HasApiVersion(new ApiVersion(1))
-            .Produces(StatusCodes.Status200OK, typeof(Prize));
+            .Produces(StatusCodes.Status200OK, typeof(PrizeDto));
         }
     }
 }
