@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Orders.Application.AccountCreatedInbox;
 using TexasTaco.Orders.Application.Carts;
 using TexasTaco.Orders.Application.Customers;
+using TexasTaco.Orders.Application.Orders;
 using TexasTaco.Orders.Application.ProductPriceChangedInbox;
 using TexasTaco.Orders.Application.Shared;
 using TexasTaco.Orders.Application.UserUpdatedInbox;
@@ -51,6 +52,7 @@ namespace TexasTaco.Orders.Infrastructure
             services.AddScoped<ICartsRepository, CartsRepository>();
             services.AddScoped<ICartsRepository, CartsRepository>();
             services.AddScoped<ICheckoutCartsRepository, CheckoutCartsRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
             services.AddScoped<ICustomersRepository, CustomersRepository>();
             services.AddScoped<IAccountCreatedInboxMessagesRepository,
                 AccountCreatedInboxMessagesRepository>();

@@ -1,9 +1,10 @@
-﻿using TexasTaco.Orders.Domain.Customers;
+﻿using TexasTaco.Orders.Domain.Cart;
+using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Orders.Domain.Shared;
 
 namespace TexasTaco.Orders.Domain.Orders
 {
-    public sealed class Order
+    public class Order
     {
         private readonly List<OrderLine> _lines = [];
 
@@ -12,33 +13,43 @@ namespace TexasTaco.Orders.Domain.Orders
         public IReadOnlyCollection<OrderLine> Lines => _lines;
         public PaymentType PaymentType { get; private set; }
         public PickupLocation PickupLocation { get; private set; }
-        public OrderStatus Status { get; private set; }
+        public OrderStatus Status { get; private set; } = OrderStatus.Placed;
         public decimal TotalPrice => Lines.Sum(p => p.UnitPrice * p.Quantity);
 
-        public Order(
+        protected Order(
             CustomerId customerId,
             PaymentType paymentType,
-            PickupLocation pickupLocation,
-            OrderStatus status)
+            PickupLocation pickupLocation)
         {
             CustomerId = customerId;
             PaymentType = paymentType;
             PickupLocation = pickupLocation;
-            Status = status;
         }
 
-        public Order(
+        private Order(
             IReadOnlyCollection<OrderLine> lines,
             CustomerId customerId,
             PaymentType paymentType,
-            PickupLocation pickupLocation,
-            OrderStatus status)
+            PickupLocation pickupLocation)
         {
             _lines = [.. lines];
             CustomerId = customerId;
             PaymentType = paymentType;
             PickupLocation = pickupLocation;
-            Status = status;
+        }
+
+        public static Order CreateFromCheckout(CheckoutCart checkoutCart)
+        {
+            var orderLines = checkoutCart
+                .Products
+                .Select((p, i) => new OrderLine(i + 1, p.Name, p.Price, p.Quantity))
+                .ToList();
+
+            return new(
+                orderLines,
+                checkoutCart.CustomerId,
+                checkoutCart.PaymentType,
+                checkoutCart.PickupLocation);
         }
     }
 }

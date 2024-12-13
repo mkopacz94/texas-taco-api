@@ -5,7 +5,7 @@ using TexasTaco.Shared.Exceptions;
 
 namespace TexasTaco.Orders.Application.Carts.Exceptions
 {
-    internal class CartNotFoundException : OrdersServiceException
+    public class CartNotFoundException : OrdersServiceException
     {
         public CartNotFoundException(CustomerId customerId) : base(
             $"Cart for customer with ID {customerId.Value} does not exist.",

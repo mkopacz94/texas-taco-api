@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Orders.Application.Carts.DTO;
 using TexasTaco.Orders.Application.Carts.GetCheckoutCart;
+using TexasTaco.Orders.Application.Carts.PlaceOrder;
 using TexasTaco.Orders.Application.Carts.UpdateCheckoutCart;
 using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Shared.Exceptions;
@@ -55,6 +56,27 @@ namespace TexasTaco.Orders.Api.Controllers
             await _mediator.Send(command);
 
             return NoContent();
+        }
+
+        [HttpPost("{id}/place-order")]
+        public async Task<IActionResult> PlaceOrder(
+            string id)
+        {
+            if (!Guid.TryParse(id, out var idGuid))
+            {
+                throw new InvalidRequestParametersException(
+                    $"Given checkout cart ID ({id}) is not a valid GUID.");
+            }
+
+            var command = new PlaceOrderCommand(new CheckoutCartId(idGuid));
+
+            var orderDto = await _mediator.Send(command);
+
+            return CreatedAtAction(
+                nameof(OrdersController.GetOrder),
+                "orders",
+                new { id = orderDto.Id.ToString() },
+                orderDto);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TexasTaco.Orders.Application.Carts;
+using TexasTaco.Orders.Application.Carts.Exceptions;
 using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Orders.Infrastructure.Data.EF;
@@ -40,6 +41,21 @@ namespace TexasTaco.Orders.Infrastructure.Data.Repositories
         public async Task UpdateAsync(Cart cart)
         {
             _context.Update(cart);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(CartId id)
+        {
+            var cartToRemove = await _context
+                .Carts
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (cartToRemove is null)
+            {
+                throw new CartNotFoundException(id);
+            }
+
+            _context.Remove(cartToRemove);
             await _context.SaveChangesAsync();
         }
     }

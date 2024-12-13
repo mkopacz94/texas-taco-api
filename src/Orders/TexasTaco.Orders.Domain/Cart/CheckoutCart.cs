@@ -1,4 +1,5 @@
 ﻿using TexasTaco.Orders.Domain.Customers;
+using TexasTaco.Orders.Domain.Orders;
 using TexasTaco.Orders.Domain.Shared;
 
 namespace TexasTaco.Orders.Domain.Cart
@@ -39,5 +40,7 @@ namespace TexasTaco.Orders.Domain.Cart
             _products.Clear();
             _products.AddRange(cart.Products);
         }
+
+        public Order PlaceOrder() => Order.CreateFromCheckout(this);
     }
 }

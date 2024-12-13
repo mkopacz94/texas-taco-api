@@ -11,5 +11,6 @@ namespace TexasTaco.Orders.Application.Carts
         Task<IReadOnlyCollection<Cart>> GetCartsWithProductAsync(ProductId productId);
         Task AddAsync(Cart cart);
         Task UpdateAsync(Cart cart);
+        Task DeleteAsync(CartId id);
     }
 }
