@@ -10,8 +10,8 @@ namespace TexasTaco.Orders.Domain.Cart
         public CheckoutCartId Id { get; } = new(Guid.NewGuid());
         public CustomerId CustomerId { get; }
         public IReadOnlyCollection<CartProduct> Products => _products;
-        public PaymentType? PaymentType { get; private set; }
-        public PickupLocation? PickupLocation { get; private set; }
+        public PaymentType PaymentType { get; private set; } = PaymentType.Cash;
+        public PickupLocation PickupLocation { get; private set; } = PickupLocation.OnSite;
         public CartId CartId { get; private set; } = null!;
         public Cart Cart { get; private set; } = null!;
 

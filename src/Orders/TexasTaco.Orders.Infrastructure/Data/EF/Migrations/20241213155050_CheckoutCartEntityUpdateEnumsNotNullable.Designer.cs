@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TexasTaco.Orders.Infrastructure.Data.EF;
 
@@ -11,9 +12,11 @@ using TexasTaco.Orders.Infrastructure.Data.EF;
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    partial class OrdersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241213155050_CheckoutCartEntityUpdateEnumsNotNullable")]
+    partial class CheckoutCartEntityUpdateEnumsNotNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

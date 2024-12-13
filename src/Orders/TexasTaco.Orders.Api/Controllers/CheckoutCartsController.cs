@@ -2,7 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TexasTaco.Orders.Application.Carts.DTO;
 using TexasTaco.Orders.Application.Carts.GetCheckoutCart;
+using TexasTaco.Orders.Application.Carts.UpdateCheckoutCart;
 using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Shared.Exceptions;
 
@@ -18,7 +20,6 @@ namespace TexasTaco.Orders.Api.Controllers
         private readonly IMediator _mediator = mediator;
 
         [HttpGet("{id}", Name = "GetCheckoutCart")]
-        [HttpGet]
         public async Task<IActionResult> GetCheckoutCart(string id)
         {
             if (!Guid.TryParse(id, out var idGuid))
@@ -33,6 +34,27 @@ namespace TexasTaco.Orders.Api.Controllers
             var checkoutCartDto = await _mediator.Send(query);
 
             return Ok(checkoutCartDto);
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateCheckoutCart(
+            string id,
+            [FromBody] UpdateCheckoutCartDto updateDto)
+        {
+            if (!Guid.TryParse(id, out var idGuid))
+            {
+                throw new InvalidRequestParametersException(
+                    $"Given checkout cart ID ({id}) is not a valid GUID.");
+            }
+
+            var command = new UpdateCheckoutCartCommand(
+                new CheckoutCartId(idGuid),
+                updateDto.PaymentType,
+                updateDto.PickupLocation);
+
+            await _mediator.Send(command);
+
+            return NoContent();
         }
     }
 }
