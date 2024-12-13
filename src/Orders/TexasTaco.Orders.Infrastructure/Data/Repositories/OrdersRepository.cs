@@ -29,5 +29,11 @@ namespace TexasTaco.Orders.Infrastructure.Data.Repositories
             await _context.AddAsync(order);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateAsync(Order order)
+        {
+            _context.Update(order);
+            await _context.SaveChangesAsync();
+        }
     }
 }

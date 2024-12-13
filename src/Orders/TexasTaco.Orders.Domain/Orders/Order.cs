@@ -52,5 +52,7 @@ namespace TexasTaco.Orders.Domain.Orders
                 checkoutCart.PaymentType,
                 checkoutCart.PickupLocation);
         }
+
+        public void UpdateStatus(OrderStatus status) => Status = status;
     }
 }
