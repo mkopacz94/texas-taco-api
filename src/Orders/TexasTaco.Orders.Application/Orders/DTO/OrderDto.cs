@@ -6,6 +6,7 @@ namespace TexasTaco.Orders.Application.Orders.DTO
     public sealed record OrderDto(
         Guid Id,
         Guid CustomerId,
+        string CollectOrderId,
         List<OrderLineDto> Lines,
         PaymentType PaymentType,
         PickupLocation PickupLocation,

@@ -14,6 +14,7 @@ namespace TexasTaco.Orders.Domain.Orders
         public PaymentType PaymentType { get; private set; }
         public PickupLocation PickupLocation { get; private set; }
         public OrderStatus Status { get; private set; } = OrderStatus.Placed;
+        public string CollectOrderId => Id.Value.ToString()[..5];
         public decimal TotalPrice => Lines.Sum(p => p.UnitPrice * p.Quantity);
 
         protected Order(

@@ -9,12 +9,14 @@ namespace TexasTaco.Orders.Application.Orders.Mapping
         {
             var linesDtos = order
                 .Lines
-                .Select(ol => OrderLineMap.Map(ol))
+                .Select(OrderLineMap.Map)
+                .OrderBy(ol => ol.OrderLineNumber)
                 .ToList();
 
             return new(
                 order.Id.Value,
                 order.CustomerId.Value,
+                order.CollectOrderId,
                 linesDtos,
                 order.PaymentType,
                 order.PickupLocation,
