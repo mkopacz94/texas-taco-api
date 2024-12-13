@@ -1,5 +1,4 @@
 ﻿using TexasTaco.Orders.Application.Carts.DTO;
-using TexasTaco.Orders.Application.Shared.Mappers;
 
 namespace TexasTaco.Orders.Application.Carts.Mapping
 {
@@ -15,8 +14,9 @@ namespace TexasTaco.Orders.Application.Carts.Mapping
             return new(
                 checkoutCart.Id.Value,
                 checkoutCart.CustomerId.Value,
-                DeliveryAddressMap.Map(checkoutCart.DeliveryAddress),
                 productsDto,
+                checkoutCart.PaymentType,
+                checkoutCart.PickupLocation,
                 checkoutCart.TotalPrice);
         }
     }

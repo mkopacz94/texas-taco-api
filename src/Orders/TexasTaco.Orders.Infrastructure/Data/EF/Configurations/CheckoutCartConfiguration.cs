@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Orders.Domain.Customers;
-using TexasTaco.Orders.Domain.Shared;
 
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
 {
@@ -23,14 +22,6 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
             builder
                 .Property(c => c.CustomerId)
                 .HasConversion(id => id.Value, value => new CustomerId(value));
-
-            builder.HasOne(c => c.DeliveryAddress)
-                .WithOne(da => da.CheckoutCart)
-                .HasForeignKey<DeliveryAddress>(da => da.CheckoutCartId);
-
-            builder
-                .Navigation(u => u.DeliveryAddress)
-                .AutoInclude();
 
             builder
                 .Navigation(c => c.Products)

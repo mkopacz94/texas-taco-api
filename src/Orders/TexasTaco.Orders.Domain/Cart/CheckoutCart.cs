@@ -9,10 +9,12 @@ namespace TexasTaco.Orders.Domain.Cart
 
         public CheckoutCartId Id { get; } = new(Guid.NewGuid());
         public CustomerId CustomerId { get; }
-        public DeliveryAddress? DeliveryAddress { get; private set; }
+        public IReadOnlyCollection<CartProduct> Products => _products;
+        public PaymentType? PaymentType { get; private set; }
+        public PickupLocation? PickupLocation { get; private set; }
         public CartId CartId { get; private set; } = null!;
         public Cart Cart { get; private set; } = null!;
-        public IReadOnlyCollection<CartProduct> Products => _products;
+
         public decimal TotalPrice => Products.Sum(p => p.Price * p.Quantity);
 
         private CheckoutCart(CustomerId customerId)
@@ -26,8 +28,11 @@ namespace TexasTaco.Orders.Domain.Cart
             CartId = cart.Id;
         }
 
-        public void SetDeliveryAddress(DeliveryAddress deliveryAddress)
-            => DeliveryAddress = deliveryAddress;
+        public void SetPaymentType(PaymentType paymentType)
+            => PaymentType = paymentType;
+
+        public void SetPickupLocation(PickupLocation pickupLocation)
+            => PickupLocation = pickupLocation;
 
         public void UpdateCheckoutCart(Cart cart)
         {
