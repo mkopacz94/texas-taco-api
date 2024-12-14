@@ -5,7 +5,10 @@ using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Application.Orders;
 using TexasTaco.Orders.Application.Orders.DTO;
 using TexasTaco.Orders.Application.Orders.Mapping;
+using TexasTaco.Orders.Application.PointsCollectedOutbox;
 using TexasTaco.Orders.Application.Shared;
+using TexasTaco.Orders.Persistence.PointsCollectedOutboxMessages;
+using TexasTaco.Shared.EventBus.Orders;
 
 namespace TexasTaco.Orders.Application.Carts.PlaceOrder
 {
@@ -14,7 +17,8 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
         ICartsRepository cartsRepository,
         ICheckoutCartsRepository checkoutCartsRepository,
         IOrdersRepository ordersRepository,
-        ICustomersRepository customersRepository)
+        ICustomersRepository customersRepository,
+        IPointsCollectedOutboxMessagesRepository pointsCollectedOutboxRepository)
         : IRequestHandler<PlaceOrderCommand, OrderDto>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -25,6 +29,8 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
             = ordersRepository;
         private readonly ICustomersRepository _customersRepository
             = customersRepository;
+        private readonly IPointsCollectedOutboxMessagesRepository _pointsCollectedOutboxRepository
+            = pointsCollectedOutboxRepository;
 
         public async Task<OrderDto> Handle(
             PlaceOrderCommand request,
@@ -40,13 +46,27 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
                 .GetByIdAsync(order.CustomerId)
                 ?? throw new CustomerNotFoundException(order.CustomerId);
 
-            customer.AddPoints(order.CalculatePoints());
+            int pointsCollected = order.CalculatePoints();
+
+            customer.AddPoints(pointsCollected);
 
             await _unitOfWork.ExecuteTransactionAsync(async () =>
             {
                 await _ordersRepository.AddAsync(order);
                 await _customersRepository.UpdateCustomerAsync(customer);
                 await _cartsRepository.DeleteAsync(checkoutCart.CartId);
+
+                var message = new PointsCollectedEventMessage(
+                    Guid.NewGuid(),
+                    customer.AccountId.Value,
+                    pointsCollected);
+
+                var pointsCollectedMessage = new PointsCollectedOutboxMessage(
+                    message);
+
+                await _pointsCollectedOutboxRepository
+                    .AddAsync(pointsCollectedMessage);
+
             }, cancellationToken);
 
             return OrderMap.Map(order);

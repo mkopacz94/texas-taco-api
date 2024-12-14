@@ -3,6 +3,7 @@ using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Orders.Domain.Orders;
 using TexasTaco.Orders.Persistence.AccountCreatedInboxMessages;
+using TexasTaco.Orders.Persistence.PointsCollectedOutboxMessages;
 using TexasTaco.Orders.Persistence.ProductPriceChangedInbox;
 using TexasTaco.Orders.Persistence.UserUpdatedInboxMessages;
 
@@ -19,6 +20,7 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF
         public DbSet<AccountCreatedInboxMessage> AccountCreatedInboxMessages { get; private set; }
         public DbSet<UserUpdatedInboxMessage> UserUpdatedInboxMessages { get; private set; }
         public DbSet<ProductPriceChangedInboxMessage> ProductPriceChangedInboxMessages { get; private set; }
+        public DbSet<PointsCollectedOutboxMessage> PointsCollectedOutboxMessages { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
