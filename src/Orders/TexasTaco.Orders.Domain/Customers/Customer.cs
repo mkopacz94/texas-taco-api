@@ -18,5 +18,7 @@ namespace TexasTaco.Orders.Domain.Customers
             LastName = lastName;
             Address.UpdateAddress(address);
         }
+
+        public void AddPoints(int points) => PointsCollected += points;
     }
 }

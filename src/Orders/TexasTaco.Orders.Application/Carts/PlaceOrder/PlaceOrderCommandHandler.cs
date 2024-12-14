@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using TexasTaco.Orders.Application.Carts.Exceptions;
+using TexasTaco.Orders.Application.Customers;
+using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Application.Orders;
 using TexasTaco.Orders.Application.Orders.DTO;
 using TexasTaco.Orders.Application.Orders.Mapping;
@@ -11,7 +13,8 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
         IUnitOfWork unitOfWork,
         ICartsRepository cartsRepository,
         ICheckoutCartsRepository checkoutCartsRepository,
-        IOrdersRepository ordersRepository)
+        IOrdersRepository ordersRepository,
+        ICustomersRepository customersRepository)
         : IRequestHandler<PlaceOrderCommand, OrderDto>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -20,6 +23,8 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
             = checkoutCartsRepository;
         private readonly IOrdersRepository _ordersRepository
             = ordersRepository;
+        private readonly ICustomersRepository _customersRepository
+            = customersRepository;
 
         public async Task<OrderDto> Handle(
             PlaceOrderCommand request,
@@ -31,9 +36,16 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
 
             var order = checkoutCart.PlaceOrder();
 
+            var customer = await _customersRepository
+                .GetByIdAsync(order.CustomerId)
+                ?? throw new CustomerNotFoundException(order.CustomerId);
+
+            customer.AddPoints(order.CalculatePoints());
+
             await _unitOfWork.ExecuteTransactionAsync(async () =>
             {
                 await _ordersRepository.AddAsync(order);
+                await _customersRepository.UpdateCustomerAsync(customer);
                 await _cartsRepository.DeleteAsync(checkoutCart.CartId);
             }, cancellationToken);
 

@@ -54,5 +54,9 @@ namespace TexasTaco.Orders.Domain.Orders
         }
 
         public void UpdateStatus(OrderStatus status) => Status = status;
+
+        public int CalculatePoints()
+            => (int)Lines.Sum(l =>
+                Math.Ceiling(l.UnitPrice * l.Quantity * 10));
     }
 }
