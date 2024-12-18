@@ -74,6 +74,8 @@ namespace TexasTaco.Users.Core
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IAccountCreatedInboxMessagesRepository,
                 AccountCreatedInboxMessagesRepository>();
+            services.AddScoped<IPointsCollectedInboxMessagesRepository,
+                PointsCollectedInboxMessagesRepository>();
             services.AddScoped<IUserUpdatedOutboxMessagesRepository,
                 UserUpdatedOutboxMessagesRepository>();
 

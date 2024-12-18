@@ -1,5 +1,4 @@
-﻿using TexasTaco.Shared.EventBus.Account;
-using TexasTaco.Users.Core.Entities;
+﻿using TexasTaco.Users.Core.Entities;
 
 namespace TexasTaco.Users.Core.Repositories
 {
