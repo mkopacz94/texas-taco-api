@@ -5,6 +5,7 @@ using TexasTaco.Orders.Application.AccountCreatedInbox;
 using TexasTaco.Orders.Application.Carts;
 using TexasTaco.Orders.Application.Customers;
 using TexasTaco.Orders.Application.Orders;
+using TexasTaco.Orders.Application.PointsCollectedOutbox;
 using TexasTaco.Orders.Application.ProductPriceChangedInbox;
 using TexasTaco.Orders.Application.Shared;
 using TexasTaco.Orders.Application.UserUpdatedInbox;
@@ -12,6 +13,7 @@ using TexasTaco.Orders.Infrastructure.Data;
 using TexasTaco.Orders.Infrastructure.Data.EF;
 using TexasTaco.Orders.Infrastructure.Data.Repositories;
 using TexasTaco.Orders.Infrastructure.MessageBus;
+using TexasTaco.Orders.Infrastructure.Outbox;
 
 namespace TexasTaco.Orders.Infrastructure
 {
@@ -33,6 +35,7 @@ namespace TexasTaco.Orders.Infrastructure
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             AddRepositories(services);
+            AddOutbox(services);
 
             return services;
         }
@@ -60,6 +63,15 @@ namespace TexasTaco.Orders.Infrastructure
                 UserUpdatedInboxMessagesRepository>();
             services.AddScoped<IProductPriceChangedInboxMessagesRepository,
                 ProductPriceChangedInboxMessagesRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddOutbox(
+            this IServiceCollection services)
+        {
+            services.AddScoped<IPointsCollectedOutboxMessagesProcessor,
+                PointsCollectedOutboxMessagesProcessor>();
 
             return services;
         }
