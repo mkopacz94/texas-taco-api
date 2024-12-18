@@ -35,6 +35,7 @@ namespace TexasTaco.Users.Core
             {
                 busConfig.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(false));
                 busConfig.AddConsumer<AccountCreatedEventMessageConsumer>();
+                busConfig.AddConsumer<PointsCollectedEventMessageConsumer>();
 
                 busConfig.UsingRabbitMq((context, config) =>
                 {
@@ -51,6 +52,11 @@ namespace TexasTaco.Users.Core
                     config.ReceiveEndpoint("users.account-created-event-message", cfg =>
                     {
                         cfg.ConfigureConsumer<AccountCreatedEventMessageConsumer>(context);
+                    });
+
+                    config.ReceiveEndpoint("users.points-collected-event-message", cfg =>
+                    {
+                        cfg.ConfigureConsumer<PointsCollectedEventMessageConsumer>(context);
                     });
                 });
             });
