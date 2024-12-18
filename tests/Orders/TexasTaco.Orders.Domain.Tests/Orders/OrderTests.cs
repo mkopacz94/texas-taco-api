@@ -65,7 +65,7 @@ namespace TexasTaco.Orders.Domain.Tests.Orders
             var order = checkoutCart.PlaceOrder();
 
             //Assert
-            order.CalculatePoints()
+            order.PointsCollected
                 .Should()
                 .Be(expectedPoints);
         }

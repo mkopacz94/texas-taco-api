@@ -8,6 +8,8 @@ using TexasTaco.Orders.Application.Orders.GetOrder;
 using TexasTaco.Orders.Application.Orders.UpdateOrderStatus;
 using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Orders.Domain.Orders;
+using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.Exceptions;
 
 namespace TexasTaco.Orders.Api.Controllers
@@ -52,6 +54,7 @@ namespace TexasTaco.Orders.Api.Controllers
             return Ok(orderDto);
         }
 
+        [AuthorizeRole(Role.Employee, Role.Admin)]
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateOrderStatus(
             string id,

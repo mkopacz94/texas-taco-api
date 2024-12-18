@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TexasTaco.Orders.Infrastructure.Data.EF;
 
@@ -11,9 +12,11 @@ using TexasTaco.Orders.Infrastructure.Data.EF;
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    partial class OrdersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241218223034_AddPointsCollectedAndTotalPriceToOrderEntity")]
+    partial class AddPointsCollectedAndTotalPriceToOrderEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,9 +174,6 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("PaymentType")
                         .HasColumnType("int");

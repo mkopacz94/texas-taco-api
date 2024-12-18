@@ -22,6 +22,8 @@ namespace TexasTaco.Users.Core
 
             services.AddScoped<IAccountCreatedInboxMessagesProcessor,
                 AccountCreatedInboxMessagesProcessor>();
+            services.AddScoped<IPointsCollectedInboxMessagesProcessor,
+                PointsCollectedInboxMessagesProcessor>();
             services.AddScoped<IUserUpdatedOutboxMessagesProcessor,
                 UserUpdatedOutboxMessagesProcessor>();
 

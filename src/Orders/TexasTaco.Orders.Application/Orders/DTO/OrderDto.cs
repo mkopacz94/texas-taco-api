@@ -12,5 +12,6 @@ namespace TexasTaco.Orders.Application.Orders.DTO
         PickupLocation PickupLocation,
         decimal TotalPrice,
         decimal PointsCollected,
-        OrderStatus Status);
+        OrderStatus Status,
+        DateTime OrderDate);
 }

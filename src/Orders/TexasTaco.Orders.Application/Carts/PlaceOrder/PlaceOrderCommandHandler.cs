@@ -57,7 +57,7 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
                 var message = new PointsCollectedEventMessage(
                     Guid.NewGuid(),
                     customer.AccountId.Value,
-                    order.CalculatePoints());
+                    order.PointsCollected);
 
                 var pointsCollectedMessage = new PointsCollectedOutboxMessage(
                     message);

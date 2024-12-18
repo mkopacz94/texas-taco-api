@@ -26,7 +26,7 @@ namespace TexasTaco.Orders.Application.AccountCreatedInbox
             foreach (var message in nonProcessedMessages)
             {
                 _logger.LogInformation("Processing account created " +
-                    "inbox message with Id={messageId}...", message.Id);
+                    "inbox message with Id={messageId}...", message.Id.Value);
 
                 try
                 {
@@ -41,15 +41,16 @@ namespace TexasTaco.Orders.Application.AccountCreatedInbox
                         await _inboxRepository.UpdateAsync(message);
 
                         _logger.LogInformation("Successfully processed " +
-                            "message with Id={messageId}...", message.Id);
+                            "message with Id={messageId}.", message.Id.Value);
                     });
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(
                         ex,
-                        "Error occured during processing inbox message with Id={messageId}.",
-                        message.Id);
+                        "Error occured during processing inbox message " +
+                            "with Id={messageId}.",
+                        message.Id.Value);
                 }
             }
         }

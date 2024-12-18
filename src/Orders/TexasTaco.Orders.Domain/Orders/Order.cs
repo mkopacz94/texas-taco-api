@@ -15,16 +15,22 @@ namespace TexasTaco.Orders.Domain.Orders
         public PickupLocation PickupLocation { get; private set; }
         public OrderStatus Status { get; private set; } = OrderStatus.Placed;
         public string CollectOrderId => Id.Value.ToString()[..5];
-        public decimal TotalPrice => Lines.Sum(p => p.UnitPrice * p.Quantity);
+        public int PointsCollected { get; private set; }
+        public decimal TotalPrice { get; private set; }
+        public DateTime OrderDate { get; private set; } = DateTime.UtcNow;
 
         protected Order(
             CustomerId customerId,
             PaymentType paymentType,
-            PickupLocation pickupLocation)
+            PickupLocation pickupLocation,
+            int pointsCollected,
+            decimal totalPrice)
         {
             CustomerId = customerId;
             PaymentType = paymentType;
             PickupLocation = pickupLocation;
+            PointsCollected = pointsCollected;
+            TotalPrice = totalPrice;
         }
 
         private Order(
@@ -37,6 +43,8 @@ namespace TexasTaco.Orders.Domain.Orders
             CustomerId = customerId;
             PaymentType = paymentType;
             PickupLocation = pickupLocation;
+            PointsCollected = CalculatePoints();
+            TotalPrice = Lines.Sum(p => p.UnitPrice * p.Quantity);
         }
 
         public static Order CreateFromCheckout(CheckoutCart checkoutCart)
@@ -55,7 +63,7 @@ namespace TexasTaco.Orders.Domain.Orders
 
         public void UpdateStatus(OrderStatus status) => Status = status;
 
-        public int CalculatePoints()
+        private int CalculatePoints()
             => (int)Lines.Sum(l =>
                 Math.Ceiling(l.UnitPrice * l.Quantity * 10));
     }

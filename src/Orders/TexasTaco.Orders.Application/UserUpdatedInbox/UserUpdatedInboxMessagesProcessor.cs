@@ -26,7 +26,7 @@ namespace TexasTaco.Orders.Application.UserUpdatedInbox
             foreach (var message in nonProcessedMessages)
             {
                 _logger.LogInformation("Processing user updated " +
-                    "inbox message with Id={messageId}...", message.Id);
+                    "inbox message with Id={messageId}...", message.Id.Value);
 
                 try
                 {
@@ -57,7 +57,7 @@ namespace TexasTaco.Orders.Application.UserUpdatedInbox
                         await _inboxRepository.UpdateAsync(message);
 
                         _logger.LogInformation("Successfully processed " +
-                            "message with Id={messageId}...", message.Id);
+                            "message with Id={messageId}.", message.Id.Value);
                     });
                 }
                 catch (Exception ex)
@@ -65,7 +65,7 @@ namespace TexasTaco.Orders.Application.UserUpdatedInbox
                     _logger.LogError(
                         ex,
                         "Error occured during processing inbox message with Id={messageId}.",
-                        message.Id);
+                        message.Id.Value);
                 }
             }
         }

@@ -1,8 +1,8 @@
-﻿using TexasTaco.Users.Core.Services.Outbox;
+﻿using TexasTaco.Users.Core.Services.Inbox;
 
 namespace TexasTaco.Users.Api.BackgroundServices
 {
-    internal class UserUpdatedOutboxBackgroundService(
+    internal class PointsCollectedInboxBackgroundService(
         IServiceProvider _serviceProvider) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -13,7 +13,7 @@ namespace TexasTaco.Users.Api.BackgroundServices
 
                 var messagesProcessor = scope
                     .ServiceProvider
-                    .GetRequiredService<IUserUpdatedOutboxMessagesProcessor>();
+                    .GetRequiredService<IPointsCollectedInboxMessagesProcessor>();
 
                 await messagesProcessor.ProcessMessages();
 

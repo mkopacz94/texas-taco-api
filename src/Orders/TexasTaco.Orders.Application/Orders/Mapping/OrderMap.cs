@@ -21,8 +21,9 @@ namespace TexasTaco.Orders.Application.Orders.Mapping
                 order.PaymentType,
                 order.PickupLocation,
                 order.TotalPrice,
-                order.CalculatePoints(),
-                order.Status);
+                order.PointsCollected,
+                order.Status,
+                order.OrderDate);
         }
     }
 }

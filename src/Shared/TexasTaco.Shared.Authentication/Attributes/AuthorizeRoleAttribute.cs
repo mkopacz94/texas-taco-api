@@ -8,5 +8,10 @@ namespace TexasTaco.Shared.Authentication.Attributes
         {
             Roles = roleEnum.ToString();
         }
+
+        public AuthorizeRoleAttribute(params Role[] rolesEnums)
+        {
+            Roles = string.Join(",", rolesEnums.Select(r => r.ToString()));
+        }
     }
 }

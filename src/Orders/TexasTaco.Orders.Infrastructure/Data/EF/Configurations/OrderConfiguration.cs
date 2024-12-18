@@ -13,7 +13,6 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
             builder.HasIndex(o => o.CustomerId);
 
             builder.Ignore(o => o.CollectOrderId);
-            builder.Ignore(o => o.TotalPrice);
 
             builder
                 .Property(o => o.Id)

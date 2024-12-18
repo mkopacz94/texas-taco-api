@@ -26,7 +26,7 @@ namespace TexasTaco.Orders.Infrastructure.Outbox
             foreach (var message in messagesToBePublished)
             {
                 _logger.LogInformation("Processing points collected " +
-                    "outbox message with Id={messageId}...", message.Id);
+                    "outbox message with Id={messageId}.", message.Id.Value);
 
                 try
                 {
@@ -39,7 +39,7 @@ namespace TexasTaco.Orders.Infrastructure.Outbox
 
                         _logger.LogInformation("Published points collected message. " +
                                 "Account Id: {id}, Points collected: {pointsCollected}.",
-                            message.MessageBody.AccountId.ToString(),
+                            message.MessageBody.AccountId,
                             message.MessageBody.PointsCollected);
                     });
                 }
@@ -48,7 +48,7 @@ namespace TexasTaco.Orders.Infrastructure.Outbox
                     _logger.LogError(
                         ex,
                         "Error occured during processing outbox message with Id={messageId}.",
-                        message.Id);
+                        message.Id.Value);
                 }
             }
         }

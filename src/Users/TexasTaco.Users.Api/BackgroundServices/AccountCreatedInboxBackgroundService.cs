@@ -2,7 +2,7 @@
 
 namespace TexasTaco.Users.Api.BackgroundServices
 {
-    public class AccountCreatedInboxBackgroundService(
+    internal class AccountCreatedInboxBackgroundService(
         IServiceProvider _serviceProvider) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

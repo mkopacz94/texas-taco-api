@@ -24,7 +24,7 @@ namespace TexasTaco.Users.Core.Services.Inbox
 
                 try
                 {
-                    var transaction = await _unitOfWork.BeginTransactionAsync();
+                    using var transaction = await _unitOfWork.BeginTransactionAsync();
 
                     var user = new User(
                         message.MessageBody.AccountId,

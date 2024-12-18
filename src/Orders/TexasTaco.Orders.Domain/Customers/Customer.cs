@@ -21,6 +21,6 @@ namespace TexasTaco.Orders.Domain.Customers
         }
 
         public void AddPoints(Order order)
-            => PointsCollected += order.CalculatePoints();
+            => PointsCollected += order.PointsCollected;
     }
 }

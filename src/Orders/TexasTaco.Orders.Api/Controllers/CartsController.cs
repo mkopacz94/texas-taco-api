@@ -100,7 +100,7 @@ namespace TexasTaco.Orders.Api.Controllers
 
             return CreatedAtAction(
                 nameof(CheckoutController.GetCheckoutCart),
-                "checkoutCarts",
+                "checkout",
                 new { id = checkoutCartDto.Id.ToString() },
                 checkoutCartDto);
         }

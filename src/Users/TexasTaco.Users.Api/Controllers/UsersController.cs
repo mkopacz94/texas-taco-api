@@ -42,7 +42,8 @@ namespace TexasTaco.Users.Api.Controllers
                     user.Address.AddressLine,
                     user.Address.PostalCode,
                     user.Address.City,
-                    user.Address.Country));
+                    user.Address.Country),
+                user.PointsCollected);
 
             return Ok(userDto);
         }

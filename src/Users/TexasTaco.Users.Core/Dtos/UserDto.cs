@@ -5,5 +5,6 @@
         string Email,
         string? FirstName,
         string? LastName,
-        AddressDto Address);
+        AddressDto Address,
+        int PointsCollected);
 }
