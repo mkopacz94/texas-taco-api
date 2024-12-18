@@ -46,9 +46,7 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
                 .GetByIdAsync(order.CustomerId)
                 ?? throw new CustomerNotFoundException(order.CustomerId);
 
-            int pointsCollected = order.CalculatePoints();
-
-            customer.AddPoints(pointsCollected);
+            customer.AddPoints(order);
 
             await _unitOfWork.ExecuteTransactionAsync(async () =>
             {
@@ -59,7 +57,7 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
                 var message = new PointsCollectedEventMessage(
                     Guid.NewGuid(),
                     customer.AccountId.Value,
-                    pointsCollected);
+                    order.CalculatePoints());
 
                 var pointsCollectedMessage = new PointsCollectedOutboxMessage(
                     message);

@@ -1,4 +1,5 @@
-﻿using TexasTaco.Shared.ValueObjects;
+﻿using TexasTaco.Orders.Domain.Orders;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Domain.Customers
 {
@@ -19,6 +20,7 @@ namespace TexasTaco.Orders.Domain.Customers
             Address.UpdateAddress(address);
         }
 
-        public void AddPoints(int points) => PointsCollected += points;
+        public void AddPoints(Order order)
+            => PointsCollected += order.CalculatePoints();
     }
 }

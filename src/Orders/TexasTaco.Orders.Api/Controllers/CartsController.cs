@@ -99,7 +99,7 @@ namespace TexasTaco.Orders.Api.Controllers
             var checkoutCartDto = await _mediator.Send(command);
 
             return CreatedAtAction(
-                nameof(CheckoutCartsController.GetCheckoutCart),
+                nameof(CheckoutController.GetCheckoutCart),
                 "checkoutCarts",
                 new { id = checkoutCartDto.Id.ToString() },
                 checkoutCartDto);

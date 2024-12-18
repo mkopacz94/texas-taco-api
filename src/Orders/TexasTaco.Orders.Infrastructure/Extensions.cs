@@ -63,6 +63,8 @@ namespace TexasTaco.Orders.Infrastructure
                 UserUpdatedInboxMessagesRepository>();
             services.AddScoped<IProductPriceChangedInboxMessagesRepository,
                 ProductPriceChangedInboxMessagesRepository>();
+            services.AddScoped<IPointsCollectedOutboxMessagesRepository,
+                PointsCollectedOutboxMessagesRepository>();
 
             return services;
         }

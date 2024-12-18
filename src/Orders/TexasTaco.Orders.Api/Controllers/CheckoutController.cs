@@ -15,7 +15,7 @@ namespace TexasTaco.Orders.Api.Controllers
     [ApiVersion(1)]
     [Route("api/v{v:apiVersion}/orders/[controller]")]
     [Authorize]
-    public class CheckoutCartsController(
+    public class CheckoutController(
         IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
