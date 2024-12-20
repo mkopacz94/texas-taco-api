@@ -30,7 +30,8 @@ namespace TexasTaco.Products.Core.Services
                 updateData.ShortDescription,
                 updateData.Recommended,
                 updateData.Price,
-                new PictureId(Guid.Parse(updateData.PictureId)));
+                new PictureId(Guid.Parse(updateData.PictureId)),
+                new CategoryId(Guid.Parse(updateData.CategoryId)));
 
             using var transaction = await _unitOfWork.BeginTransactionAsync();
             await _productsRepository.UpdateAsync(productToUpdate);

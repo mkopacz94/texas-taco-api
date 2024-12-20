@@ -22,7 +22,8 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                     productInputDto.ShortDescription,
                     productInputDto.Recommended,
                     productInputDto.Price,
-                    new PictureId(Guid.Parse(productInputDto.PictureId)));
+                    new PictureId(Guid.Parse(productInputDto.PictureId)),
+                    new CategoryId(Guid.Parse(productInputDto.CategoryId)));
 
                 await productsRepository.AddAsync(product);
 

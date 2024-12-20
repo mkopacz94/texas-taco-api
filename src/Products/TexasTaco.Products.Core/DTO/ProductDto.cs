@@ -6,5 +6,6 @@
         string ShortDescription,
         bool Recommended,
         decimal Price,
-        string? PictureUrl);
+        string? PictureUrl,
+        string Category);
 }

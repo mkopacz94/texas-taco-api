@@ -17,10 +17,23 @@ namespace TexasTaco.Products.Core.Tests.Entities
         {
             //Arrange
             var pictureId = new PictureId(Guid.NewGuid());
-            var product = new Product("OldProduct", "", false, oldPrice, pictureId);
+            var categoryId = new CategoryId(Guid.NewGuid());
+            var product = new Product(
+                "OldProduct",
+                "",
+                false,
+                oldPrice,
+                pictureId,
+                categoryId);
 
             //Act
-            product.UpdateProduct("NewProduct", "", false, newPrice, pictureId);
+            product.UpdateProduct(
+                "NewProduct",
+                "",
+                false,
+                newPrice,
+                pictureId,
+                categoryId);
 
             //Assert
             product

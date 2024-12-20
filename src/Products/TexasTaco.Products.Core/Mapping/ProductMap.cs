@@ -13,7 +13,8 @@ namespace TexasTaco.Products.Core.Mapping
                 product.ShortDescription,
                 product.Recommended,
                 product.Price,
-                product.Picture.Url);
+                product.Picture.Url,
+                product.Category.Name);
         }
     }
 }

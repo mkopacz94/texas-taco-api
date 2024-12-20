@@ -5,5 +5,6 @@
         string ShortDescription,
         bool Recommended,
         decimal Price,
-        string PictureId);
+        string PictureId,
+        string CategoryId);
 }

@@ -3,7 +3,11 @@ using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Entities
 {
-    public class Product(string name, string shortDescription, bool recommended, decimal price)
+    public class Product(
+        string name,
+        string shortDescription,
+        bool recommended,
+        decimal price)
     {
         private readonly List<Prize> _prizes = [];
 
@@ -14,6 +18,8 @@ namespace TexasTaco.Products.Core.Entities
         public decimal Price { get; private set; } = price;
         public PictureId PictureId { get; private set; } = null!;
         public Picture Picture { get; private set; } = null!;
+        public CategoryId CategoryId { get; private set; } = null!;
+        public Category Category { get; private set; } = null!;
         public IReadOnlyCollection<Prize> Prizes => _prizes;
 
         public bool PriceChanged { get; private set; }
@@ -23,10 +29,12 @@ namespace TexasTaco.Products.Core.Entities
             string shortDescription,
             bool recommended,
             decimal price,
-            PictureId pictureId)
+            PictureId pictureId,
+            CategoryId categoryId)
             : this(name, shortDescription, recommended, price)
         {
             PictureId = pictureId;
+            CategoryId = categoryId;
         }
 
         public void UpdateProduct(
@@ -34,7 +42,8 @@ namespace TexasTaco.Products.Core.Entities
             string shortDescription,
             bool recommended,
             decimal price,
-            PictureId pictureId)
+            PictureId pictureId,
+            CategoryId categoryId)
         {
             PriceChanged = Price != price;
 
@@ -43,6 +52,7 @@ namespace TexasTaco.Products.Core.Entities
             Recommended = recommended;
             Price = price;
             PictureId = pictureId;
+            CategoryId = categoryId;
         }
     }
 }
