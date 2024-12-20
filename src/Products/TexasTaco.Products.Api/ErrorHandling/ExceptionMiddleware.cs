@@ -2,6 +2,7 @@
 using System.Net;
 using TexasTaco.Products.Core.Exceptions;
 using TexasTaco.Shared.Errors;
+using TexasTaco.Shared.Exceptions;
 
 namespace TexasTaco.Products.Api.ErrorHandling
 {
@@ -25,6 +26,7 @@ namespace TexasTaco.Products.Api.ErrorHandling
             var (statusCode, message) = ex switch
             {
                 ProductsServiceException => (HttpStatusCode.BadRequest, CreateErrorMessage(ex)),
+                InvalidRequestParametersException => (HttpStatusCode.BadRequest, CreateErrorMessage(ex)),
                 _ => (HttpStatusCode.InternalServerError, new ErrorMessage("server_error", "There was an internal server error."))
             };
 

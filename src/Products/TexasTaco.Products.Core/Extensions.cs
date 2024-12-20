@@ -27,6 +27,7 @@ namespace TexasTaco.Products.Core
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPicturesRepository, PicturesRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<ICategoriesRepository, CategoriesRepository>();
             services.AddScoped<IPrizesRepository, PrizesRepository>();
             services.AddScoped<IProductPriceChangedOutboxMessagesRepository,
                 ProductPriceChangedOutboxMessagesRepository>();
