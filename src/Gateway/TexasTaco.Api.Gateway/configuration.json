@@ -34,7 +34,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/{version}/products/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
       "DownstreamPathTemplate": "/api/{version}/products",
@@ -46,7 +46,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/{version}/products",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
       "DownstreamPathTemplate": "/api/{version}/orders/{everything}",

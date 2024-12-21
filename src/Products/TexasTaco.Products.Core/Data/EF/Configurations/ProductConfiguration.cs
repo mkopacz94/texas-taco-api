@@ -22,6 +22,10 @@ namespace TexasTaco.Products.Core.Data.EF.Configurations
                 .AutoInclude();
 
             builder
+                .Navigation(p => p.Category)
+                .AutoInclude();
+
+            builder
                 .HasMany(p => p.Prizes)
                 .WithOne(p => p.Product)
                 .HasForeignKey(p => p.ProductId);

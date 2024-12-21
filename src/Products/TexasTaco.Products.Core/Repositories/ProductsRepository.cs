@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TexasTaco.Products.Core.Data.EF;
 using TexasTaco.Products.Core.Entities;
+using TexasTaco.Products.Core.Exceptions;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Repositories
 {
-    internal class ProductsRepository(ProductsDbContext _context) : IProductsRepository
+    internal class ProductsRepository(ProductsDbContext _context)
+        : IProductsRepository
     {
         public async Task AddAsync(Product product)
         {
@@ -35,6 +37,17 @@ namespace TexasTaco.Products.Core.Repositories
             return await _context
                 .Products
                 .AnyAsync(p => p.Id == productId);
+        }
+
+        public async Task DeleteAsync(ProductId productId)
+        {
+            var productToDelete = await _context
+                .Products
+                .FirstOrDefaultAsync(p => p.Id == productId)
+                ?? throw new ProductNotFoundException(productId);
+
+            _context.Remove(productToDelete);
+            await _context.SaveChangesAsync();
         }
     }
 }

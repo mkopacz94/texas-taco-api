@@ -9,5 +9,6 @@ namespace TexasTaco.Products.Core.Repositories
         Task AddAsync(Prize prize);
         Task<Prize?> GetAsync(PrizeId id);
         Task UpdateAsync(Prize prize);
+        Task DeleteAsync(PrizeId id);
     }
 }
