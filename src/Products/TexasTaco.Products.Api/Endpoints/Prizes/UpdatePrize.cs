@@ -5,6 +5,8 @@ using TexasTaco.Products.Core.DTO;
 using TexasTaco.Products.Core.Exceptions;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.Errors;
 using TexasTaco.Shared.ValueObjects;
 
@@ -14,7 +16,7 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPut("prizes/{id}", async (
+            app.MapPut("prizes/{id}", [AuthorizeRole(Role.Admin)] async (
                 string id,
                 PrizeInputDto prizeDto,
                 [FromServices] IPrizesRepository prizesRepository,

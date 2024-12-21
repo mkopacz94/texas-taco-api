@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Products.Core.DTO;
 using TexasTaco.Products.Core.Services;
+using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.Errors;
 using TexasTaco.Shared.ValueObjects;
 
@@ -11,7 +13,7 @@ namespace TexasTaco.Products.Api.Endpoints.Products
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPut("{id}", async (
+            app.MapPut("{id}", [AuthorizeRole(Role.Admin)] async (
                 string id,
                 ProductInputDto productDto,
                 [FromServices] IProductUpdateService productUpdateService) =>

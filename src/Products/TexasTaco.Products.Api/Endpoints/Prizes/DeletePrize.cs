@@ -1,6 +1,9 @@
 ﻿
+using Asp.Versioning;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
+using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.Exceptions;
 
 namespace TexasTaco.Products.Api.Endpoints.Prizes
@@ -9,7 +12,7 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapDelete("prizes/{id}", async (
+            app.MapDelete("prizes/{id}", [AuthorizeRole(Role.Admin)] async (
                 string id,
                 IPrizesRepository prizesRepository) =>
             {
@@ -23,7 +26,12 @@ namespace TexasTaco.Products.Api.Endpoints.Prizes
                 await prizesRepository.DeleteAsync(prizeId);
 
                 return Results.NoContent();
-            });
+            })
+            .RequireAuthorization()
+            .WithTags(Tags.Prizes)
+            .HasApiVersion(new ApiVersion(1))
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status400BadRequest);
         }
     }
 }
