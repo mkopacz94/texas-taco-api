@@ -8,6 +8,7 @@ namespace TexasTaco.Authentication.Core.Data.EF
         public DbSet<Account> Accounts { get; set; }
         public DbSet<EmailNotification> EmailNotifications { get; set; }
         public DbSet<AccountCreatedOutbox> AccountsCreatedOutbox { get; set; }
+        public DbSet<AccountDeletedOutboxMessage> AccountDeletedOutboxMessages { get; set; }
         public DbSet<VerificationToken> VerificationTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

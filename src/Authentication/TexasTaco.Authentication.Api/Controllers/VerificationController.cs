@@ -47,7 +47,7 @@ namespace TexasTaco.Authentication.Api.Controllers
 
             accountToBeVerified.MarkAsVerified();
 
-            var transaction = await _unitOfWork.BeginTransactionAsync();
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
 
             await _authRepository.UpdateAccount(accountToBeVerified);
 

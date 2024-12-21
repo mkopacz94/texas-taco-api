@@ -36,6 +36,8 @@ namespace TexasTaco.Authentication.Core
             services.AddScoped<IEmailNotificationsRepository, EmailNotificationsRepository>();
             services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();
             services.AddScoped<IAccountCreatedOutboxRepository, AccountCreatedOutboxRepository>();
+            services.AddScoped<IAccountDeletedOutboxMessagesRepository,
+                AccountDeletedOutboxMessagesRepository>();
             services.AddScoped<IEmailVerificationService, EmailVerificationService>();
             services.AddScoped<IAccountCreatedOutboxService, AccountCreatedOutboxService>();
             services.AddSmtpClient(options =>
@@ -58,7 +60,7 @@ namespace TexasTaco.Authentication.Core
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));
 
-            services.AddSingleton(sp => 
+            services.AddSingleton(sp =>
                 sp.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);
 
             services.AddMassTransit(busConfig =>

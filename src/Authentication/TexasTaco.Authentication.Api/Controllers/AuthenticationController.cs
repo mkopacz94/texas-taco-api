@@ -2,13 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.Services;
+using TexasTaco.Authentication.Core.Data;
 using TexasTaco.Authentication.Core.DTO;
+using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.Verification;
 using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.Authentication.Attributes;
+using TexasTaco.Shared.EventBus.Account;
 using TexasTaco.Shared.Services;
 using TexasTaco.Shared.ValueObjects;
 
@@ -18,7 +21,9 @@ namespace TexasTaco.Authentication.Api.Controllers
     [Route("api/v{v:apiVersion}/auth")]
     [ApiController]
     public class AuthenticationController(
+        IUnitOfWork _unitOfWork,
         IAuthenticationRepository _authRepo,
+        IAccountDeletedOutboxMessagesRepository _accountDeletedOutboxMessagesRepository,
         IEmailVerificationService _emailVerificationService,
         ICookieService _cookieService,
         ISessionStorage _sessionStorage,
@@ -64,12 +69,12 @@ namespace TexasTaco.Authentication.Api.Controllers
             var sessionIdentifier = new SessionId(Guid.Parse(sessionId));
             var session = await _sessionStorage.GetSession(accountIdentifier, sessionIdentifier);
 
-            if(session is null || !session.IsValid())
+            if (session is null || !session.IsValid())
             {
                 return Unauthorized();
             }
 
-            if(session.IsBeforeHalfOfExpirationTime())
+            if (session.IsBeforeHalfOfExpirationTime())
             {
                 return Ok(session);
             }
@@ -104,6 +109,32 @@ namespace TexasTaco.Authentication.Api.Controllers
             return NoContent();
         }
 
+        [MapToApiVersion(1)]
+        [AuthorizeRole(Role.Admin)]
+        [HttpDelete("delete-account/{id}")]
+        public async Task<IActionResult> DeleteAccount(string id)
+        {
+            var accountIdGuid = Guid.Parse(id);
+            var accountId = new AccountId(accountIdGuid);
+
+            using var transaction = await _unitOfWork.BeginTransactionAsync();
+
+            await _authRepo.DeleteAsync(accountId);
+
+            var accountDeletedEventMessage = new AccountDeletedEventMessage(
+                Guid.NewGuid(),
+                accountIdGuid);
+
+            var outboxMessage = new AccountDeletedOutboxMessage(accountDeletedEventMessage);
+
+            await _accountDeletedOutboxMessagesRepository
+                .AddAsync(outboxMessage);
+
+            await transaction.CommitAsync();
+
+            return NoContent();
+        }
+
         private void SetSessionCookies(AccountId accountId, SessionId sessionId, DateTime expirationDate)
         {
             var sessionCookieOptions = new CookieOptions
@@ -119,7 +150,7 @@ namespace TexasTaco.Authentication.Api.Controllers
                 sessionCookieOptions);
 
             _cookieService.SetCookie(
-                CookiesNames.SessionId, 
+                CookiesNames.SessionId,
                 sessionId.Value.ToString(),
                 sessionCookieOptions);
         }
