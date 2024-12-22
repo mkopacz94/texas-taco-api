@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Shared.Inbox;
+using TexasTaco.Shared.Inbox.Repository;
 using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.Entities;
 using TexasTaco.Users.Core.Repositories;
@@ -7,7 +10,7 @@ namespace TexasTaco.Users.Core.Services.Inbox
 {
     internal class AccountCreatedInboxMessagesProcessor(
         IUnitOfWork _unitOfWork,
-        IAccountCreatedInboxMessagesRepository _inboxRepository,
+        IInboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>> _inboxRepository,
         IUsersRepository _usersRepository,
         ILogger<AccountCreatedInboxMessagesProcessor> _logger)
         : IAccountCreatedInboxMessagesProcessor
@@ -15,7 +18,7 @@ namespace TexasTaco.Users.Core.Services.Inbox
         public async Task ProcessMessages()
         {
             var nonProcessedMessages = await _inboxRepository
-                .GetNonProcessedAccountCreatedMessages();
+                .GetNonProcessedMessages();
 
             foreach (var message in nonProcessedMessages)
             {

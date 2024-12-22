@@ -3,6 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Shared.EventBus.Orders;
+using TexasTaco.Shared.EventBus.Users;
+using TexasTaco.Shared.Inbox;
+using TexasTaco.Shared.Inbox.Repository;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Shared.Settings;
 using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.EventBus.Consumers;
@@ -78,14 +85,16 @@ namespace TexasTaco.Users.Core
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
+            services.AddScoped<DbContext, UsersDbContext>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddScoped<IAccountCreatedInboxMessagesRepository,
-                AccountCreatedInboxMessagesRepository>();
-            services.AddScoped<IPointsCollectedInboxMessagesRepository,
-                PointsCollectedInboxMessagesRepository>();
-            services.AddScoped<IUserUpdatedOutboxMessagesRepository,
-                UserUpdatedOutboxMessagesRepository>();
+            services.AddScoped<IInboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>>,
+                InboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>>>();
+            services.AddScoped<IInboxMessagesRepository<InboxMessage<PointsCollectedEventMessage>>,
+                InboxMessagesRepository<InboxMessage<PointsCollectedEventMessage>>>();
+            services.AddScoped<IOutboxMessagesRepository<OutboxMessage<UserUpdatedEventMessage>>,
+                OutboxMessagesRepository<OutboxMessage<UserUpdatedEventMessage>>>();
 
             return services;
         }

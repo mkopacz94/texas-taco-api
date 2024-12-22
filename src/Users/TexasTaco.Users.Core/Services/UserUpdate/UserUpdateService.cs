@@ -1,4 +1,6 @@
 ﻿using TexasTaco.Shared.EventBus.Users;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.Entities;
 using TexasTaco.Users.Core.Exceptions;
@@ -9,7 +11,8 @@ namespace TexasTaco.Users.Core.Services.UserUpdate
     internal class UserUpdateService(
         IUnitOfWork _unitOfWork,
         IUsersRepository _usersRepository,
-        IUserUpdatedOutboxMessagesRepository _outboxRepository) : IUserUpdateService
+        IOutboxMessagesRepository<OutboxMessage<UserUpdatedEventMessage>>
+            _outboxRepository) : IUserUpdateService
     {
         public async Task UpdateUser(User user)
         {
@@ -29,7 +32,8 @@ namespace TexasTaco.Users.Core.Services.UserUpdate
                     user.Address.City,
                     user.Address.Country);
 
-                var outboxMessage = new UserUpdatedOutboxMessage(outboxMessageBody);
+                var outboxMessage = new OutboxMessage<UserUpdatedEventMessage>(
+                    outboxMessageBody);
 
                 await _outboxRepository.AddAsync(outboxMessage);
 

@@ -1,20 +1,20 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using TexasTaco.Shared.EventBus.Orders;
-using TexasTaco.Users.Core.Entities;
-using TexasTaco.Users.Core.Repositories;
+using TexasTaco.Shared.Inbox;
+using TexasTaco.Shared.Inbox.Repository;
 
 namespace TexasTaco.Users.Core.EventBus.Consumers
 {
     internal class PointsCollectedEventMessageConsumer(
-        IPointsCollectedInboxMessagesRepository _inboxRepository,
+        IInboxMessagesRepository<InboxMessage<PointsCollectedEventMessage>> _inboxRepository,
         ILogger<PointsCollectedEventMessageConsumer> _logger)
         : IConsumer<PointsCollectedEventMessage>
     {
         public async Task Consume(ConsumeContext<PointsCollectedEventMessage> context)
         {
             var message = context.Message;
-            var inboxMessage = new PointsCollectedInboxMessage(message);
+            var inboxMessage = new InboxMessage<PointsCollectedEventMessage>(message);
 
             try
             {
@@ -22,7 +22,7 @@ namespace TexasTaco.Users.Core.EventBus.Consumers
                 {
                     _logger.LogInformation("Inbox already contains {messageType} " +
                         "with id {id}. Message ignored.",
-                        nameof(PointsCollectedInboxMessage),
+                        nameof(InboxMessage<PointsCollectedEventMessage>),
                         message.Id.ToString());
 
                     return;
@@ -32,13 +32,13 @@ namespace TexasTaco.Users.Core.EventBus.Consumers
 
                 _logger.LogInformation("Consumed {messageType} with id {id} and " +
                     "successfully added it to the inbox.",
-                    nameof(PointsCollectedInboxMessage),
+                    nameof(InboxMessage<PointsCollectedEventMessage>),
                     message.Id.ToString());
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to consume {message type} with id {id}.",
-                    nameof(PointsCollectedInboxMessage),
+                    nameof(InboxMessage<PointsCollectedEventMessage>),
                     message.Id.ToString());
 
                 throw;

@@ -1,10 +1,11 @@
 ﻿using TexasTaco.Products.Core.Data.EF;
 using TexasTaco.Products.Core.DTO;
-using TexasTaco.Products.Core.Entities;
 using TexasTaco.Products.Core.Exceptions;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.ValueObjects;
 using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Services
@@ -12,12 +13,14 @@ namespace TexasTaco.Products.Core.Services
     internal class ProductUpdateService(
         IUnitOfWork unitOfWork,
         IProductsRepository productsRepository,
-        IProductPriceChangedOutboxMessagesRepository outboxRepository)
+        IOutboxMessagesRepository<OutboxMessage<ProductPriceChangedEventMessage>>
+            outboxRepository)
         : IProductUpdateService
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IProductsRepository _productsRepository = productsRepository;
-        private readonly IProductPriceChangedOutboxMessagesRepository _outboxRepository = outboxRepository;
+        private readonly IOutboxMessagesRepository<OutboxMessage<ProductPriceChangedEventMessage>>
+            _outboxRepository = outboxRepository;
 
         public async Task UpdateProductAsync(
             ProductId productId, ProductInputDto updateData)
@@ -43,7 +46,8 @@ namespace TexasTaco.Products.Core.Services
                     productId,
                     productToUpdate.Price);
 
-                var outboxMessage = new ProductPriceChangedOutboxMessage(outboxMessageBody);
+                var outboxMessage = new OutboxMessage<ProductPriceChangedEventMessage>(
+                    outboxMessageBody);
 
                 await _outboxRepository.AddAsync(outboxMessage);
 

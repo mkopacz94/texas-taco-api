@@ -2,20 +2,16 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 using TexasTaco.Shared.EventBus.Account;
-using TexasTaco.Users.Core.Entities;
-using TexasTaco.Users.Core.ValueObjects;
+using TexasTaco.Shared.Inbox;
 
 namespace TexasTaco.Users.Core.Data.EF.Configurations
 {
-    internal class AccountCreatedInboxMessageConfiguration 
-        : IEntityTypeConfiguration<AccountCreatedInboxMessage>
+    internal class AccountCreatedInboxMessageConfiguration
+        : IEntityTypeConfiguration<InboxMessage<AccountCreatedEventMessage>>
     {
-        public void Configure(EntityTypeBuilder<AccountCreatedInboxMessage> builder)
+        public void Configure(EntityTypeBuilder<InboxMessage<AccountCreatedEventMessage>> builder)
         {
             builder.HasKey(m => m.Id);
-
-            builder.Property(m => m.Id)
-                .HasConversion(id => id.Value, value => new AccountCreatedInboxMessageId(value));
 
             builder.Property(m => m.MessageBody)
                 .HasConversion(

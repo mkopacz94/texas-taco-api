@@ -5,10 +5,10 @@ using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Application.Orders;
 using TexasTaco.Orders.Application.Orders.DTO;
 using TexasTaco.Orders.Application.Orders.Mapping;
-using TexasTaco.Orders.Application.PointsCollectedOutbox;
 using TexasTaco.Orders.Application.Shared;
-using TexasTaco.Orders.Persistence.PointsCollectedOutboxMessages;
 using TexasTaco.Shared.EventBus.Orders;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 
 namespace TexasTaco.Orders.Application.Carts.PlaceOrder
 {
@@ -18,7 +18,8 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
         ICheckoutCartsRepository checkoutCartsRepository,
         IOrdersRepository ordersRepository,
         ICustomersRepository customersRepository,
-        IPointsCollectedOutboxMessagesRepository pointsCollectedOutboxRepository)
+        IOutboxMessagesRepository<OutboxMessage<PointsCollectedEventMessage>>
+            pointsCollectedOutboxRepository)
         : IRequestHandler<PlaceOrderCommand, OrderDto>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -29,8 +30,8 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
             = ordersRepository;
         private readonly ICustomersRepository _customersRepository
             = customersRepository;
-        private readonly IPointsCollectedOutboxMessagesRepository _pointsCollectedOutboxRepository
-            = pointsCollectedOutboxRepository;
+        private readonly IOutboxMessagesRepository<OutboxMessage<PointsCollectedEventMessage>>
+            _pointsCollectedOutboxRepository = pointsCollectedOutboxRepository;
 
         public async Task<OrderDto> Handle(
             PlaceOrderCommand request,
@@ -59,7 +60,7 @@ namespace TexasTaco.Orders.Application.Carts.PlaceOrder
                     customer.AccountId.Value,
                     order.PointsCollected);
 
-                var pointsCollectedMessage = new PointsCollectedOutboxMessage(
+                var pointsCollectedMessage = new OutboxMessage<PointsCollectedEventMessage>(
                     message);
 
                 await _pointsCollectedOutboxRepository
