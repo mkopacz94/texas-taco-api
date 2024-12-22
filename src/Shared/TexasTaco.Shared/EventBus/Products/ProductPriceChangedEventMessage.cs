@@ -1,9 +1,10 @@
-﻿using TexasTaco.Shared.ValueObjects;
+﻿using TexasTaco.Shared.Inbox;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Shared.EventBus.Products
 {
     public sealed record ProductPriceChangedEventMessage(
         Guid Id,
         ProductId ProductId,
-        decimal NewPrice);
+        decimal NewPrice) : IInboxMessageBody;
 }

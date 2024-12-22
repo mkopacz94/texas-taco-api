@@ -1,20 +1,20 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
-using TexasTaco.Orders.Application.ProductPriceChangedInbox;
-using TexasTaco.Orders.Persistence.ProductPriceChangedInbox;
 using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.Inbox;
+using TexasTaco.Shared.Inbox.Repository;
 
 namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 {
     internal class ProductPriceChangedEventMessageConsumer(
-        IProductPriceChangedInboxMessagesRepository _inboxRepository,
+        IInboxMessagesRepository<InboxMessage<ProductPriceChangedEventMessage>> _inboxRepository,
         ILogger<ProductPriceChangedEventMessageConsumer> _logger)
         : IConsumer<ProductPriceChangedEventMessage>
     {
         public async Task Consume(ConsumeContext<ProductPriceChangedEventMessage> context)
         {
             var message = context.Message;
-            var inboxMessage = new ProductPriceChangedInboxMessage(message);
+            var inboxMessage = new InboxMessage<ProductPriceChangedEventMessage>(message);
 
             try
             {

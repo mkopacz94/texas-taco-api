@@ -1,4 +1,6 @@
-﻿namespace TexasTaco.Shared.EventBus.Users
+﻿using TexasTaco.Shared.Inbox;
+
+namespace TexasTaco.Shared.EventBus.Users
 {
     public sealed record UserUpdatedEventMessage(
         Guid Id,
@@ -8,5 +10,6 @@
         string AddressLine,
         string PostalCode,
         string City,
-        string Country);
+        string Country)
+        : IInboxMessageBody;
 }

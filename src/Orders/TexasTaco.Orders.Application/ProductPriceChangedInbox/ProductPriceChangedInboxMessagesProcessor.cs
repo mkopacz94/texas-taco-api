@@ -2,13 +2,16 @@
 using Microsoft.Extensions.Logging;
 using TexasTaco.Orders.Application.Carts.UpdateProductPrice;
 using TexasTaco.Orders.Application.Shared;
+using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.Inbox;
+using TexasTaco.Shared.Inbox.Repository;
 
 namespace TexasTaco.Orders.Application.ProductPriceChangedInbox
 {
     internal class ProductPriceChangedInboxMessagesProcessor(
         IUnitOfWork _unitOfWork,
         IMediator _mediator,
-        IProductPriceChangedInboxMessagesRepository _inboxRepository,
+        IInboxMessagesRepository<InboxMessage<ProductPriceChangedEventMessage>> _inboxRepository,
         ILogger<ProductPriceChangedInboxMessagesProcessor> _logger)
         : IProductPriceChangedInboxMessagesProcessor
     {
@@ -20,7 +23,7 @@ namespace TexasTaco.Orders.Application.ProductPriceChangedInbox
             foreach (var message in nonProcessedMessages)
             {
                 _logger.LogInformation("Processing product price changed " +
-                    "inbox message with Id={messageId}...", message.Id.Value);
+                    "inbox message with Id={messageId}...", message.Id);
 
                 try
                 {
@@ -37,7 +40,7 @@ namespace TexasTaco.Orders.Application.ProductPriceChangedInbox
                         await _inboxRepository.UpdateAsync(message);
 
                         _logger.LogInformation("Successfully processed " +
-                            "message with Id={messageId}.", message.Id.Value);
+                            "message with Id={messageId}.", message.Id);
                     });
                 }
                 catch (Exception ex)
@@ -45,7 +48,7 @@ namespace TexasTaco.Orders.Application.ProductPriceChangedInbox
                     _logger.LogError(
                         ex,
                         "Error occured during processing inbox message with Id={messageId}.",
-                        message.Id.Value);
+                        message.Id);
                 }
             }
         }

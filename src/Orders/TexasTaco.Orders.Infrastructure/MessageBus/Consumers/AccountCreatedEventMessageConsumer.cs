@@ -1,20 +1,20 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
-using TexasTaco.Orders.Application.AccountCreatedInbox;
-using TexasTaco.Orders.Persistence.AccountCreatedInboxMessages;
 using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Shared.Inbox;
+using TexasTaco.Shared.Inbox.Repository;
 
 namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 {
     internal class AccountCreatedEventMessageConsumer(
-        IAccountCreatedInboxMessagesRepository _inboxRepository,
+        IInboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>> _inboxRepository,
         ILogger<AccountCreatedEventMessageConsumer> _logger)
         : IConsumer<AccountCreatedEventMessage>
     {
         public async Task Consume(ConsumeContext<AccountCreatedEventMessage> context)
         {
             var message = context.Message;
-            var inboxMessage = new AccountCreatedInboxMessage(message);
+            var inboxMessage = new InboxMessage<AccountCreatedEventMessage>(message);
 
             try
             {
@@ -22,7 +22,7 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
                 {
                     _logger.LogInformation("Inbox already contains {messageType} " +
                         "with id {id}. Message ignored.",
-                        nameof(AccountCreatedInboxMessage),
+                        nameof(InboxMessage<AccountCreatedEventMessage>),
                         message.Id.ToString());
 
                     return;
@@ -32,13 +32,13 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 
                 _logger.LogInformation("Consumed {messageType} with id {id} and " +
                     "successfully added it to the inbox.",
-                    nameof(AccountCreatedInboxMessage),
+                    nameof(InboxMessage<AccountCreatedEventMessage>),
                     message.Id.ToString());
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to consume {message type} with id {id}.",
-                    nameof(AccountCreatedInboxMessage),
+                    nameof(InboxMessage<AccountCreatedEventMessage>),
                     message.Id.ToString());
 
                 throw;

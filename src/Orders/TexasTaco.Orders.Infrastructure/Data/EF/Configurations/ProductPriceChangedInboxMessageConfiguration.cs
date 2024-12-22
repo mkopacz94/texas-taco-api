@@ -1,22 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
-using TexasTaco.Orders.Persistence.ProductPriceChangedInbox;
 using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.Inbox;
 
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
 {
     internal class ProductPriceChangedInboxMessageConfiguration
-        : IEntityTypeConfiguration<ProductPriceChangedInboxMessage>
+        : IEntityTypeConfiguration<InboxMessage<ProductPriceChangedEventMessage>>
     {
-        public void Configure(EntityTypeBuilder<ProductPriceChangedInboxMessage> builder)
+        public void Configure(EntityTypeBuilder<InboxMessage<ProductPriceChangedEventMessage>> builder)
         {
             builder.HasKey(m => m.Id);
-
-            builder.Property(m => m.Id)
-                .HasConversion(
-                    id => id.Value,
-                    value => new ProductPriceChangedInboxMessageId(value));
 
             builder.Property(m => m.MessageBody)
                 .HasConversion(

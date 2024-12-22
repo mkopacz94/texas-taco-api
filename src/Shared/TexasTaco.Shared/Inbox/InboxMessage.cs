@@ -1,15 +1,15 @@
-﻿using TexasTaco.Shared.EventBus.Account;
-using TexasTaco.Shared.Inbox;
-
-namespace TexasTaco.Orders.Persistence.AccountCreatedInboxMessages
+﻿namespace TexasTaco.Shared.Inbox
 {
-    public class AccountCreatedInboxMessage(AccountCreatedEventMessage messageBody)
+    public class InboxMessage<TMessage>(
+        TMessage messageBody)
+        : IInboxMessage
+        where TMessage : IInboxMessageBody
     {
-        public AccountCreatedInboxMessageId Id { get; } = new AccountCreatedInboxMessageId(Guid.NewGuid());
+        public Guid Id { get; } = Guid.NewGuid();
         public DateTime Received { get; private set; } = DateTime.UtcNow;
         public DateTime Processed { get; private set; }
         public Guid MessageId { get; private set; } = messageBody.Id;
-        public AccountCreatedEventMessage MessageBody { get; } = messageBody;
+        public TMessage MessageBody { get; } = messageBody;
         public InboxMessageStatus MessageStatus { get; private set; }
 
         public void MarkAsProcessed()

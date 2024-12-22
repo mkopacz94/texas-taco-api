@@ -2,10 +2,11 @@
 using TexasTaco.Orders.Domain.Cart;
 using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Orders.Domain.Orders;
-using TexasTaco.Orders.Persistence.AccountCreatedInboxMessages;
 using TexasTaco.Orders.Persistence.PointsCollectedOutboxMessages;
-using TexasTaco.Orders.Persistence.ProductPriceChangedInbox;
-using TexasTaco.Orders.Persistence.UserUpdatedInboxMessages;
+using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.EventBus.Users;
+using TexasTaco.Shared.Inbox;
 
 namespace TexasTaco.Orders.Infrastructure.Data.EF
 {
@@ -17,9 +18,9 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF
         public DbSet<CheckoutCart> CheckoutCarts { get; private set; }
         public DbSet<Order> Orders { get; private set; }
         public DbSet<Customer> Customers { get; private set; }
-        public DbSet<AccountCreatedInboxMessage> AccountCreatedInboxMessages { get; private set; }
-        public DbSet<UserUpdatedInboxMessage> UserUpdatedInboxMessages { get; private set; }
-        public DbSet<ProductPriceChangedInboxMessage> ProductPriceChangedInboxMessages { get; private set; }
+        public DbSet<InboxMessage<AccountCreatedEventMessage>> AccountCreatedInboxMessages { get; private set; }
+        public DbSet<InboxMessage<UserUpdatedEventMessage>> UserUpdatedInboxMessages { get; private set; }
+        public DbSet<InboxMessage<ProductPriceChangedEventMessage>> ProductPriceChangedInboxMessages { get; private set; }
         public DbSet<PointsCollectedOutboxMessage> PointsCollectedOutboxMessages { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

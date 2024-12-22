@@ -6,6 +6,9 @@ using TexasTaco.Orders.Application.Customers.Exceptions;
 using TexasTaco.Orders.Application.Customers.UpdateCustomer;
 using TexasTaco.Orders.Application.Shared;
 using TexasTaco.Orders.Domain.Customers;
+using TexasTaco.Shared.EventBus.Users;
+using TexasTaco.Shared.Inbox;
+using TexasTaco.Shared.Inbox.Repository;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Application.UserUpdatedInbox
@@ -14,7 +17,7 @@ namespace TexasTaco.Orders.Application.UserUpdatedInbox
         IUnitOfWork _unitOfWork,
         IMediator _mediator,
         ICustomersRepository _customersRepository,
-        IUserUpdatedInboxMessagesRepository _inboxRepository,
+        IInboxMessagesRepository<InboxMessage<UserUpdatedEventMessage>> _inboxRepository,
         ILogger<AccountCreatedInboxMessagesProcessor> _logger)
         : IUserUpdatedInboxMessagesProcessor
     {
@@ -26,7 +29,7 @@ namespace TexasTaco.Orders.Application.UserUpdatedInbox
             foreach (var message in nonProcessedMessages)
             {
                 _logger.LogInformation("Processing user updated " +
-                    "inbox message with Id={messageId}...", message.Id.Value);
+                    "inbox message with Id={messageId}...", message.Id);
 
                 try
                 {
@@ -57,7 +60,7 @@ namespace TexasTaco.Orders.Application.UserUpdatedInbox
                         await _inboxRepository.UpdateAsync(message);
 
                         _logger.LogInformation("Successfully processed " +
-                            "message with Id={messageId}.", message.Id.Value);
+                            "message with Id={messageId}.", message.Id);
                     });
                 }
                 catch (Exception ex)
@@ -65,7 +68,7 @@ namespace TexasTaco.Orders.Application.UserUpdatedInbox
                     _logger.LogError(
                         ex,
                         "Error occured during processing inbox message with Id={messageId}.",
-                        message.Id.Value);
+                        message.Id);
                 }
             }
         }
