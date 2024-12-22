@@ -4,7 +4,6 @@ using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.Data;
 using TexasTaco.Authentication.Core.DTO;
-using TexasTaco.Authentication.Core.Entities;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.Verification;
@@ -12,6 +11,8 @@ using TexasTaco.Authentication.Core.ValueObjects;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Shared.Services;
 using TexasTaco.Shared.ValueObjects;
 
@@ -23,7 +24,8 @@ namespace TexasTaco.Authentication.Api.Controllers
     public class AuthenticationController(
         IUnitOfWork _unitOfWork,
         IAuthenticationRepository _authRepo,
-        IAccountDeletedOutboxMessagesRepository _accountDeletedOutboxMessagesRepository,
+        IOutboxMessagesRepository<OutboxMessage<AccountDeletedEventMessage>>
+            _accountDeletedOutboxMessagesRepository,
         IEmailVerificationService _emailVerificationService,
         ICookieService _cookieService,
         ISessionStorage _sessionStorage,
@@ -125,7 +127,8 @@ namespace TexasTaco.Authentication.Api.Controllers
                 Guid.NewGuid(),
                 accountIdGuid);
 
-            var outboxMessage = new AccountDeletedOutboxMessage(accountDeletedEventMessage);
+            var outboxMessage = new OutboxMessage<AccountDeletedEventMessage>(
+                accountDeletedEventMessage);
 
             await _accountDeletedOutboxMessagesRepository
                 .AddAsync(outboxMessage);

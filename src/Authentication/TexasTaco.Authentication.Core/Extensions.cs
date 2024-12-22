@@ -11,6 +11,9 @@ using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.EmailNotifications;
 using TexasTaco.Authentication.Core.Services.Outbox;
 using TexasTaco.Authentication.Core.Services.Verification;
+using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Shared.Settings;
 
 namespace TexasTaco.Authentication.Core
@@ -29,15 +32,14 @@ namespace TexasTaco.Authentication.Core
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
+            services.AddScoped<DbContext, AuthDbContext>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddRepositories();
+
             services.AddTransient<ISessionStorage, SessionStorage>();
             services.AddTransient<IPasswordManager, PasswordManager>();
-            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
-            services.AddScoped<IEmailNotificationsRepository, EmailNotificationsRepository>();
-            services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();
-            services.AddScoped<IAccountCreatedOutboxRepository, AccountCreatedOutboxRepository>();
-            services.AddScoped<IAccountDeletedOutboxMessagesRepository,
-                AccountDeletedOutboxMessagesRepository>();
+
             services.AddScoped<IEmailVerificationService, EmailVerificationService>();
             services.AddScoped<IAccountCreatedOutboxService, AccountCreatedOutboxService>();
             services.AddSmtpClient(options =>
@@ -96,6 +98,20 @@ namespace TexasTaco.Authentication.Core
             services.AddSingleton<IConfigureOptions<SmtpOptions>>(
                 new ConfigureNamedOptions<SmtpOptions>(Options.DefaultName, configureOptions));
             services.AddSingleton<IEmailSmtpClient, EmailSmtpClient>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddRepositories(
+            this IServiceCollection services)
+        {
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IEmailNotificationsRepository, EmailNotificationsRepository>();
+            services.AddScoped<IVerificationTokensRepository, VerificationTokensRepository>();
+            services.AddScoped<IAccountCreatedOutboxRepository, AccountCreatedOutboxRepository>();
+
+            services.AddScoped<IOutboxMessagesRepository<OutboxMessage<AccountDeletedEventMessage>>,
+                OutboxMessagesRepository<OutboxMessage<AccountDeletedEventMessage>>>();
 
             return services;
         }
