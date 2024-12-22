@@ -66,6 +66,8 @@ namespace TexasTaco.Orders.Infrastructure
             services.AddScoped<ICustomersRepository, CustomersRepository>();
             services.AddScoped<IInboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>>,
                 InboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>>>();
+            services.AddScoped<IInboxMessagesRepository<InboxMessage<AccountDeletedEventMessage>>,
+                InboxMessagesRepository<InboxMessage<AccountDeletedEventMessage>>>();
             services.AddScoped<IInboxMessagesRepository<InboxMessage<UserUpdatedEventMessage>>,
                 InboxMessagesRepository<InboxMessage<UserUpdatedEventMessage>>>();
             services.AddScoped<IInboxMessagesRepository<InboxMessage<ProductPriceChangedEventMessage>>,

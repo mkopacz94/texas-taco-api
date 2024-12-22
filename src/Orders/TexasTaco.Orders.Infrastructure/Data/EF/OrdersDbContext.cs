@@ -20,6 +20,7 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF
         public DbSet<Order> Orders { get; private set; }
         public DbSet<Customer> Customers { get; private set; }
         public DbSet<InboxMessage<AccountCreatedEventMessage>> AccountCreatedInboxMessages { get; private set; }
+        public DbSet<InboxMessage<AccountDeletedEventMessage>> AccountDeletedInboxMessages { get; private set; }
         public DbSet<InboxMessage<UserUpdatedEventMessage>> UserUpdatedInboxMessages { get; private set; }
         public DbSet<InboxMessage<ProductPriceChangedEventMessage>> ProductPriceChangedInboxMessages { get; private set; }
         public DbSet<OutboxMessage<PointsCollectedEventMessage>> PointsCollectedOutboxMessages { get; private set; }

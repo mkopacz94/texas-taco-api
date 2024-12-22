@@ -14,6 +14,7 @@ namespace TexasTaco.Users.Core.Data.EF
         public DbSet<InboxMessage<AccountCreatedEventMessage>> AccountCreatedInboxMessages { get; set; }
         public DbSet<OutboxMessage<UserUpdatedEventMessage>> UserUpdatedOutboxMessages { get; set; }
         public DbSet<InboxMessage<PointsCollectedEventMessage>> PointsCollectedInboxMessages { get; set; }
+        public DbSet<InboxMessage<AccountDeletedEventMessage>> AccountDeletedInboxMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

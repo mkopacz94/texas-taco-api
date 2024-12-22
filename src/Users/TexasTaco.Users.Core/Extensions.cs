@@ -45,6 +45,7 @@ namespace TexasTaco.Users.Core
                 busConfig.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(false));
                 busConfig.AddConsumer<AccountCreatedEventMessageConsumer>();
                 busConfig.AddConsumer<PointsCollectedEventMessageConsumer>();
+                busConfig.AddConsumer<AccountDeletedEventMessageConsumer>();
 
                 busConfig.UsingRabbitMq((context, config) =>
                 {
@@ -66,6 +67,11 @@ namespace TexasTaco.Users.Core
                     config.ReceiveEndpoint("users.points-collected-event-message", cfg =>
                     {
                         cfg.ConfigureConsumer<PointsCollectedEventMessageConsumer>(context);
+                    });
+
+                    config.ReceiveEndpoint("users.account-deleted-event-message", cfg =>
+                    {
+                        cfg.ConfigureConsumer<AccountDeletedEventMessageConsumer>(context);
                     });
                 });
             });
@@ -91,6 +97,8 @@ namespace TexasTaco.Users.Core
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IInboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>>,
                 InboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>>>();
+            services.AddScoped<IInboxMessagesRepository<InboxMessage<AccountDeletedEventMessage>>,
+                InboxMessagesRepository<InboxMessage<AccountDeletedEventMessage>>>();
             services.AddScoped<IInboxMessagesRepository<InboxMessage<PointsCollectedEventMessage>>,
                 InboxMessagesRepository<InboxMessage<PointsCollectedEventMessage>>>();
             services.AddScoped<IOutboxMessagesRepository<OutboxMessage<UserUpdatedEventMessage>>,

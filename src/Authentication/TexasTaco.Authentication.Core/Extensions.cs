@@ -42,6 +42,7 @@ namespace TexasTaco.Authentication.Core
 
             services.AddScoped<IEmailVerificationService, EmailVerificationService>();
             services.AddScoped<IAccountCreatedOutboxService, AccountCreatedOutboxService>();
+            services.AddScoped<IAccountDeletedOutboxService, AccountDeletedOutboxService>();
             services.AddSmtpClient(options =>
             {
                 var notificationsSettings = new EmailNotificationsSettings();

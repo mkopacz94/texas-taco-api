@@ -20,6 +20,7 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
 
                 busConfig.AddConsumer<AddProductToCartRequestConsumer>();
                 busConfig.AddConsumer<AccountCreatedEventMessageConsumer>();
+                busConfig.AddConsumer<AccountDeletedEventMessageConsumer>();
                 busConfig.AddConsumer<UserUpdatedEventMessageConsumer>();
                 busConfig.AddConsumer<ProductPriceChangedEventMessageConsumer>();
 
@@ -43,6 +44,11 @@ namespace TexasTaco.Orders.Infrastructure.MessageBus
                     config.ReceiveEndpoint("orders.account-created-event-message", cfg =>
                     {
                         cfg.ConfigureConsumer<AccountCreatedEventMessageConsumer>(context);
+                    });
+
+                    config.ReceiveEndpoint("orders.account-deleted-event-message", cfg =>
+                    {
+                        cfg.ConfigureConsumer<AccountDeletedEventMessageConsumer>(context);
                     });
 
                     config.ReceiveEndpoint("orders.user-updated-event-message", cfg =>
