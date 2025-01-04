@@ -9,29 +9,39 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.HasKey(u => u.Id);
+            builder.HasKey(c => c.Id);
 
             builder
-                .HasIndex(u => u.Email)
+                .HasIndex(c => c.Email)
                 .IsUnique();
 
-            builder.Property(u => u.AccountId)
+            builder
+                .HasMany(c => c.Orders)
+                .WithOne(o => o.Customer)
+                .HasForeignKey(o => o.CustomerId)
+                .IsRequired();
+
+            builder.Property(c => c.AccountId)
                .HasConversion(id => id.Value, value => new AccountId(value));
 
-            builder.Property(u => u.Id)
+            builder.Property(c => c.Id)
                 .HasConversion(id => id.Value, value => new CustomerId(value));
 
             builder.Property(a => a.Email)
                 .HasConversion(email => email.Value, value => new EmailAddress(value))
                 .HasMaxLength(100);
 
-            builder.HasOne(u => u.Address)
+            builder.HasOne(c => c.Address)
                 .WithOne(a => a.Customer)
                 .HasForeignKey<Address>(a => a.CustomerId)
                 .IsRequired();
 
             builder
-                .Navigation(u => u.Address)
+                .Navigation(c => c.Address)
+                .AutoInclude();
+
+            builder
+                .Navigation(c => c.Orders)
                 .AutoInclude();
         }
     }

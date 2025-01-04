@@ -52,6 +52,7 @@ namespace TexasTaco.Orders.Api
             this IServiceCollection services)
         {
             services.AddHostedService<AccountCreatedInboxBackgroundService>();
+            services.AddHostedService<AccountDeletedInboxBackgroundService>();
             services.AddHostedService<UserUpdatedInboxBackgroundService>();
             services.AddHostedService<ProductPriceChangedInboxBackgroundService>();
             services.AddHostedService<PointsCollectedOutboxBackgroundService>();

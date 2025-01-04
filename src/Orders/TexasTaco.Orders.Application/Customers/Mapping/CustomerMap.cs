@@ -1,4 +1,5 @@
 ﻿using TexasTaco.Orders.Application.Customers.DTO;
+using TexasTaco.Orders.Application.Orders.Mapping;
 using TexasTaco.Orders.Domain.Customers;
 
 namespace TexasTaco.Orders.Application.Customers.Mapping
@@ -13,7 +14,8 @@ namespace TexasTaco.Orders.Application.Customers.Mapping
                 customer.FirstName,
                 customer.LastName,
                 AddressMap.Map(customer.Address),
-                customer.PointsCollected);
+                customer.PointsCollected,
+                customer.Orders.Select(OrderMap.Map).ToList());
         }
     }
 }

@@ -5,7 +5,7 @@ using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Orders.Application.Customers.Exceptions
 {
-    internal class CustomerNotFoundException : OrdersServiceException
+    public class CustomerNotFoundException : OrdersServiceException
     {
         public CustomerNotFoundException(CustomerId customerId)
             : base($"Customer with id {customerId.Value} does not exist.",

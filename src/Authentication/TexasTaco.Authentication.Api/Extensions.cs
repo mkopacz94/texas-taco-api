@@ -45,6 +45,7 @@ namespace TexasTaco.Authentication.Api
         {
             services.AddHostedService<EmailNotificationsBackgroundService>();
             services.AddHostedService<AccountCreatedOutboxBackgroundService>();
+            services.AddHostedService<AccountDeletedOutboxBackgroundService>();
             services.AddHostedService<DatabaseCleaningBackgroundService>();
 
             return services;
