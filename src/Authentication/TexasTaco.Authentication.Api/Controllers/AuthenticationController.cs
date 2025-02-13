@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.Data;
@@ -136,6 +138,24 @@ namespace TexasTaco.Authentication.Api.Controllers
             await transaction.CommitAsync();
 
             return NoContent();
+        }
+
+        [MapToApiVersion(1)]
+        [Authorize]
+        [HttpGet("role")]
+        public async Task<IActionResult> GetRole()
+        {
+            var role = User
+                .Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.Role)
+                ?.Value;
+
+            if (role is null)
+            {
+                return Unauthorized("User role not found");
+            }
+
+            return Ok(role);
         }
 
         private void SetSessionCookies(AccountId accountId, SessionId sessionId, DateTime expirationDate)
