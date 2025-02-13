@@ -9,5 +9,6 @@ namespace TexasTaco.Orders.Application.Customers
         Task<Customer?> GetByIdAsync(CustomerId id);
         Task AddAsync(Customer customer);
         Task UpdateCustomerAsync(Customer customer);
+        Task DeleteByAccountIdAsync(AccountId id);
     }
 }

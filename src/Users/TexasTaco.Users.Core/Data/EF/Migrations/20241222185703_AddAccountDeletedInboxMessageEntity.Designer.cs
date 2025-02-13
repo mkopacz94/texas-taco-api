@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TexasTaco.Users.Core.Data.EF;
 
@@ -11,9 +12,11 @@ using TexasTaco.Users.Core.Data.EF;
 namespace TexasTaco.Users.Core.Data.EF.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241222185703_AddAccountDeletedInboxMessageEntity")]
+    partial class AddAccountDeletedInboxMessageEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

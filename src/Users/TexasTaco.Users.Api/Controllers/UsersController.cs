@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.EventBus.Users;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.Dtos;
 using TexasTaco.Users.Core.Entities;
@@ -18,7 +20,8 @@ namespace TexasTaco.Users.Api.Controllers
     public class UsersController(
         IUnitOfWork _unitOfWork,
         IUsersRepository _usersRepository,
-        IUserUpdatedOutboxMessagesRepository _userUpdatedOutboxMessagesRepository)
+        IOutboxMessagesRepository<OutboxMessage<UserUpdatedEventMessage>>
+            _userUpdatedOutboxMessagesRepository)
         : ControllerBase
     {
         [MapToApiVersion(1)]
@@ -92,7 +95,8 @@ namespace TexasTaco.Users.Api.Controllers
                 user.Address.City,
                 user.Address.Country);
 
-            var outboxMessage = new UserUpdatedOutboxMessage(outboxMessageBody);
+            var outboxMessage = new OutboxMessage<UserUpdatedEventMessage>(
+                outboxMessageBody);
 
             await _userUpdatedOutboxMessagesRepository.AddAsync(outboxMessage);
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TexasTaco.Orders.Application.AccountCreatedInbox;
+using TexasTaco.Orders.Application.AccountDeletedInbox;
 using TexasTaco.Orders.Application.ProductPriceChangedInbox;
 using TexasTaco.Orders.Application.UserUpdatedInbox;
 
@@ -17,6 +18,8 @@ namespace TexasTaco.Orders.Application
 
             services.AddScoped<IAccountCreatedInboxMessagesProcessor,
                 AccountCreatedInboxMessagesProcessor>();
+            services.AddScoped<IAccountDeletedInboxMessagesProcessor,
+                AccountDeletedInboxMessagesProcessor>();
             services.AddScoped<IUserUpdatedInboxMessagesProcessor,
                 UserUpdatedInboxMessagesProcessor>();
             services.AddScoped<IProductPriceChangedInboxMessagesProcessor,

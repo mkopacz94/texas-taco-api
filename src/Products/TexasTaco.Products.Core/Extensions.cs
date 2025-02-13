@@ -6,6 +6,9 @@ using Microsoft.Extensions.Options;
 using TexasTaco.Products.Core.Data.EF;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Products.Core.Services;
+using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Shared.Settings;
 
 namespace TexasTaco.Products.Core
@@ -24,13 +27,15 @@ namespace TexasTaco.Products.Core
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             });
 
+            services.AddScoped<DbContext, ProductsDbContext>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPicturesRepository, PicturesRepository>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<ICategoriesRepository, CategoriesRepository>();
             services.AddScoped<IPrizesRepository, PrizesRepository>();
-            services.AddScoped<IProductPriceChangedOutboxMessagesRepository,
-                ProductPriceChangedOutboxMessagesRepository>();
+            services.AddScoped<IOutboxMessagesRepository<OutboxMessage<ProductPriceChangedEventMessage>>,
+                OutboxMessagesRepository<OutboxMessage<ProductPriceChangedEventMessage>>>();
 
             services.AddScoped<IProductUpdateService, ProductUpdateService>();
             services.AddScoped<IProductPriceChangedOutboxMessagesProcessor,

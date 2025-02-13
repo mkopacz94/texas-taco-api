@@ -1,4 +1,6 @@
-﻿namespace TexasTaco.Orders.Application.Customers.DTO
+﻿using TexasTaco.Orders.Application.Orders.DTO;
+
+namespace TexasTaco.Orders.Application.Customers.DTO
 {
     public sealed record CustomerDto(
         Guid Id,
@@ -6,5 +8,6 @@
         string? FirstName,
         string? LastName,
         AddressDto Address,
-        int PointsCollected);
+        int PointsCollected,
+        List<OrderDto> Orders);
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TexasTaco.Orders.Infrastructure.Data.EF;
 
@@ -11,9 +12,11 @@ using TexasTaco.Orders.Infrastructure.Data.EF;
 namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    partial class OrdersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241222185404_AddAccountDeletedInboxMessageEntity")]
+    partial class AddAccountDeletedInboxMessageEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -389,17 +392,6 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("TexasTaco.Orders.Domain.Orders.Order", b =>
-                {
-                    b.HasOne("TexasTaco.Orders.Domain.Customers.Customer", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("TexasTaco.Orders.Domain.Orders.OrderLine", b =>
                 {
                     b.HasOne("TexasTaco.Orders.Domain.Orders.Order", "Order")
@@ -427,8 +419,6 @@ namespace TexasTaco.Orders.Infrastructure.Data.EF.Migrations
                 {
                     b.Navigation("Address")
                         .IsRequired();
-
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("TexasTaco.Orders.Domain.Orders.Order", b =>

@@ -27,6 +27,7 @@ namespace TexasTaco.Users.Api
             this IServiceCollection services)
         {
             services.AddHostedService<AccountCreatedInboxBackgroundService>();
+            services.AddHostedService<AccountDeletedInboxBackgroundService>();
             services.AddHostedService<PointsCollectedInboxBackgroundService>();
             services.AddHostedService<UserUpdatedOutboxBackgroundService>();
 

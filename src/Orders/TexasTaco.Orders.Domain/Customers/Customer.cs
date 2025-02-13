@@ -5,6 +5,8 @@ namespace TexasTaco.Orders.Domain.Customers
 {
     public sealed class Customer(AccountId accountId, EmailAddress email)
     {
+        private readonly List<Order> _orders = [];
+
         public CustomerId Id { get; } = new CustomerId(Guid.NewGuid());
         public AccountId AccountId { get; private set; } = accountId;
         public EmailAddress Email { get; private set; } = email;
@@ -12,6 +14,7 @@ namespace TexasTaco.Orders.Domain.Customers
         public string? LastName { get; private set; }
         public Address Address { get; private set; } = new Address();
         public int PointsCollected { get; private set; }
+        public IReadOnlyCollection<Order> Orders => _orders;
 
         public void UpdateCustomer(string firstName, string lastName, Address address)
         {

@@ -9,7 +9,8 @@ namespace TexasTaco.Orders.Domain.Orders
         private readonly List<OrderLine> _lines = [];
 
         public OrderId Id { get; } = new OrderId(Guid.NewGuid());
-        public CustomerId CustomerId { get; private set; }
+        public CustomerId CustomerId { get; private set; } = null!;
+        public Customer Customer { get; private set; } = null!;
         public IReadOnlyCollection<OrderLine> Lines => _lines;
         public PaymentType PaymentType { get; private set; }
         public PickupLocation PickupLocation { get; private set; }

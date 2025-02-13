@@ -1,13 +1,15 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
+using TexasTaco.Shared.EventBus.Users;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Users.Core.Data.EF;
-using TexasTaco.Users.Core.Repositories;
 
 namespace TexasTaco.Users.Core.Services.Outbox
 {
     internal class UserUpdatedOutboxMessagesProcessor(
         IUnitOfWork _unitOfWork,
-        IUserUpdatedOutboxMessagesRepository _outboxRepository,
+        IOutboxMessagesRepository<OutboxMessage<UserUpdatedEventMessage>> _outboxRepository,
         IBus _messageBus,
         ILogger<UserUpdatedOutboxMessagesProcessor> _logger)
         : IUserUpdatedOutboxMessagesProcessor
@@ -15,7 +17,7 @@ namespace TexasTaco.Users.Core.Services.Outbox
         public async Task ProcessMessages()
         {
             var messagesToBePublished = await _outboxRepository
-                .GetNonPublishedOutboxMessages();
+                .GetNonPublishedMessages();
 
             foreach (var message in messagesToBePublished)
             {

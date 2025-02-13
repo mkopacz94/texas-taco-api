@@ -17,7 +17,6 @@
     <ProjectReference Include="..\..\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj" />
     <ProjectReference Include="..\TexasTaco.Orders.Application\TexasTaco.Orders.Application.csproj" />
     <ProjectReference Include="..\TexasTaco.Orders.Domain\TexasTaco.Orders.Domain.csproj" />
-    <ProjectReference Include="..\TexasTaco.Orders.Persistence\TexasTaco.Orders.Persistence.csproj" />
     <ProjectReference Include="..\TexasTaco.Orders.Shared\TexasTaco.Orders.Shared.csproj" />
   </ItemGroup>
 

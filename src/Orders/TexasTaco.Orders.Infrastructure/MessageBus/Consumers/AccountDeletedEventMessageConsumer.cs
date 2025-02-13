@@ -4,17 +4,17 @@ using TexasTaco.Shared.EventBus.Account;
 using TexasTaco.Shared.Inbox;
 using TexasTaco.Shared.Inbox.Repository;
 
-namespace TexasTaco.Users.Core.EventBus.Consumers
+namespace TexasTaco.Orders.Infrastructure.MessageBus.Consumers
 {
-    internal class AccountCreatedEventMessageConsumer(
-        IInboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>> _inboxRepository,
-        ILogger<AccountCreatedEventMessageConsumer> _logger)
-        : IConsumer<AccountCreatedEventMessage>
+    internal class AccountDeletedEventMessageConsumer(
+        IInboxMessagesRepository<InboxMessage<AccountDeletedEventMessage>> _inboxRepository,
+        ILogger<AccountDeletedEventMessageConsumer> _logger)
+        : IConsumer<AccountDeletedEventMessage>
     {
-        public async Task Consume(ConsumeContext<AccountCreatedEventMessage> context)
+        public async Task Consume(ConsumeContext<AccountDeletedEventMessage> context)
         {
             var message = context.Message;
-            var inboxMessage = new InboxMessage<AccountCreatedEventMessage>(message);
+            var inboxMessage = new InboxMessage<AccountDeletedEventMessage>(message);
 
             try
             {
@@ -22,7 +22,7 @@ namespace TexasTaco.Users.Core.EventBus.Consumers
                 {
                     _logger.LogInformation("Inbox already contains {messageType} " +
                         "with id {id}. Message ignored.",
-                        nameof(InboxMessage<AccountCreatedEventMessage>),
+                        nameof(InboxMessage<AccountDeletedEventMessage>),
                         message.Id.ToString());
 
                     return;
@@ -32,13 +32,13 @@ namespace TexasTaco.Users.Core.EventBus.Consumers
 
                 _logger.LogInformation("Consumed {messageType} with id {id} and " +
                     "successfully added it to the inbox.",
-                    nameof(InboxMessage<AccountCreatedEventMessage>),
+                    nameof(InboxMessage<AccountDeletedEventMessage>),
                     message.Id.ToString());
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to consume {message type} with id {id}.",
-                    nameof(InboxMessage<AccountCreatedEventMessage>),
+                    nameof(InboxMessage<AccountDeletedEventMessage>),
                     message.Id.ToString());
 
                 throw;

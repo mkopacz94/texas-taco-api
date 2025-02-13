@@ -1,27 +1,30 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using TexasTaco.Products.Core.Data.EF;
-using TexasTaco.Products.Core.Repositories;
+using TexasTaco.Shared.EventBus.Products;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 
 namespace TexasTaco.Products.Core.Services
 {
     internal class ProductPriceChangedOutboxMessagesProcessor(
         IUnitOfWork unitOfWork,
-        IProductPriceChangedOutboxMessagesRepository outboxRepository,
+        IOutboxMessagesRepository<OutboxMessage<ProductPriceChangedEventMessage>>
+            outboxRepository,
         IBus messageBus,
         ILogger<ProductPriceChangedOutboxMessagesProcessor> logger)
         : IProductPriceChangedOutboxMessagesProcessor
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        private readonly IProductPriceChangedOutboxMessagesRepository _outboxRepository
-            = outboxRepository;
+        private readonly IOutboxMessagesRepository<OutboxMessage<ProductPriceChangedEventMessage>>
+            _outboxRepository = outboxRepository;
         private readonly IBus _messageBus = messageBus;
         private readonly ILogger<ProductPriceChangedOutboxMessagesProcessor> _logger = logger;
 
         public async Task ProcessMessages()
         {
             var messagesToBePublished = await _outboxRepository
-                .GetNonPublishedOutboxMessages();
+                .GetNonPublishedMessages();
 
             foreach (var message in messagesToBePublished)
             {

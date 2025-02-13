@@ -1,4 +1,5 @@
-﻿using TexasTaco.Users.Core.Entities;
+﻿using TexasTaco.Shared.ValueObjects;
+using TexasTaco.Users.Core.Entities;
 using TexasTaco.Users.Core.ValueObjects;
 
 namespace TexasTaco.Users.Core.Repositories
@@ -9,5 +10,6 @@ namespace TexasTaco.Users.Core.Repositories
         Task<User?> GetByIdAsync(UserId id);
         Task AddUserAsync(User user);
         Task UpdateUserAsync(User user);
+        Task DeleteByAccountIdAsync(AccountId id);
     }
 }

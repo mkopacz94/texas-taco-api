@@ -12,10 +12,13 @@ using TexasTaco.Orders.Infrastructure.Data.Repositories;
 using TexasTaco.Orders.Infrastructure.MessageBus;
 using TexasTaco.Orders.Infrastructure.Outbox;
 using TexasTaco.Shared.EventBus.Account;
+using TexasTaco.Shared.EventBus.Orders;
 using TexasTaco.Shared.EventBus.Products;
 using TexasTaco.Shared.EventBus.Users;
 using TexasTaco.Shared.Inbox;
 using TexasTaco.Shared.Inbox.Repository;
+using TexasTaco.Shared.Outbox;
+using TexasTaco.Shared.Outbox.Repository;
 
 namespace TexasTaco.Orders.Infrastructure
 {
@@ -63,12 +66,14 @@ namespace TexasTaco.Orders.Infrastructure
             services.AddScoped<ICustomersRepository, CustomersRepository>();
             services.AddScoped<IInboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>>,
                 InboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>>>();
+            services.AddScoped<IInboxMessagesRepository<InboxMessage<AccountDeletedEventMessage>>,
+                InboxMessagesRepository<InboxMessage<AccountDeletedEventMessage>>>();
             services.AddScoped<IInboxMessagesRepository<InboxMessage<UserUpdatedEventMessage>>,
                 InboxMessagesRepository<InboxMessage<UserUpdatedEventMessage>>>();
             services.AddScoped<IInboxMessagesRepository<InboxMessage<ProductPriceChangedEventMessage>>,
                 InboxMessagesRepository<InboxMessage<ProductPriceChangedEventMessage>>>();
-            services.AddScoped<IPointsCollectedOutboxMessagesRepository,
-                PointsCollectedOutboxMessagesRepository>();
+            services.AddScoped<IOutboxMessagesRepository<OutboxMessage<PointsCollectedEventMessage>>,
+                OutboxMessagesRepository<OutboxMessage<PointsCollectedEventMessage>>>();
 
             return services;
         }

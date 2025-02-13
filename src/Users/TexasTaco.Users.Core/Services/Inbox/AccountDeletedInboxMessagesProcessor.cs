@@ -2,18 +2,18 @@
 using TexasTaco.Shared.EventBus.Account;
 using TexasTaco.Shared.Inbox;
 using TexasTaco.Shared.Inbox.Repository;
+using TexasTaco.Shared.ValueObjects;
 using TexasTaco.Users.Core.Data.EF;
-using TexasTaco.Users.Core.Entities;
 using TexasTaco.Users.Core.Repositories;
 
 namespace TexasTaco.Users.Core.Services.Inbox
 {
-    internal class AccountCreatedInboxMessagesProcessor(
+    internal class AccountDeletedInboxMessagesProcessor(
         IUnitOfWork _unitOfWork,
-        IInboxMessagesRepository<InboxMessage<AccountCreatedEventMessage>> _inboxRepository,
+        IInboxMessagesRepository<InboxMessage<AccountDeletedEventMessage>> _inboxRepository,
         IUsersRepository _usersRepository,
-        ILogger<AccountCreatedInboxMessagesProcessor> _logger)
-        : IAccountCreatedInboxMessagesProcessor
+        ILogger<AccountDeletedInboxMessagesProcessor> _logger)
+        : IAccountDeletedInboxMessagesProcessor
     {
         public async Task ProcessMessages()
         {
@@ -22,31 +22,17 @@ namespace TexasTaco.Users.Core.Services.Inbox
 
             foreach (var message in nonProcessedMessages)
             {
-                _logger.LogInformation("Processing account created inbox " +
+                _logger.LogInformation("Processing account deleted inbox " +
                     "message with Id={messageId}...", message.Id);
 
                 try
                 {
                     using var transaction = await _unitOfWork.BeginTransactionAsync();
 
-                    var user = new User(
-                        message.MessageBody.AccountId,
-                        message.MessageBody.Email);
+                    var accountId = new AccountId(message.MessageBody.AccountId);
 
-                    var userWithSameAccount = await _usersRepository
-                        .GetByAccountIdAsync(user.AccountId);
-
-                    if (userWithSameAccount is not null)
-                    {
-                        _logger.LogError(
-                            "User with accountId={accountId} already " +
-                            "exists and cannot be added to database.",
-                            user.AccountId);
-                    }
-                    else
-                    {
-                        await _usersRepository.AddUserAsync(user);
-                    }
+                    await _usersRepository
+                        .DeleteByAccountIdAsync(accountId);
 
                     message.MarkAsProcessed();
                     await _inboxRepository.UpdateAsync(message);
