@@ -31,7 +31,7 @@ namespace TexasTaco.Authentication.Api
             IConfiguration configuration)
         {
             services.Configure<SessionConfiguration>(
-            configuration.GetRequiredSection("Session"));
+                configuration.GetRequiredSection("Session"));
 
             services.AddSingleton(sp =>
                 sp.GetRequiredService<IOptions<SessionConfiguration>>().Value);

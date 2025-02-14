@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using System.Net;
 
@@ -35,14 +34,19 @@ namespace TexasTaco.Shared.Authentication
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(x =>
                 {
-                    string cookieDomain = configuration.GetRequiredSection("AuthCookies:Domain").Value!;
+                    string cookieDomain = configuration
+                        .GetRequiredSection("AuthCookies:Domain")
+                        .Value!;
+
                     int expirationMinutes = int.Parse(
-                        configuration.GetRequiredSection("AuthCookies:ExpirationMinutes").Value!);
+                        configuration
+                            .GetRequiredSection("AuthCookies:ExpirationMinutes")
+                            .Value!);
 
                     x.Cookie.Name = CookiesNames.ApiClaims;
                     x.Cookie.HttpOnly = true;
                     x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                    x.Cookie.SameSite = SameSiteMode.Strict;
+                    x.Cookie.SameSite = SameSiteMode.None;
                     x.Cookie.Domain = cookieDomain;
 
                     x.ExpireTimeSpan = TimeSpan.FromMinutes(expirationMinutes);

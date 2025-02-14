@@ -1,14 +1,13 @@
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using TexasTaco.Api.Gateway.Clients;
 using TexasTaco.Api.Gateway.Clients.Handlers;
+using TexasTaco.Api.Gateway.Configuration;
 using TexasTaco.Api.Gateway.Middlewares;
 using TexasTaco.Api.Gateway.Model;
 using TexasTaco.Api.Gateway.Services;
 using TexasTaco.Shared;
-using TexasTaco.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("configuration.json");
@@ -19,8 +18,16 @@ builder.Services.AddOptions<AuthenticationHttpClientOptions>()
 builder.Services.Configure<RoutesConfiguration>(
     builder.Configuration.GetRequiredSection("NonAuthRoutesConfiguration"));
 
-builder.Services.AddSingleton(sp => 
+builder.Services.AddOptions<ApplicationConfiguration>()
+    .Bind(builder.Configuration.GetSection(nameof(ApplicationConfiguration)))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services.AddSingleton(sp =>
     sp.GetRequiredService<IOptions<RoutesConfiguration>>().Value);
+
+builder.Services.AddSingleton(sp =>
+    sp.GetRequiredService<IOptions<ApplicationConfiguration>>().Value);
 
 builder.Services.AddSharedFramework();
 builder.Services.AddScoped<ICurrentSessionStorage, InMemoryCurrentSessionStorage>();
@@ -41,6 +48,37 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOcelot();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: "AdminClientCorsPolicy",
+        policy =>
+        {
+            var corsSettings = builder
+                .Configuration
+                .GetSection($"{nameof(ApplicationConfiguration)}" +
+                    $":{nameof(ApplicationConfiguration.Cors)}");
+
+            var allowedOrigins = corsSettings
+                .GetSection(nameof(ApplicationConfiguration.Cors.AllowedOrigins))
+                .Get<string[]>() ?? [];
+
+            var allowedMethods = corsSettings
+                .GetSection(nameof(ApplicationConfiguration.Cors.AllowedMethods))
+                .Get<string[]>() ?? [];
+
+            var allowedHeaders = corsSettings
+                .GetSection(nameof(ApplicationConfiguration.Cors.AllowedHeaders))
+                .Get<string[]>() ?? [];
+
+            policy
+                .WithOrigins(allowedOrigins)
+                .WithHeaders(allowedHeaders)
+                .WithMethods(allowedMethods)
+                .AllowCredentials();
+        });
+});
 
 var ocelotConfig = new OcelotPipelineConfiguration
 {
@@ -78,5 +116,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AdminClientCorsPolicy");
 await app.UseOcelot(ocelotConfig);
 app.Run();

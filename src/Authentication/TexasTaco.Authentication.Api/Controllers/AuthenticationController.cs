@@ -143,7 +143,7 @@ namespace TexasTaco.Authentication.Api.Controllers
         [MapToApiVersion(1)]
         [Authorize]
         [HttpGet("role")]
-        public async Task<IActionResult> GetRole()
+        public IActionResult GetRole()
         {
             var role = User
                 .Claims
@@ -158,13 +158,17 @@ namespace TexasTaco.Authentication.Api.Controllers
             return Ok(role);
         }
 
-        private void SetSessionCookies(AccountId accountId, SessionId sessionId, DateTime expirationDate)
+        private void SetSessionCookies(
+            AccountId accountId,
+            SessionId sessionId,
+            DateTime expirationDate)
         {
             var sessionCookieOptions = new CookieOptions
             {
                 Expires = new DateTimeOffset(expirationDate),
                 HttpOnly = true,
-                Secure = true
+                Secure = true,
+                SameSite = SameSiteMode.None
             };
 
             _cookieService.SetCookie(
