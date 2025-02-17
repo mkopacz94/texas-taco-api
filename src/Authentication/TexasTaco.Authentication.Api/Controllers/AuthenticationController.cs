@@ -35,6 +35,25 @@ namespace TexasTaco.Authentication.Api.Controllers
         SessionConfiguration _sessionConfiguration) : ControllerBase
     {
         [MapToApiVersion(1)]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var userClaims = User.Claims;
+
+            if (userClaims == null)
+            {
+                return Unauthorized();
+            }
+
+            var whoAmIDto = new WhoAmIDto(
+                userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                userClaims.FirstOrDefault(c => c.Type == TexasTacoClaimNames.AccountId)?.Value,
+                userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value);
+
+            return Ok(whoAmIDto);
+        }
+
+        [MapToApiVersion(1)]
         [HttpPost("sign-up")]
         public async Task<IActionResult> SignUp([FromBody] UserSignUpDto signUpData)
         {
