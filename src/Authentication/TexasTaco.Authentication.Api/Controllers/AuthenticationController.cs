@@ -79,7 +79,10 @@ namespace TexasTaco.Authentication.Api.Controllers
             await _claimsManager.SetAccountClaims(account);
             SetSessionCookies(account.Id, sessionId, sessionExpirationDate);
 
-            var signInResult = new SignInResultDto(sessionId, account.Id);
+            var signInResult = new SignInResultDto(
+                sessionId,
+                account.Id,
+                account.Role.ToString());
 
             return Ok(signInResult);
         }
