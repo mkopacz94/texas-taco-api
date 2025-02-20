@@ -14,5 +14,7 @@ namespace TexasTaco.Authentication.Core.Entities
         public bool Verified { get; private set; }
 
         public void MarkAsVerified() => Verified = true;
+        public bool IsInRole(string role)
+            => string.Equals(role, Role.ToString(), StringComparison.OrdinalIgnoreCase);
     }
 }

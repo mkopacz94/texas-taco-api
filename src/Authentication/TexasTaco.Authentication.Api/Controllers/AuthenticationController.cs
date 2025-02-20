@@ -69,7 +69,16 @@ namespace TexasTaco.Authentication.Api.Controllers
         public async Task<IActionResult> SignIn([FromBody] UserSignInDto signInData)
         {
             var emailAddress = new EmailAddress(signInData.Email);
-            var account = await _authRepo.AuthenticateAccountAsync(emailAddress, signInData.Password);
+
+            var account = await _authRepo.AuthenticateAccountAsync(
+                emailAddress,
+                signInData.Password);
+
+            if (signInData.RequiredRole is not null
+                && !account.IsInRole(signInData.RequiredRole))
+            {
+                return Forbid();
+            }
 
             var sessionExpirationDate = DateTime.UtcNow
                 .AddMinutes(_sessionConfiguration.ExpirationMinutes);
