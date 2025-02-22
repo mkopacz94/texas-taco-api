@@ -15,5 +15,26 @@ namespace TexasTaco.Shared.Services
             var context = _contextAccessor.HttpContext!;
             context.Response.Cookies.Append(cookieName, value, options);
         }
+
+        public void MakeCookieExpired(string cookieName)
+        {
+            var context = _contextAccessor.HttpContext!;
+            var cookieValue = context.Request.Cookies[cookieName];
+
+            if (cookieValue is null)
+            {
+                return;
+            }
+
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddDays(-1),
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            };
+
+            context.Response.Cookies.Append(cookieName, cookieValue, cookieOptions);
+        }
     }
 }

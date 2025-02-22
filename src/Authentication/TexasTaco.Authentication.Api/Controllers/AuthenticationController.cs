@@ -97,6 +97,17 @@ namespace TexasTaco.Authentication.Api.Controllers
         }
 
         [MapToApiVersion(1)]
+        [HttpPost("sign-out")]
+        public IActionResult SignOutUser()
+        {
+            _cookieService.MakeCookieExpired(CookiesNames.ApiClaims);
+            _cookieService.MakeCookieExpired(CookiesNames.AccountId);
+            _cookieService.MakeCookieExpired(CookiesNames.SessionId);
+
+            return NoContent();
+        }
+
+        [MapToApiVersion(1)]
         [HttpGet("session-valid")]
         public async Task<IActionResult> IsSessionValid([FromQuery] string accountId, [FromQuery] string sessionId)
         {

@@ -6,5 +6,6 @@ namespace TexasTaco.Shared.Services
     {
         void SetCookie(string cookieName, string value, CookieOptions options);
         string? GetCookie(string cookieName);
+        void MakeCookieExpired(string cookieName);
     }
 }

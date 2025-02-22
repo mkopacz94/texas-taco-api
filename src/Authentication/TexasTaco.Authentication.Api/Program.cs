@@ -14,7 +14,7 @@ builder.Services.AddBackgroundServices();
 builder.Services.AddSharedDataProtectionCache(builder.Configuration);
 builder.Services.AddAuthenticationApiAuthentication(builder.Configuration);
 builder.Services.AddTexasTacoAuthenticationApiVersioning();
-builder.Services.AddTexasTacoAuthentication(builder.Configuration); 
+builder.Services.AddTexasTacoAuthentication(builder.Configuration);
 builder.Services.AddSharedFramework();
 
 builder.Services
