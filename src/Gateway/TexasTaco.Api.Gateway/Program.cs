@@ -101,11 +101,6 @@ var ocelotConfig = new OcelotPipelineConfiguration
     {
         await next();
 
-        if (context.Request.Path.Value?.Contains("sign-out") ?? false)
-        {
-            return;
-        }
-
         var sessionCookieUpdater = context.RequestServices
             .GetRequiredService<ISessionCookieUpdater>();
 
