@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning;
+using MassTransit.Initializers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Shared.Authentication;
+using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.EventBus.Users;
 using TexasTaco.Shared.Outbox;
 using TexasTaco.Shared.Outbox.Repository;
@@ -49,6 +51,29 @@ namespace TexasTaco.Users.Api.Controllers
                 user.PointsCollected);
 
             return Ok(userDto);
+        }
+
+        [AuthorizeRole(Role.Admin)]
+        [MapToApiVersion(1)]
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _usersRepository
+                .GetUsers();
+
+            var response = users.Select(u => new UsersListDto(
+                    u.Id.Value,
+                    u.Email.Value.ToString(),
+                    u.FullName,
+                    new AddressDto(
+                        u.Address.AddressLine,
+                        u.Address.PostalCode,
+                        u.Address.City,
+                        u.Address.Country),
+                    u.PointsCollected)
+                );
+
+            return Ok(response);
         }
 
         [MapToApiVersion(1)]

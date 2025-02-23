@@ -9,6 +9,13 @@ namespace TexasTaco.Users.Core.Repositories
 {
     internal class UsersRepository(UsersDbContext _context) : IUsersRepository
     {
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await _context
+                .Users
+                .ToListAsync();
+        }
+
         public async Task AddUserAsync(User user)
         {
             await _context.AddAsync(user);
