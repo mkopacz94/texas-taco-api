@@ -33,6 +33,7 @@ app.Services.ApplyDatabaseMigrations();
 
 if (app.Environment.IsDevelopment())
 {
+    await app.Services.SeedDatabase();
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(options =>

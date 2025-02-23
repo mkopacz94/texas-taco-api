@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Bogus;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,10 +12,12 @@ using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.EmailNotifications;
 using TexasTaco.Authentication.Core.Services.Outbox;
 using TexasTaco.Authentication.Core.Services.Verification;
+using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.EventBus.Account;
 using TexasTaco.Shared.Outbox;
 using TexasTaco.Shared.Outbox.Repository;
 using TexasTaco.Shared.Settings;
+using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Authentication.Core
 {
@@ -101,6 +104,40 @@ namespace TexasTaco.Authentication.Core
             services.AddSingleton<IEmailSmtpClient, EmailSmtpClient>();
 
             return services;
+        }
+
+        public static async Task SeedDatabase(this IServiceProvider serviceProvider)
+        {
+            using var scope = serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+
+            if (dbContext.Accounts.Any())
+            {
+                return;
+            }
+
+            var passwordManager = scope
+                .ServiceProvider
+                .GetRequiredService<IPasswordManager>();
+
+            passwordManager
+                 .HashPassword("1234", out byte[] hash, out byte[] salt);
+
+            var fakerAccounts = new Faker<Account>()
+                .CustomInstantiator(f => new Account(
+                    new EmailAddress(f.Internet.Email()),
+                    f.PickRandom<Role>(),
+                    hash,
+                    salt));
+
+            var accounts = fakerAccounts.Generate(1000);
+
+            var accountsOutbox = accounts
+                .Select(a => new AccountCreatedOutbox(a.Id, a.Email));
+
+            await dbContext.AddRangeAsync(accounts);
+            await dbContext.AddRangeAsync(accountsOutbox);
+            await dbContext.SaveChangesAsync();
         }
 
         private static IServiceCollection AddRepositories(
