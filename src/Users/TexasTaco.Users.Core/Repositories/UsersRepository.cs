@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using TexasTaco.Shared.Pagination;
 using TexasTaco.Shared.ValueObjects;
 using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.Entities;
@@ -14,6 +16,27 @@ namespace TexasTaco.Users.Core.Repositories
             return await _context
                 .Users
                 .ToListAsync();
+        }
+
+        public async Task<PagedResult<User>> GetPagedUsersAsync(
+            int pageNumber,
+            int pageSize,
+            Expression<Func<User, bool>>? filter)
+        {
+            IQueryable<User> query = _context.Users;
+
+            if (filter is not null)
+            {
+                query = query.Where(filter);
+            }
+
+            int totalCount = await query.CountAsync();
+            var items = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new(items, totalCount, pageSize, pageNumber);
         }
 
         public async Task AddUserAsync(User user)

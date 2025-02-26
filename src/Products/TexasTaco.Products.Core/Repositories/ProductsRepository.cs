@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using TexasTaco.Products.Core.Data.EF;
 using TexasTaco.Products.Core.Entities;
 using TexasTaco.Products.Core.Exceptions;
+using TexasTaco.Shared.Pagination;
 using TexasTaco.Shared.ValueObjects;
 
 namespace TexasTaco.Products.Core.Repositories
@@ -18,6 +20,27 @@ namespace TexasTaco.Products.Core.Repositories
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await _context.Products.ToListAsync();
+        }
+
+        public async Task<PagedResult<Product>> GetPagedProductsAsync(
+            int pageNumber,
+            int pageSize,
+            Expression<Func<Product, bool>>? filter)
+        {
+            IQueryable<Product> query = _context.Products;
+
+            if (filter is not null)
+            {
+                query = query.Where(filter);
+            }
+
+            int totalCount = await query.CountAsync();
+            var items = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new(items, totalCount, pageSize, pageNumber);
         }
 
         public async Task<Product?> GetAsync(ProductId id)

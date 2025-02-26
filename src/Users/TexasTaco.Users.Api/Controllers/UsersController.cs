@@ -7,6 +7,7 @@ using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.EventBus.Users;
 using TexasTaco.Shared.Outbox;
 using TexasTaco.Shared.Outbox.Repository;
+using TexasTaco.Shared.Pagination;
 using TexasTaco.Users.Core.Data.EF;
 using TexasTaco.Users.Core.Dtos;
 using TexasTaco.Users.Core.Entities;
@@ -55,25 +56,48 @@ namespace TexasTaco.Users.Api.Controllers
 
         [AuthorizeRole(Role.Admin)]
         [MapToApiVersion(1)]
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        [HttpGet()]
+        public async Task<IActionResult> GetUsers(
+            [FromQuery] int? pageNumber,
+            [FromQuery] int? pageSize)
         {
-            var users = await _usersRepository
-                .GetUsers();
+            IEnumerable<User> users;
 
-            var response = users.Select(u => new UsersListDto(
-                    u.Id.Value,
-                    u.Email.Value.ToString(),
-                    u.FullName,
-                    new AddressDto(
-                        u.Address.AddressLine,
-                        u.Address.PostalCode,
-                        u.Address.City,
-                        u.Address.Country),
-                    u.PointsCollected)
-                );
+            if (pageNumber is null && pageSize is null)
+            {
+                users = await _usersRepository
+                    .GetUsers();
 
-            return Ok(response);
+                var response = GetUsersListDto(users);
+
+                return Ok(response);
+            }
+
+            if (pageNumber <= 0)
+            {
+                return BadRequest("Page number must be a positive number.");
+            }
+
+            if (pageSize <= 0)
+            {
+                return BadRequest("Page size must be a positive number.");
+            }
+
+            var pagedUsers = await _usersRepository
+                .GetPagedUsersAsync(
+                    (int)pageNumber!,
+                    (int)pageSize!,
+                    null);
+
+            var usersDtos = GetUsersListDto(pagedUsers.Items);
+
+            var pagedResultDto = new PagedResult<UsersListDto>(
+                usersDtos,
+                pagedUsers.TotalCount,
+                pagedUsers.PageSize,
+                pagedUsers.CurrentPage);
+
+            return Ok(pagedResultDto);
         }
 
         [MapToApiVersion(1)]
@@ -128,6 +152,23 @@ namespace TexasTaco.Users.Api.Controllers
             await transaction.CommitAsync();
 
             return NoContent();
+        }
+
+        private static IEnumerable<UsersListDto> GetUsersListDto(
+            IEnumerable<User> users)
+        {
+            return users
+                .Select(u => new UsersListDto(
+                    u.Id.Value,
+                    u.Email.Value.ToString(),
+                    u.FullName,
+                    new AddressDto(
+                        u.Address.AddressLine,
+                        u.Address.PostalCode,
+                        u.Address.City,
+                        u.Address.Country),
+                    u.PointsCollected)
+                );
         }
     }
 }
