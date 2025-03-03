@@ -24,5 +24,13 @@ namespace TexasTaco.Users.Core.Entities
             City = address.City;
             Country = address.Country;
         }
+
+        public bool Contains(string value)
+        {
+            return AddressLine.Contains(value, StringComparison.CurrentCultureIgnoreCase)
+                || PostalCode.Contains(value, StringComparison.CurrentCultureIgnoreCase)
+                || City.Contains(value, StringComparison.CurrentCultureIgnoreCase)
+                || Country.Contains(value, StringComparison.CurrentCultureIgnoreCase);
+        }
     }
 }

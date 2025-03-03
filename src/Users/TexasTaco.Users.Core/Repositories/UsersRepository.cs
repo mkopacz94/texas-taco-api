@@ -27,7 +27,7 @@ namespace TexasTaco.Users.Core.Repositories
 
             if (filter is not null)
             {
-                query = query.Where(filter);
+                query = query.Where(u => EF.Functions.Like(u.Email.Value, $"%m.kop%"));
             }
 
             int totalCount = await query.CountAsync();

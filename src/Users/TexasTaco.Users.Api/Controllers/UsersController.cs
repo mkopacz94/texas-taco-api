@@ -2,6 +2,7 @@
 using MassTransit.Initializers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.EventBus.Users;
@@ -59,11 +60,14 @@ namespace TexasTaco.Users.Api.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetUsers(
             [FromQuery] int? pageNumber,
-            [FromQuery] int? pageSize)
+            [FromQuery] int? pageSize,
+            [FromQuery] string? searchQuery)
         {
             IEnumerable<User> users;
 
-            if (pageNumber is null && pageSize is null)
+            if (pageNumber is null
+                && pageSize is null
+                && searchQuery is null)
             {
                 users = await _usersRepository
                     .GetUsers();
@@ -83,11 +87,19 @@ namespace TexasTaco.Users.Api.Controllers
                 return BadRequest("Page size must be a positive number.");
             }
 
+            Expression<Func<User, bool>>? filter = null;
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                filter = u => u.Email.Value.Contains(searchQuery, StringComparison.CurrentCultureIgnoreCase)
+                    || u.Address.Contains(searchQuery);
+            }
+
             var pagedUsers = await _usersRepository
                 .GetPagedUsersAsync(
                     (int)pageNumber!,
                     (int)pageSize!,
-                    null);
+                    filter);
 
             var usersDtos = GetUsersListDto(pagedUsers.Items);
 
