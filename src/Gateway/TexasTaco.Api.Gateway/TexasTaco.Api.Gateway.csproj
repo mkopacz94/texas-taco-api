@@ -28,4 +28,8 @@
 			<_Parameter1>TexasTaco.Api.Gateway.Tests</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using TexasTaco.Shared.Pagination;
+﻿using TexasTaco.Shared.Pagination;
 using TexasTaco.Shared.ValueObjects;
 using TexasTaco.Users.Core.Entities;
 using TexasTaco.Users.Core.ValueObjects;
@@ -12,7 +11,7 @@ namespace TexasTaco.Users.Core.Repositories
         Task<PagedResult<User>> GetPagedUsersAsync(
             int pageNumber,
             int pageSize,
-            Expression<Func<User, bool>>? filter);
+            string? searchQuery);
         Task<User?> GetByAccountIdAsync(Guid accountId);
         Task<User?> GetByIdAsync(UserId id);
         Task AddUserAsync(User user);

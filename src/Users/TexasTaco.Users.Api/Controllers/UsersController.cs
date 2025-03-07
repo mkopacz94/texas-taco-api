@@ -2,7 +2,6 @@
 using MassTransit.Initializers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.EventBus.Users;
@@ -87,19 +86,11 @@ namespace TexasTaco.Users.Api.Controllers
                 return BadRequest("Page size must be a positive number.");
             }
 
-            Expression<Func<User, bool>>? filter = null;
-
-            if (!string.IsNullOrWhiteSpace(searchQuery))
-            {
-                filter = u => u.Email.Value.Contains(searchQuery, StringComparison.CurrentCultureIgnoreCase)
-                    || u.Address.Contains(searchQuery);
-            }
-
             var pagedUsers = await _usersRepository
                 .GetPagedUsersAsync(
                     (int)pageNumber!,
                     (int)pageSize!,
-                    filter);
+                    searchQuery);
 
             var usersDtos = GetUsersListDto(pagedUsers.Items);
 

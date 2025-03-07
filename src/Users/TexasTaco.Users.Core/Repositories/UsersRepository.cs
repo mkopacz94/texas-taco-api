@@ -21,13 +21,18 @@ namespace TexasTaco.Users.Core.Repositories
         public async Task<PagedResult<User>> GetPagedUsersAsync(
             int pageNumber,
             int pageSize,
-            Expression<Func<User, bool>>? filter)
+            string? searchQuery)
         {
             IQueryable<User> query = _context.Users;
+            Expression<Func<User, bool>>? filter = null;
 
-            if (filter is not null)
+            if (!string.IsNullOrWhiteSpace(searchQuery))
             {
-                query = query.Where(u => EF.Functions.Like(u.Email.Value, $"%m.kop%"));
+                filter = u => ((string)u.Email).ToLower().Contains(searchQuery.ToLower())
+                    || (u.FirstName != null && u.FirstName.ToLower().Contains(searchQuery.ToLower()))
+                    || (u.LastName != null && u.LastName.ToLower().Contains(searchQuery.ToLower()));
+
+                query = query.Where(filter);
             }
 
             int totalCount = await query.CountAsync();
