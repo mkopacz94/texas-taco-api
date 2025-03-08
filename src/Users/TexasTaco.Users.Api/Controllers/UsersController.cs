@@ -42,8 +42,7 @@ namespace TexasTaco.Users.Api.Controllers
             var userDto = new UserDto(
                 user.Id.Value,
                 user.Email.Value.ToString(),
-                user.FirstName,
-                user.LastName,
+                user.FullName,
                 new AddressDto(
                     user.Address.AddressLine,
                     user.Address.PostalCode,
@@ -69,8 +68,7 @@ namespace TexasTaco.Users.Api.Controllers
             var userDto = new UserDto(
                 user.Id.Value,
                 user.Email.Value.ToString(),
-                user.FirstName,
-                user.LastName,
+                user.FullName,
                 new AddressDto(
                     user.Address.AddressLine,
                     user.Address.PostalCode,
