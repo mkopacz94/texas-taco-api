@@ -28,8 +28,8 @@ namespace TexasTaco.Users.Api.Controllers
         : ControllerBase
     {
         [MapToApiVersion(1)]
-        [HttpGet("{accountId}")]
-        public async Task<IActionResult> GetUser(string accountId)
+        [HttpGet("for-account/{accountId}")]
+        public async Task<IActionResult> GetUserByAccountId(string accountId)
         {
             var user = await _usersRepository
                 .GetByAccountIdAsync(Guid.Parse(accountId));
@@ -37,6 +37,33 @@ namespace TexasTaco.Users.Api.Controllers
             if (user is null)
             {
                 return NotFound($"User with associated {accountId} account id not found.");
+            }
+
+            var userDto = new UserDto(
+                user.Id.Value,
+                user.Email.Value.ToString(),
+                user.FirstName,
+                user.LastName,
+                new AddressDto(
+                    user.Address.AddressLine,
+                    user.Address.PostalCode,
+                    user.Address.City,
+                    user.Address.Country),
+                user.PointsCollected);
+
+            return Ok(userDto);
+        }
+
+        [MapToApiVersion(1)]
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUser(string userId)
+        {
+            var id = new UserId(Guid.Parse(userId));
+            var user = await _usersRepository.GetByIdAsync(id);
+
+            if (user is null)
+            {
+                return NotFound($"User with id {userId} not found.");
             }
 
             var userDto = new UserDto(
