@@ -2,6 +2,7 @@
 using MassTransit.Initializers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.Authentication.Attributes;
 using TexasTaco.Shared.EventBus.Users;
@@ -39,8 +40,14 @@ namespace TexasTaco.Users.Api.Controllers
                 return NotFound($"User with associated {accountId} account id not found.");
             }
 
+            if (!VerifyIfRequestForSameAccountOrAdminAccount(user.AccountId))
+            {
+                return Forbid();
+            }
+
             var userDto = new UserDto(
                 user.Id.Value,
+                user.AccountId,
                 user.Email.Value.ToString(),
                 user.FullName,
                 new AddressDto(
@@ -65,8 +72,14 @@ namespace TexasTaco.Users.Api.Controllers
                 return NotFound($"User with id {userId} not found.");
             }
 
+            if (!VerifyIfRequestForSameAccountOrAdminAccount(user.AccountId))
+            {
+                return Forbid();
+            }
+
             var userDto = new UserDto(
                 user.Id.Value,
+                user.AccountId,
                 user.Email.Value.ToString(),
                 user.FullName,
                 new AddressDto(
@@ -130,7 +143,9 @@ namespace TexasTaco.Users.Api.Controllers
 
         [MapToApiVersion(1)]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserToUpdateDto userToUpdateDto)
+        public async Task<IActionResult> UpdateUser(
+            string id,
+            [FromBody] UserToUpdateDto userToUpdateDto)
         {
             var user = await _usersRepository
                 .GetByIdAsync(new UserId(Guid.Parse(id)));
@@ -140,11 +155,9 @@ namespace TexasTaco.Users.Api.Controllers
                 return NotFound($"User with {id} id not found.");
             }
 
-            string currentUserAccountId = User.FindFirst(TexasTacoClaimNames.AccountId)!.Value;
-
-            if (user.AccountId.ToString() != currentUserAccountId)
+            if (!VerifyIfRequestForSameAccountOrAdminAccount(user.AccountId))
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             var address = new Address(
@@ -180,6 +193,28 @@ namespace TexasTaco.Users.Api.Controllers
             await transaction.CommitAsync();
 
             return NoContent();
+        }
+
+        private bool VerifyIfRequestForSameAccountOrAdminAccount(
+            Guid accountIdToBeVerified)
+        {
+            string userMakingRequestAccountId = User
+                .FindFirst(TexasTacoClaimNames.AccountId)!.Value;
+
+            string userMakingRequestRoleString = User
+               .FindFirst(ClaimTypes.Role)!
+               .Value;
+
+            var userMakingRequestRole = (Role)Enum
+                .Parse(typeof(Role), userMakingRequestRoleString);
+
+            if (accountIdToBeVerified.ToString() != userMakingRequestAccountId
+                && userMakingRequestRole < Role.Admin)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private static IEnumerable<UsersListDto> GetUsersListDto(

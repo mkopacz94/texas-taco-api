@@ -6,6 +6,7 @@ using TexasTaco.Authentication.Api.Configuration;
 using TexasTaco.Authentication.Api.Services;
 using TexasTaco.Authentication.Core.Data;
 using TexasTaco.Authentication.Core.DTO;
+using TexasTaco.Authentication.Core.Exceptions;
 using TexasTaco.Authentication.Core.Repositories;
 using TexasTaco.Authentication.Core.Services;
 using TexasTaco.Authentication.Core.Services.Verification;
@@ -133,6 +134,24 @@ namespace TexasTaco.Authentication.Api.Controllers
             await _sessionStorage.UpdateSession(accountIdentifier, session);
 
             return Ok(session);
+        }
+
+        [MapToApiVersion(1)]
+        [AuthorizeRole(Role.Admin)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAccount(string id)
+        {
+            var accountId = new AccountId(Guid.Parse(id));
+
+            var account = await _authRepo
+                .GetByIdAsync(accountId)
+                ?? throw new AccountDoesNotExistException(accountId);
+
+            var accountDto = new AccountDto(
+                account.Role.ToString(),
+                account.Verified);
+
+            return Ok(accountDto);
         }
 
         [MapToApiVersion(1)]
