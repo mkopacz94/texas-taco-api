@@ -2,8 +2,9 @@
 {
     public sealed record UserDto(
         Guid Id,
-        Guid AccountId,
         string Email,
+        string? FirstName,
+        string? LastName,
         string? FullName,
         AddressDto Address,
         int PointsCollected);
