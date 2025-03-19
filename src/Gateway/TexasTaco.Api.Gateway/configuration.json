@@ -60,6 +60,9 @@
         "Path": "/api/{version}/auth/sign-in"
       },
       {
+        "Path": "/api/{version}/auth/sign-out"
+      },
+      {
         "Path": "/api/{version}/auth/session-valid"
       },
       {
