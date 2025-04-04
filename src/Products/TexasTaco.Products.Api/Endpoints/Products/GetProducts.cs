@@ -7,14 +7,15 @@ using TexasTaco.Shared.Pagination;
 
 namespace TexasTaco.Products.Api.Endpoints.Products
 {
-    internal class GetAllProducts : IEndpoint
+    internal class GetProducts : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapGet("", async (
                 IProductsRepository productsRepository,
                 [FromQuery] int? pageNumber,
-                [FromQuery] int? pageSize) =>
+                [FromQuery] int? pageSize,
+                [FromQuery] string? searchQuery) =>
             {
                 if (pageNumber is null && pageSize is null)
                 {
