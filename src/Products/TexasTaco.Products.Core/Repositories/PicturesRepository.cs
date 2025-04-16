@@ -19,5 +19,13 @@ namespace TexasTaco.Products.Core.Repositories
                 .Pictures
                 .AnyAsync(p => p.Id == pictureId);
         }
+
+        public async Task<IEnumerable<Picture>> GetPicturesWithoutThumbnailAsync()
+        {
+            return await _context
+                .Pictures
+                .Where(p => string.IsNullOrWhiteSpace(p.ThumbnailUrl))
+                .ToListAsync();
+        }
     }
 }

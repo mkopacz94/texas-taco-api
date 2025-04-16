@@ -20,6 +20,7 @@ builder.Services.AddSharedDataProtectionCache(builder.Configuration);
 builder.Services.AddSharedAuthentication(builder.Configuration);
 builder.Services.AddSingleton<ExceptionMiddleware>();
 builder.Services.AddHostedService<ProductPriceChangedOutboxBackgroundService>();
+builder.Services.AddHostedService<PictureThumbnailBackgroundService>();
 
 builder.Services.AddAntiforgery(options =>
 {

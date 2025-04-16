@@ -2,7 +2,7 @@
 
 namespace TexasTaco.Products.Api.BackgroundServices
 {
-    public class ProductPriceChangedOutboxBackgroundService(
+    internal class ProductPriceChangedOutboxBackgroundService(
         IServiceProvider _serviceProvider) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
