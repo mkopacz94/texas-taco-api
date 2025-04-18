@@ -7,5 +7,6 @@
         bool Recommended,
         decimal Price,
         string? PictureUrl,
+        string? ThumbnailUrl,
         string Category);
 }
