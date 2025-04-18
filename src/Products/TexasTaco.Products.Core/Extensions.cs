@@ -41,6 +41,8 @@ namespace TexasTaco.Products.Core
             services.AddScoped<IProductPriceChangedOutboxMessagesProcessor,
                 ProductPriceChangedOutboxMessagesProcessor>();
 
+            services.AddTransient<IPictureProcessor, PictureProcessor>();
+
             services.Configure<MessageBrokerSettings>(
                 configuration.GetSection("MessageBroker"));
 

@@ -7,6 +7,7 @@ namespace TexasTaco.Products.Core.Repositories
     {
         Task AddAsync(Picture picture);
         Task<bool> AnyAsync(PictureId pictureId);
+        Task UpdateAsync(Picture picture);
         Task<IEnumerable<Picture>> GetPicturesWithoutThumbnailAsync();
     }
 }
