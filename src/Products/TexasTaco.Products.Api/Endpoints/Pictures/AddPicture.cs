@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using TexasTaco.Products.Api.Clients;
+using TexasTaco.Products.Api.Exceptions;
 using TexasTaco.Products.Core.Entities;
 using TexasTaco.Products.Core.Mapping;
 using TexasTaco.Products.Core.Repositories;
@@ -28,8 +29,9 @@ namespace TexasTaco.Products.Api.Endpoints.Pictures
 
                 if (pictureSizeInKB > MaximumPictureFileSizeInKB)
                 {
-                    return Results.BadRequest($"Picture size is too big ({pictureSizeInKB} KB). " +
-                        $"Maximum picture size is {MaximumPictureFileSizeInKB} KB.");
+                    throw new PictureSizeTooBigException(
+                        pictureSizeInKB,
+                        MaximumPictureFileSizeInKB);
                 }
 
                 var uploadedPicture = await s3BucketClient.PutPictureAsync(
