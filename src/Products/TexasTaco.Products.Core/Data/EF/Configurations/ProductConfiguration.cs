@@ -18,6 +18,14 @@ namespace TexasTaco.Products.Core.Data.EF.Configurations
                 .HasConversion(id => id.Value, value => new ProductId(value));
 
             builder
+                .Property(p => p.Name)
+                .HasMaxLength(50);
+
+            builder
+                .Property(p => p.ShortDescription)
+                .HasMaxLength(150);
+
+            builder
                 .Navigation(p => p.Picture)
                 .AutoInclude();
 
