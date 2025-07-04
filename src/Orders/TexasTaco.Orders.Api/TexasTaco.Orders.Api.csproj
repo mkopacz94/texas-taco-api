@@ -1,33 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..</DockerfileContext>
-    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
+		<DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-    <PackageReference Include="Humanizer" Version="2.14.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.14">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+		<PackageReference Include="Humanizer" Version="2.14.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.14">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shared\TexasTaco.Shared.Authentication\TexasTaco.Shared.Authentication.csproj" />
-    <ProjectReference Include="..\..\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj" />
-    <ProjectReference Include="..\TexasTaco.Orders.Application\TexasTaco.Orders.Application.csproj" />
-    <ProjectReference Include="..\TexasTaco.Orders.Domain\TexasTaco.Orders.Domain.csproj" />
-    <ProjectReference Include="..\TexasTaco.Orders.Infrastructure\TexasTaco.Orders.Infrastructure.csproj" />
-    <ProjectReference Include="..\TexasTaco.Orders.Shared\TexasTaco.Orders.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Shared\TexasTaco.Shared.Authentication\TexasTaco.Shared.Authentication.csproj" />
+		<ProjectReference Include="..\..\Shared\TexasTaco.Shared\TexasTaco.Shared.csproj" />
+		<ProjectReference Include="..\TexasTaco.Orders.Application\TexasTaco.Orders.Application.csproj" />
+		<ProjectReference Include="..\TexasTaco.Orders.Domain\TexasTaco.Orders.Domain.csproj" />
+		<ProjectReference Include="..\TexasTaco.Orders.Infrastructure\TexasTaco.Orders.Infrastructure.csproj" />
+		<ProjectReference Include="..\TexasTaco.Orders.Shared\TexasTaco.Orders.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>TexasTaco.Orders.Api.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 
 </Project>
