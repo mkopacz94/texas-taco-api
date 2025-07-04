@@ -1,28 +1,29 @@
-﻿using Shouldly;
+﻿using Microsoft.EntityFrameworkCore;
+using Shouldly;
 using System.Net.Http.Json;
 using TexasTaco.Orders.Api.Tests.Base;
 using TexasTaco.Orders.Api.Tests.Factories;
 using TexasTaco.Orders.Application.Orders.DTO;
 using TexasTaco.Orders.Domain.Cart;
-using TexasTaco.Orders.Domain.Customers;
 using TexasTaco.Orders.Domain.Orders;
 using TexasTaco.Shared.ValueObjects;
 
-namespace TexasTaco.Orders.Api.Tests.Controllers;
+namespace TexasTaco.Orders.Api.Tests.Tests;
 
-public class OrdersTests(IntegrationTestWebAppFactory factory)
+public class OrdersTests(
+    IntegrationTestWebAppFactory factory)
     : BaseIntegrationTest(factory)
 {
     [Fact]
     public async Task PlaceOrderInCheckout_Then_ReadOrderStatus_Should_ReturnOrder()
     {
         // Arrange
-        var customer = new Customer(
-            new AccountId(Guid.NewGuid()),
-            new EmailAddress("test@email.com"));
+        var customer = await DbContext
+            .Customers
+            .FirstAsync();
 
         var product = new CartProduct(
-            new ProductId(Guid.NewGuid()),
+            ProductId.New(),
             name: "Test product",
             price: 25.99m,
             pictureUrl: "picture_url",
@@ -32,14 +33,13 @@ public class OrdersTests(IntegrationTestWebAppFactory factory)
         cart.AddProduct(product);
         var checkoutCart = new CheckoutCart(cart);
 
-        DbContext.Customers.Add(customer);
         DbContext.Carts.Add(cart);
         DbContext.CheckoutCarts.Add(checkoutCart);
         await DbContext.SaveChangesAsync();
 
         // Act
         var placeOrderResponse = await HttpClient.PostAsync(
-            $"/api/v1/orders/checkout/{checkoutCart.Id.Value}/place-order",
+            $"api/v1/orders/checkout/{checkoutCart.Id.Value}/place-order",
             content: null);
 
         placeOrderResponse.EnsureSuccessStatusCode();
@@ -49,7 +49,7 @@ public class OrdersTests(IntegrationTestWebAppFactory factory)
             .ReadFromJsonAsync<OrderDto>();
 
         var getOrderResponse = await HttpClient.GetAsync(
-            $"/api/v1/orders/{createdOrder!.Id}");
+            $"api/v1/orders/{createdOrder!.Id}");
 
         var fetchedOrder = await getOrderResponse
             .Content
