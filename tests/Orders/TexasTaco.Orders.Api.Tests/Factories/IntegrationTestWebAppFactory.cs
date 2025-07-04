@@ -10,7 +10,8 @@ using TexasTaco.Orders.Infrastructure.Data.EF;
 
 namespace TexasTaco.Orders.Api.Tests.Factories
 {
-    public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
+    public class IntegrationTestWebAppFactory
+        : WebApplicationFactory<Program>, IAsyncLifetime
     {
         private readonly MySqlContainer _dbContainer = new MySqlBuilder()
             .WithImage("mysql:8.0")
