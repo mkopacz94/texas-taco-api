@@ -10,7 +10,7 @@ namespace TexasTaco.Orders.Api.Tests.Tests
 {
     public class CustomersTests(
         IntegrationTestWebAppFactory factory)
-    : BaseIntegrationTest(factory)
+        : BaseIntegrationTest(factory)
     {
         [Fact]
         public async Task GetCustomer_Should_ReturnCustomer()
