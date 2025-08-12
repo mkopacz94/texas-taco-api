@@ -13,7 +13,9 @@ namespace TexasTaco.Products.Core.Mapping
                 product.ShortDescription,
                 product.Recommended,
                 product.Price,
-                product.Picture.Url,
+                new PictureDto(
+                    product.Picture.Id.Value,
+                    product.Picture.Url),
                 product.Picture.ThumbnailUrl,
                 product.Category.Name);
         }

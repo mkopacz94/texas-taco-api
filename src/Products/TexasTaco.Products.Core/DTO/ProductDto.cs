@@ -6,7 +6,7 @@
         string ShortDescription,
         bool Recommended,
         decimal Price,
-        string? PictureUrl,
+        PictureDto? Picture,
         string? ThumbnailUrl,
         string Category);
 }
