@@ -25,12 +25,13 @@ namespace TexasTaco.Products.Core.Repositories
         public async Task<PagedResult<Product>> GetPagedProductsAsync(
             int pageNumber,
             int pageSize,
-            Expression<Func<Product, bool>>? filter)
+            string? searchQuery)
         {
             IQueryable<Product> query = _context.Products;
 
-            if (filter is not null)
+            if (!string.IsNullOrEmpty(searchQuery))
             {
+                var filter = BuildFilterForSearchQuery(searchQuery);
                 query = query.Where(filter);
             }
 
@@ -71,6 +72,22 @@ namespace TexasTaco.Products.Core.Repositories
 
             _context.Remove(productToDelete);
             await _context.SaveChangesAsync();
+        }
+
+        private static Expression<Func<Product, bool>> BuildFilterForSearchQuery(
+            string searchQuery)
+        {
+            string normalizedQuery = searchQuery.ToLower();
+
+            bool isQueryDecimal = decimal.TryParse(
+                searchQuery,
+                out decimal parsedDecimalQuery);
+
+            return p => (p.Name != null
+                    && p.Name.ToLower().Contains(normalizedQuery))
+                || (p.ShortDescription != null
+                    && p.ShortDescription.ToLower().Contains(normalizedQuery))
+                || (isQueryDecimal && Math.Floor(p.Price) == Math.Floor(parsedDecimalQuery));
         }
     }
 }

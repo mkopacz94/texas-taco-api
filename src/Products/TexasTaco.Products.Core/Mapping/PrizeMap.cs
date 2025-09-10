@@ -12,7 +12,10 @@ namespace TexasTaco.Products.Core.Mapping
                 prize.ProductId.Value,
                 prize.Name,
                 prize.RequiredPointsAmount,
-                prize.Picture.Url);
+                new PictureDto(
+                    prize.Picture.Id.Value,
+                    prize.Picture.Url),
+                prize.Picture.ThumbnailUrl);
         }
     }
 }

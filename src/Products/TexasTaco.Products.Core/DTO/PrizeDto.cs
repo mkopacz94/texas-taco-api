@@ -5,5 +5,6 @@
         Guid ProductId,
         string Name,
         int RequiredPointsAmount,
-        string? PictureUrl);
+        PictureDto? Picture,
+        string? ThumbnailUrl);
 }

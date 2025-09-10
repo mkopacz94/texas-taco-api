@@ -5,27 +5,26 @@ using TexasTaco.Products.Core.Mapping;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Shared.Pagination;
 
-namespace TexasTaco.Products.Api.Endpoints.Products
+namespace TexasTaco.Products.Api.Endpoints.Prizes
 {
-    internal class GetProducts : IEndpoint
+    internal class GetPrizes : IEndpoint
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("", async (
-                IProductsRepository productsRepository,
+            app.MapGet("prizes", async (
+                IPrizesRepository prizesRepository,
                 [FromQuery] int? pageNumber,
                 [FromQuery] int? pageSize,
                 [FromQuery] string? searchQuery) =>
             {
                 if (pageNumber is null && pageSize is null)
                 {
-                    var products = await productsRepository.GetAllAsync();
-
-                    var response = products
-                        .Select(p => ProductMap.Map(p))
+                    var prizes = await prizesRepository.GetAllAsync();
+                    var allPrizesDtos = prizes
+                        .Select(p => PrizeMap.Map(p))
                         .ToList();
 
-                    return Results.Ok(response);
+                    return Results.Ok(allPrizesDtos);
                 }
 
                 if (pageNumber <= 0)
@@ -38,30 +37,30 @@ namespace TexasTaco.Products.Api.Endpoints.Products
                     return Results.BadRequest("Page size must be a positive number.");
                 }
 
-                var pagedProducts = await productsRepository
-                    .GetPagedProductsAsync(
+                var pagedPrizes = await prizesRepository
+                    .GetPagedPrizesAsync(
                         (int)pageNumber!,
                         (int)pageSize!,
                         searchQuery);
 
-                var productsDtos = pagedProducts
+                var prizesDtos = pagedPrizes
                     .Items
-                    .Select(p => ProductMap.Map(p))
+                    .Select(p => PrizeMap.Map(p))
                     .ToList();
 
-                var pagedResultDto = new PagedResult<ProductDto>(
-                    productsDtos,
-                    pagedProducts.TotalCount,
-                    pagedProducts.PageSize,
-                    pagedProducts.CurrentPage);
+                var pagedResultDto = new PagedResult<PrizeDto>(
+                    prizesDtos,
+                    pagedPrizes.TotalCount,
+                    pagedPrizes.PageSize,
+                    pagedPrizes.CurrentPage);
 
                 return Results.Ok(pagedResultDto);
             })
             .RequireAuthorization()
-            .WithTags(Tags.Products)
+            .WithTags(Tags.Prizes)
             .HasApiVersion(new ApiVersion(1))
-            .Produces(StatusCodes.Status200OK, typeof(IEnumerable<ProductDto>))
-            .Produces(StatusCodes.Status200OK, typeof(PagedResult<ProductDto>))
+            .Produces(StatusCodes.Status200OK, typeof(IEnumerable<PrizeDto>))
+            .Produces(StatusCodes.Status200OK, typeof(PagedResult<PrizeDto>))
             .Produces(StatusCodes.Status400BadRequest);
         }
     }

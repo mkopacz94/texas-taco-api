@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using TexasTaco.Products.Core.Entities;
+﻿using TexasTaco.Products.Core.Entities;
 using TexasTaco.Shared.Pagination;
 using TexasTaco.Shared.ValueObjects;
 
@@ -12,7 +11,7 @@ namespace TexasTaco.Products.Core.Repositories
         Task<PagedResult<Product>> GetPagedProductsAsync(
             int pageNumber,
             int pageSize,
-            Expression<Func<Product, bool>>? filter);
+            string? searchQuery);
         Task<Product?> GetAsync(ProductId id);
         Task UpdateAsync(Product product);
         Task<bool> AnyAsync(ProductId productId);
