@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TexasTaco.Products.Core.Data.EF;
 using TexasTaco.Products.Core.Entities;
+using TexasTaco.Products.Core.Exceptions;
 using TexasTaco.Products.Core.ValueObjects;
 
 namespace TexasTaco.Products.Core.Repositories
@@ -28,6 +29,17 @@ namespace TexasTaco.Products.Core.Repositories
             return await _context
                 .Categories
                 .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task DeleteAsync(CategoryId id)
+        {
+            var categoryToDelete = await _context
+                .Categories
+                .FirstOrDefaultAsync(p => p.Id == id)
+                ?? throw new CategoryNotFoundException(id);
+
+            _context.Remove(categoryToDelete);
+            await _context.SaveChangesAsync();
         }
     }
 }

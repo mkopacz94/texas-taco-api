@@ -8,5 +8,6 @@ namespace TexasTaco.Products.Core.Repositories
         Task AddAsync(Category category);
         Task<IEnumerable<Category>> GetAllAsync();
         Task<Category?> GetAsync(CategoryId id);
+        Task DeleteAsync(CategoryId id);
     }
 }
