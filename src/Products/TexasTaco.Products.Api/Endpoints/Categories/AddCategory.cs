@@ -16,6 +16,12 @@ namespace TexasTaco.Products.Api.Endpoints.Categories
                 AddCategoryDto categoryDto,
                 ICategoriesRepository categoriesRepository) =>
             {
+                string trimmedName = categoryDto.Name.Trim();
+
+                string capitalizedCategory = string.IsNullOrEmpty(trimmedName)
+                    ? trimmedName
+                    : char.ToUpper(trimmedName[0]) + trimmedName.Substring(1);
+
                 var category = new Category(categoryDto.Name);
 
                 await categoriesRepository.AddAsync(category);
