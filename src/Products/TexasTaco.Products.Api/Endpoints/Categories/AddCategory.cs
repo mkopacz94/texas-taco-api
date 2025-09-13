@@ -1,10 +1,10 @@
-﻿
-using Asp.Versioning;
+﻿using Asp.Versioning;
 using TexasTaco.Products.Core.DTO;
 using TexasTaco.Products.Core.Entities;
 using TexasTaco.Products.Core.Repositories;
 using TexasTaco.Shared.Authentication;
 using TexasTaco.Shared.Authentication.Attributes;
+using TexasTaco.Shared.Helpers;
 
 namespace TexasTaco.Products.Api.Endpoints.Categories
 {
@@ -20,7 +20,7 @@ namespace TexasTaco.Products.Api.Endpoints.Categories
 
                 string capitalizedCategory = string.IsNullOrEmpty(trimmedName)
                     ? trimmedName
-                    : char.ToUpper(trimmedName[0]) + trimmedName.Substring(1);
+                    : trimmedName.CapitalizeFirstCharacter();
 
                 var category = new Category(categoryDto.Name);
 
