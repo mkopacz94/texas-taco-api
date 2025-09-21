@@ -17,18 +17,31 @@ namespace TexasTaco.Products.Core.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Category>> GetAllAsync()
+        public async Task<IEnumerable<Category>> GetAllAsync(
+            bool includeProducts = false)
         {
-            return await _context
-                .Categories
-                .ToListAsync();
+            IQueryable<Category> query = _context.Categories;
+
+            if (includeProducts)
+            {
+                query = query.Include(c => c.Products);
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task<Category?> GetAsync(CategoryId id)
+        public async Task<Category?> GetAsync(
+            CategoryId id,
+            bool includeProducts = false)
         {
-            return await _context
-                .Categories
-                .FirstOrDefaultAsync(c => c.Id == id);
+            IQueryable<Category> query = _context.Categories;
+
+            if (includeProducts)
+            {
+                query = query.Include(c => c.Products);
+            }
+
+            return await query.FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task DeleteAsync(CategoryId id)
